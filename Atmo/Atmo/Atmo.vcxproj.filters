@@ -27,5 +27,19 @@
     <ClInclude Include="Mesure.h">
       <Filter>Fichiers sources</Filter>
     </ClInclude>
+    <ClInclude Include="SensorFactory.h">
+      <Filter>Fichiers sources\Modele</Filter>
+    </ClInclude>
+    <ClInclude Include="Geo.h">
+      <Filter>Fichiers sources\Modele</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SensorFactory.cpp">
+      <Filter>Fichiers sources\Modele</Filter>
+    </ClCompile>
+    <ClCompile Include="Geo.cpp">
+      <Filter>Fichiers sources\Modele</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

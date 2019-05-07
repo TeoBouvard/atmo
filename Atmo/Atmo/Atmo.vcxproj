@@ -110,7 +110,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Geo.h" />
     <ClInclude Include="Mesure.h" />
+    <ClInclude Include="SensorFactory.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Geo.cpp" />
+    <ClCompile Include="SensorFactory.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
