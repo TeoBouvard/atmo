@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Fichiers sources\Vue">
+      <UniqueIdentifier>{60fecb22-e9d7-4d88-8d6b-3a353f758e48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Controleur">
+      <UniqueIdentifier>{5fe95bc3-e84e-4bdb-88e9-91b192abf202}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Modele">
+      <UniqueIdentifier>{c05156ab-fec2-4e2c-b7e0-27eab1ee5ef4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Mesure.h">
