@@ -4,19 +4,19 @@ OPTIMIZATION = -O3
 BIN = bin
 EXE = $(BIN)/atmo
 INT = $(wildcard src/*.h)
-REAL = $(INT:.h=.cpp)
+REAL = $(INT:.h=.cpp) src/Menu.cpp
 ECHO = @echo
 .PHONY: clean tests
 
 help:
 	$(ECHO) "- help    : Display this message"
 	$(ECHO) "- debug   : Build debug version of <Atmo>"
-	$(ECHO) "- release : Build release version of <Atmo>"
-	$(ECHO) "- tests   : Run all tests"
+	$(ECHO) "- release : Build optimized version of <Atmo>"
+	$(ECHO) "- run	   : Run program"
 	$(ECHO) "- clean   : Delete binary files"
 
 debug:
-	@ mkdir -p bin
+	@ mkdir -p $(BIN)
 	$(ECHO) "Building debug version of <$(EXE)> ..."
 	@ $(CPP) $(CPPFLAGS) -std=c++11 -o $(EXE) $(REAL)
 
@@ -25,9 +25,9 @@ release:
 	$(ECHO) "Building release version of <$(EXE)> ..."
 	@ $(CPP) $(OPTIMIZATION) -std=c++11 -o $(EXE) $(REAL)
 
-test:
-	$(ECHO) "Running tests ..."
-	@ cd Tests/ && ./mktest.sh
+run:
+	$(ECHO) "Running atmo ..."
+	@ ./$(EXE)
 
 clean:
 	@ rm -r $(BIN)/*

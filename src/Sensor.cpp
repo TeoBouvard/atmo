@@ -16,6 +16,7 @@ using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "Sensor.h"
+#include "Mesure.h"
 
 //------------------------------------------------------------- Constantes
 
@@ -34,6 +35,11 @@ Sensor & Sensor::operator = ( const Sensor & unSensor )
 // Algorithme :
 //
 {
+    sensorID = unSensor.sensorID;
+    latitude = unSensor.latitude;
+    longitude = unSensor.longitude;
+    description = unSensor.description;
+    return *this;
 } //----- Fin de operator =
 
 
@@ -42,16 +48,24 @@ Sensor::Sensor ( const Sensor & unSensor )
 // Algorithme :
 //
 {
+    sensorID = unSensor.sensorID;
+    latitude = unSensor.latitude;
+    longitude = unSensor.longitude;
+    description = unSensor.description;
 #ifdef MAP
     cout << "Appel au constructeur de copie de <Sensor>" << endl;
 #endif
 } //----- Fin de Sensor (constructeur de copie)
 
 
-Sensor::Sensor ( )
+Sensor::Sensor (int sID, double sLatitude, double sLongitude, string sDescription)
 // Algorithme :
 //
 {
+    sensorID = sID;
+    latitude = sLatitude;
+    longitude = sLongitude;
+    description = sDescription;
 #ifdef MAP
     cout << "Appel au constructeur de <Sensor>" << endl;
 #endif

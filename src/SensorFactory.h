@@ -6,30 +6,78 @@
     e-mail               : $EMAIL$
 *************************************************************************/
 
-//---------- Interface du module <SensorFactory> (fichier SensorFactory.h) -------------------
+//---------- Interface de la classe <SensorFactory> (fichier SensorFactory.h) ----------------
 #if ! defined ( SENSORFACTORY_H )
 #define SENSORFACTORY_H
 
-//------------------------------------------------------------------------
-// Rôle du module <SensorFactory>
-//
-//
-//------------------------------------------------------------------------
-
-/////////////////////////////////////////////////////////////////  INCLUDE
 //--------------------------------------------------- Interfaces utilisées
-
+#include <string>
+#include <vector>
+#include "Sensor.h"
+#include "Mesure.h"
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
 
-//////////////////////////////////////////////////////////////////  PUBLIC
-//---------------------------------------------------- Fonctions publiques
-// type Nom ( liste de paramètres );
-// Mode d'emploi :
+//------------------------------------------------------------------------
+// Rôle de la classe <SensorFactory>
 //
-// Contrat :
 //
+//------------------------------------------------------------------------
+
+class SensorFactory
+{
+//----------------------------------------------------------------- PUBLIC
+
+public:
+//----------------------------------------------------- Méthodes publiques
+    // type Méthode ( liste des paramètres );
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+    const Sensor parse_sensor(string sensor_line);
+    Mesure& parse_mesure(string mesure_line);
+
+
+
+//------------------------------------------------- Surcharge d'opérateurs
+    SensorFactory & operator = ( const SensorFactory & unSensorFactory );
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
+
+//-------------------------------------------- Constructeurs - destructeur
+    SensorFactory ( const SensorFactory & unSensorFactory );
+    // Mode d'emploi (constructeur de copie) :
+    //
+    // Contrat :
+    //
+
+    SensorFactory(string file);
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
+    virtual ~SensorFactory ( );
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
+//------------------------------------------------------------------ PRIVE
+
+protected:
+//----------------------------------------------------- Méthodes protégées
+
+//----------------------------------------------------- Attributs protégés
+vector<Sensor> listeCapteurs;
+};
+
+//-------------------------------- Autres définitions dépendantes de <SensorFactory>
 
 #endif // SENSORFACTORY_H
 

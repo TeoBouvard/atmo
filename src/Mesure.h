@@ -13,16 +13,23 @@
 //--------------------------------------------------- Interfaces utilisées
 #include <string>
 
-
 using namespace std;
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
 
+typedef struct date_t{
+    int year;
+    int month;
+    int day;    
+    int hour;
+    int minute;
+    int second;
+} date_t;
+
 //------------------------------------------------------------------------
 // Rôle de la classe <Mesure>
-//
-//
+// Représente une unique mesure d'un capteur
 //------------------------------------------------------------------------
 
 class Mesure
@@ -39,21 +46,23 @@ public:
 
 
 //------------------------------------------------- Surcharge d'opérateurs
-    Mesure & operator = ( const Mesure & unMesure );
+    Mesure & operator = ( const Mesure & uneMesure );
     // Mode d'emploi :
     //
     // Contrat :
     //
 
+    //opérateur de comparaison nécéssaire à l'insertion dans un set
+    inline bool operator < (const Mesure& m){return true;}
 
 //-------------------------------------------- Constructeurs - destructeur
-    Mesure ( const Mesure & unMesure );
+    Mesure ( const Mesure & uneMesure );
     // Mode d'emploi (constructeur de copie) :
     //
     // Contrat :
     //
 
-    Mesure ( );
+    Mesure (const date_t dateMesure, const string polluantMesure,const double valeurMesure);
     // Mode d'emploi :
     //
     // Contrat :
@@ -73,6 +82,7 @@ protected:
 //----------------------------------------------------- Attributs protégés
 string polluant;
 double valeur;
+date_t date;
 
 };
 

@@ -59,7 +59,7 @@ public:
     // Contrat :
     //
 
-    Sensor(int ID);
+    Sensor(int ID, double sLatitude, double sLongitude, string sDescription);
     // Mode d'emploi :
     //
     // Contrat :
@@ -78,8 +78,8 @@ protected:
 
 //----------------------------------------------------- Attributs protégés
 int sensorID;
-int latitude;
-int longitude;
+double latitude;
+double longitude;
 string description;
 set<Mesure> listeMesure;
 
