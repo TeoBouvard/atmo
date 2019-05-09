@@ -19,9 +19,11 @@ using namespace std;
 //------------------------------------------------------ Include personnel
 #include "SensorFactory.h"
 #include "Sensor.h"
-
+#include "Mesure.h"
 //------------------------------------------------------------- Constantes
 static const char DELIMITER = ';';
+static const char DATE_DELIM '-'
+static const char TIME_DELIM ':'
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
@@ -31,8 +33,52 @@ static const char DELIMITER = ';';
 //{
 //} //----- Fin de Méthode
 
-const Sensor SensorFactory::ParseSensor(string sensorLine)
-{
+vector<Sensor> SensorFactory::getSensors(){
+  return listeCapteurs;
+}
+
+Sensor& SensorFactory::getSensorByID(int ID){
+  for(Sensor& s : listeCapteurs){
+    if(s.getID() == ID)
+      return s;
+  }
+  #ifdef MAP
+  cout << "Mesure erronée : aucun capteur associé à l'ID" << ID <<  endl;
+  #endif
+  exit(0);
+}
+
+date_t make_date(string str){
+  date_t date;
+
+  string year_token = str.substr(0, str.find(DATE_DELIM));
+  str.erase(0, str.find(DATE_DELIM) + 1);
+
+  string month_token = str.substr(0, str.find(DATE_DELIM));
+  str.erase(0, str.find(DATE_DELIM) + 1);
+
+  string day_token = str.substr(0, str.find('T'));
+  str.erase(0, str.find('T') + 1);
+
+  string hour_token = str.substr(0, str.find(TIME_DELIM));
+  str.erase(0, str.find(TIME_DELIM) + 1);
+
+  string minute_token = str.substr(0, str.find(TIME_DELIM));
+  str.erase(0, str.find(TIME_DELIM) + 1);
+
+  string second_token = str.substr(0, str.find('.'));
+
+  date.year = stoi(year_token);
+  date.month = stoi(month_token);
+  date.day = stoi(day_token);
+  date.hour = stoi(hour_token);
+  date.minute = stoi(minute_token);
+  date.second = stoi(second_token);
+  
+  return date;
+}
+
+void SensorFactory::parse_sensor(string sensor_line){
   //parse ID
   string id_token = sensorLine.substr(0, sensorLine.find(DELIMITER));
   sensorLine.erase(0, sensorLine.find(DELIMITER) + 1);
@@ -52,70 +98,80 @@ const Sensor SensorFactory::ParseSensor(string sensorLine)
   //parse descritpion
   string description = sensorLine.substr(0, sensorLine.find(DELIMITER));
 
-  return Sensor(id, latitude, longitude, description);
+  Sensor sensor(id,latitude,longitude,description);
+  listeCapteurs.push_back(sensor);
+}
+
+void SensorFactory::parse_mesure(string sensor_line){
+  //parse date
+  string date_token = sensor_line.substr(0, sensor_line.find(DELIMITER));
+  sensor_line.erase(0, sensor_line.find(DELIMITER) + 1);
+  date_t date = make_date(date_token);
+
+  //parse ID
+  string id_token = sensor_line.substr(0, sensor_line.find(DELIMITER));
+  sensor_line.erase(0, sensor_line.find(DELIMITER) + 1);
+  size_t last_index = id_token.find_first_of("0123456789");
+  int id = stoi(id_token.substr(last_index));
+
+  //parse polluant
+  string polluant = sensor_line.substr(0, sensor_line.find(DELIMITER));
+  sensor_line.erase(0, sensor_line.find(DELIMITER) + 1);
+
+  //parse valeur
+  string valeur_token = sensor_line.substr(0, sensor_line.find(DELIMITER));
+  sensor_line.erase(0, sensor_line.find(DELIMITER) + 1);
+  double valeur = strtod(valeur_token.c_str(),NULL);
+
+  Mesure mesure(date,polluant,valeur);
+  Sensor sensor = getSensorByID(id);
+  sensor.ajouterMesure(mesure);
 }
 
 //------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------- Constructeurs - destructeur
-SensorFactory::SensorFactory(const SensorFactory &unSensorFactory)
-{
-  listeCapteurs = unSensorFactory.listeCapteurs;
-#ifdef MAP
-  cout << "Appel au constructeur de copie de <SensorFactory>" << endl;
-#endif
-} //----- Fin de SensorFactory (constructeur de copie)
 
-SensorFactory::SensorFactory(string pathToFile)
-{
-  ifstream dataFile(pathToFile);
-  if (dataFile)
-  {
-
-    string dataLine;
-
-    string sensorHeader("SensorID;Latitude;Longitude;Description;");
-    //regex sensorLine("A FAIRE");
-
-    const string mesureHeader = "Timestamp;SensorID;AttributeID;Value;";
-    //regex mesureLine("A FAIRE");
+SensorFactory::SensorFactory(string path_to_file){
+  ifstream data_file(path_to_file);
+  string data_line;
+  
+  if(data_file){
+    const string sensorHeader = "SensorID;Latitude;Longitude;Description;\r";
+    regex sensorLine("A FAIRE");
+    const string mesureHeader = "Timestamp;SensorID;AttributeID;Value;\r";
+    regex mesureLine("\\d\\d\\d\\d-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d.\\d+;.*\\r");
 
     //read file header
-    getline(dataFile, dataLine);
+    getline(data_file, data_line);
+    assert(data_line == sensorHeader);
 
-    if (dataLine.find(sensorHeader) == string::npos)
-    {
-      cerr << "Erreur de header" << endl;
-      clog << dataLine << endl;
+    //read sensor data / TODO : while(regex_match(data_line,sensorLine))
+    cout << "Importation des capteurs ... " << flush;
+    while(getline(data_file, data_line)){
+      if(data_line != mesureHeader)
+        parse_sensor(data_line); 
+      else
+        break;
     }
-    else
-    {
-      cout << "Header valide";
-      //read sensor data / TODO : while(regex_match(dataLine,sensorLine))
+    cout << listeCapteurs.size() << " capteurs importés" << endl;
 
-      cout << "Importation des capteurs ... ";
-
-      while (dataLine.find(mesureHeader) == string::npos)
-      {
-        getline(dataFile, dataLine);
-        //cout << mesureHeader.compare(data_line)<<endl;
-        ParseSensor(dataLine);
-        //listeCapteurs.push_back(sensor);
-      }
-      cout << listeCapteurs.size() << "capteur importés" << endl;
-
-      //read mesure data_file until end of file / TODO : while(regex_match)
-      while (getline(dataFile, dataLine))
-      {
+    //read data_file until end of file / TODO : while(regex_match)
+    cout << "Importation des mesures ... " << flush;
+    int nbMesures = 0;
+    while(getline(data_file,data_line)){
+      if(regex_match(data_line,mesureLine)){
+        parse_mesure(data_line);
+        nbMesures++;
       }
     }
-    
-  }
+  }  
   else
   {
     cerr << "Erreur ouverture du fichier " << pathToFile << endl;
   }
-
+  cout << nbMesures << " mesures importées" << endl;
+  
 #ifdef MAP
   cout << "Appel au constructeur de <SensorFactory>" << endl;
 #endif

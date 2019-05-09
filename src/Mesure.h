@@ -53,7 +53,7 @@ public:
     //
 
     //opérateur de comparaison nécéssaire à l'insertion dans un set
-    inline bool operator < (const Mesure& m){return true;}
+    friend bool operator<(const Mesure& m1, const Mesure& m2);
 
 //-------------------------------------------- Constructeurs - destructeur
     Mesure ( const Mesure & uneMesure );
@@ -83,7 +83,6 @@ protected:
 string polluant;
 double valeur;
 date_t date;
-
 };
 
 //-------------------------------- Autres définitions dépendantes de <Mesure>

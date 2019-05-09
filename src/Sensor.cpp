@@ -29,11 +29,12 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
+void Sensor::ajouterMesure(Mesure& mesure){
+    listeMesure.insert(listeMesure.begin(), mesure);
+}
 
 //------------------------------------------------- Surcharge d'opérateurs
 Sensor & Sensor::operator = ( const Sensor & unSensor )
-// Algorithme :
-//
 {
     sensorID = unSensor.sensorID;
     latitude = unSensor.latitude;
@@ -44,9 +45,8 @@ Sensor & Sensor::operator = ( const Sensor & unSensor )
 
 
 //-------------------------------------------- Constructeurs - destructeur
+
 Sensor::Sensor ( const Sensor & unSensor )
-// Algorithme :
-//
 {
     sensorID = unSensor.sensorID;
     latitude = unSensor.latitude;
@@ -56,6 +56,17 @@ Sensor::Sensor ( const Sensor & unSensor )
     cout << "Appel au constructeur de copie de <Sensor>" << endl;
 #endif
 } //----- Fin de Sensor (constructeur de copie)
+
+Sensor::Sensor (int sID, double sLatitude, double sLongitude, string sDescription)
+{
+    sensorID = sID;
+    latitude = sLatitude;
+    longitude = sLongitude;
+    description = sDescription;
+#ifdef MAP
+    cout << "Appel au constructeur de <Sensor>" << endl;
+#endif
+} //----- Fin de Sensor
 
 Sensor::~Sensor ( )
 // Algorithme :
