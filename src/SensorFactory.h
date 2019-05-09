@@ -37,16 +37,16 @@ public:
     // Contrat :
     //
 
-    vector<Sensor> getSensors();
+    vector<Sensor> GetSensors();
 
     //crée un capteur et l'ajoute à listeCapteurs
-    void parse_sensor(string sensor_line);
+    void ParseSensor(string sensor_line);
 
     //crée une mesure et l'ajoute à son capteur
-    void parse_mesure(string mesure_line);
+    void ParseMesure(string mesure_line);
 
     //retourne le capteur correspondant à l'ID
-    Sensor& getSensorByID(int ID);
+    Sensor& GetSensorByID(int ID);
 
 //------------------------------------------------- Surcharge d'opérateurs
 

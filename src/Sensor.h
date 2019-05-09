@@ -36,8 +36,8 @@ public:
     //
     // Contrat :
     //
-    inline int getID() {return sensorID;}
-    void ajouterMesure(Mesure& mesure);
+    int GetID() {return sensorID;}
+    void AjouterMesure(Mesure& mesure);
 
 
 //------------------------------------------------- Surcharge d'opérateurs

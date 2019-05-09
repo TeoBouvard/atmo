@@ -29,7 +29,7 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
-void Sensor::ajouterMesure(Mesure& mesure){
+void Sensor::AjouterMesure(Mesure& mesure){
     listeMesure.insert(listeMesure.begin(), mesure);
 }
 
