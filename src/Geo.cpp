@@ -21,6 +21,8 @@ using namespace std;
 
 //------------------------------------------------------------- Constantes
 
+constexpr double pi = 3.14159265358979323846;
+
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
@@ -45,7 +47,7 @@ double Geo::CalculDistance(double lat1, double long1, double lat2, double long2)
 
 double Geo::ToRadians(double degree)
 {
-    double one_deg = M_PI / 180;
+    double one_deg = pi / 180; //La constante M_PI n'est pas présente sur toutes les installations de c++ (surtout les plus récentes c++ 11 il me semble)
     return degree*one_deg;
 }
 

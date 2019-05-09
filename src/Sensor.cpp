@@ -57,21 +57,6 @@ Sensor::Sensor ( const Sensor & unSensor )
 #endif
 } //----- Fin de Sensor (constructeur de copie)
 
-
-Sensor::Sensor (int sID, double sLatitude, double sLongitude, string sDescription)
-// Algorithme :
-//
-{
-    sensorID = sID;
-    latitude = sLatitude;
-    longitude = sLongitude;
-    description = sDescription;
-#ifdef MAP
-    cout << "Appel au constructeur de <Sensor>" << endl;
-#endif
-} //----- Fin de Sensor
-
-
 Sensor::~Sensor ( )
 // Algorithme :
 //

@@ -59,7 +59,8 @@ public:
     // Contrat :
     //
 
-    Sensor(int ID, double sLatitude, double sLongitude, string sDescription);
+    Sensor(int ID, double sLatitude, double sLongitude, string sDescription) : sensorID(ID), latitude(sLatitude),longitude(sLongitude), description(sDescription)
+    {}
     // Mode d'emploi :
     //
     // Contrat :
