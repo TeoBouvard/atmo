@@ -40,6 +40,9 @@ Mesure & Mesure::operator = ( const Mesure & uneMesure )
     return *this;
 } //----- Fin de operator =
 
+bool operator<(const Mesure& m1, const Mesure& m2){
+    return false;
+}
 
 //-------------------------------------------- Constructeurs - destructeur
 Mesure::Mesure ( const Mesure & uneMesure )

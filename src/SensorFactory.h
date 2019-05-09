@@ -30,42 +30,42 @@ class SensorFactory
   //----------------------------------------------------------------- PUBLIC
 
 public:
-  //----------------------------------------------------- Méthodes publiques
-  // type Méthode ( liste des paramètres );
-  // Mode d'emploi :
-  //
-  // Contrat :
-  //
-  const Sensor ParseSensor(string sensorLine);
-  Mesure &ParseMesure(string mesure_line);
+//----------------------------------------------------- Méthodes publiques
+    // type Méthode ( liste des paramètres );
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
 
-  //------------------------------------------------- Surcharge d'opérateurs
-  SensorFactory &operator=(const SensorFactory &unSensorFactory);
-  // Mode d'emploi :
-  //
-  // Contrat :
-  //
+    vector<Sensor> getSensors();
 
-  //-------------------------------------------- Constructeurs - destructeur
-  SensorFactory(const SensorFactory &unSensorFactory);
-  // Mode d'emploi (constructeur de copie) :
-  //
-  // Contrat :
-  //
+    //crée un capteur et l'ajoute à listeCapteurs
+    void parse_sensor(string sensor_line);
 
-  SensorFactory(string file);
-  // Mode d'emploi :
-  //
-  // Contrat :
-  //
+    //crée une mesure et l'ajoute à son capteur
+    void parse_mesure(string mesure_line);
 
-  virtual ~SensorFactory();
-  // Mode d'emploi :
-  //
-  // Contrat :
-  //
+    //retourne le capteur correspondant à l'ID
+    Sensor& getSensorByID(int ID);
 
-  //------------------------------------------------------------------ PRIVE
+//------------------------------------------------- Surcharge d'opérateurs
+
+//-------------------------------------------- Constructeurs - destructeur
+
+    SensorFactory(string path_to_file);
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
+    virtual ~SensorFactory ( );
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
+//------------------------------------------------------------------ PRIVE
+
 
 protected:
   //----------------------------------------------------- Méthodes protégées
