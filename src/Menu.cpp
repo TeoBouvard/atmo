@@ -61,7 +61,7 @@ static void utf16_utf8(string path_to_file){
 int main(){
 
   utf16_utf8("log/data_10sensors_1year.csv");
-  SensorFactory sensorFactory("log/data_10sensors_1year_utf8.csv");
+  SensorFactory sensorFactory("log/data_10sensors_1year.csv");
   vector<Sensor> capteurs = sensorFactory.getSensors();
 
   cout << "Nombre de capteurs effectifs : " << capteurs.size() << endl;
