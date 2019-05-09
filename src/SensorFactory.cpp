@@ -90,19 +90,21 @@ SensorFactory::SensorFactory(string pathToFile)
     }
     else
     {
-      cout << "Header valide";
+      cout << "Header valide" << endl;
       //read sensor data / TODO : while(regex_match(dataLine,sensorLine))
 
-      cout << "Importation des capteurs ... ";
+      cout << "Importation des capteurs ... " << endl;
 
-      while (dataLine.find(mesureHeader) == string::npos)
+      while (getline(dataFile, dataLine))
       {
-        getline(dataFile, dataLine);
-        //cout << mesureHeader.compare(data_line)<<endl;
-        ParseSensor(dataLine);
-        //listeCapteurs.push_back(sensor);
+        if(dataLine.find(mesureHeader) != string::npos)
+        {
+           //cout << mesureHeader.compare(dataLine)<<endl;
+          break;
+        }
+        listeCapteurs.emplace_back(ParseSensor(dataLine));
       }
-      cout << listeCapteurs.size() << "capteur importés" << endl;
+      cout << listeCapteurs.size() << " capteur importes" << endl;
 
       //read mesure data_file until end of file / TODO : while(regex_match)
       while (getline(dataFile, dataLine))
@@ -113,7 +115,7 @@ SensorFactory::SensorFactory(string pathToFile)
   }
   else
   {
-    cerr << "Erreur ouverture du fichier " << pathToFile << endl;
+    cout << "Erreur ouverture du fichier " << pathToFile << endl;
   }
 
 #ifdef MAP

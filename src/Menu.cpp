@@ -35,10 +35,11 @@
 
 //////////////////////////////////////////////////////////////////  PUBLIC
 //---------------------------------------------------- Fonctions publiques
-int main(){
+
+int main(int argc, char* argv[]){
 
   SensorFactory sensorFactory ("log/data_10sensors_1year.csv");
-
+  system("PAUSE");
   return 0;
 }
 
