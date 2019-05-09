@@ -144,10 +144,10 @@ SensorFactory::SensorFactory(string pathToFile)
 
   if (dataFile)
   {
-    const string sensorHeader = "SensorID;Latitude;Longitude;Description;\r";
+    const string sensorHeader = "SensorID;Latitude;Longitude;Description;";
     regex sensorLine("A FAIRE");
-    const string mesureHeader = "Timestamp;SensorID;AttributeID;Value;\r";
-    regex mesureLine("\\d\\d\\d\\d-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d.\\d+;.*\\r");
+    const string mesureHeader = "Timestamp;SensorID;AttributeID;Value;";
+    regex mesureLine("\\d\\d\\d\\d-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d.\\d+;.*"); //ne marcha
 
     //read file header
     getline(dataFile, dataLine);
@@ -170,20 +170,17 @@ SensorFactory::SensorFactory(string pathToFile)
         //cout << mesureHeader.compare(dataLine)<<endl;
         break;
       }
+      ParseSensor(dataLine);
     }
     cout << listeCapteurs.size() << " capteur importes" << endl;
-    int nbMesures = 0;
     //read mesure data_file until end of file / TODO : while(regex_match)
-    while (getline(dataFile, dataLine))
-    {
-      cout << listeCapteurs.size() << " capteurs importés" << endl;
-    }
+
     //read data_file until end of file / TODO : while(regex_match)
     cout << "Importation des mesures ... " << flush;
     int nbMesures = 0;
     while (getline(dataFile, dataLine))
     {
-      if (regex_match(dataLine, mesureLine))
+      if (regex_match(dataLine, mesureLine)) 
       {
         ParseMesure(dataLine);
         nbMesures++;
