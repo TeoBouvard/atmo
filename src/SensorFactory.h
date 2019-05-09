@@ -7,7 +7,7 @@
 *************************************************************************/
 
 //---------- Interface de la classe <SensorFactory> (fichier SensorFactory.h) ----------------
-#if ! defined ( SENSORFACTORY_H )
+#if !defined(SENSORFACTORY_H)
 #define SENSORFACTORY_H
 
 //--------------------------------------------------- Interfaces utilisées
@@ -27,7 +27,7 @@
 
 class SensorFactory
 {
-//----------------------------------------------------------------- PUBLIC
+  //----------------------------------------------------------------- PUBLIC
 
 public:
 //----------------------------------------------------- Méthodes publiques
@@ -66,14 +66,14 @@ public:
 
 //------------------------------------------------------------------ PRIVE
 
-protected:
-//----------------------------------------------------- Méthodes protégées
 
-//----------------------------------------------------- Attributs protégés
-vector<Sensor> listeCapteurs;
+protected:
+  //----------------------------------------------------- Méthodes protégées
+
+  //----------------------------------------------------- Attributs protégés
+  vector<Sensor> listeCapteurs;
 };
 
 //-------------------------------- Autres définitions dépendantes de <SensorFactory>
 
 #endif // SENSORFACTORY_H
-

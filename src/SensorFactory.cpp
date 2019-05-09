@@ -21,9 +21,9 @@ using namespace std;
 #include "Sensor.h"
 #include "Mesure.h"
 //------------------------------------------------------------- Constantes
-#define DELIMITER ';'
-#define DATE_DELIM '-'
-#define TIME_DELIM ':'
+static const char DELIMITER = ';';
+static const char DATE_DELIM '-'
+static const char TIME_DELIM ':'
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
@@ -80,23 +80,23 @@ date_t make_date(string str){
 
 void SensorFactory::parse_sensor(string sensor_line){
   //parse ID
-  string id_token = sensor_line.substr(0, sensor_line.find(DELIMITER));
-  sensor_line.erase(0, sensor_line.find(DELIMITER) + 1);
+  string id_token = sensorLine.substr(0, sensorLine.find(DELIMITER));
+  sensorLine.erase(0, sensorLine.find(DELIMITER) + 1);
   size_t last_index = id_token.find_first_of("0123456789");
   int id = stoi(id_token.substr(last_index));
 
   //parse latitude
-  string latitude_token = sensor_line.substr(0, sensor_line.find(DELIMITER));
-  sensor_line.erase(0, sensor_line.find(DELIMITER) + 1);
-  double latitude = strtod(latitude_token.c_str(),NULL);
+  string latitude_token = sensorLine.substr(0, sensorLine.find(DELIMITER));
+  sensorLine.erase(0, sensorLine.find(DELIMITER) + 1);
+  double latitude = strtod(latitude_token.c_str(), NULL);
 
   //parse longitude
-  string longitude_token = sensor_line.substr(0, sensor_line.find(DELIMITER));
-  sensor_line.erase(0, sensor_line.find(DELIMITER) + 1);
-  double longitude = strtod(longitude_token.c_str(),NULL);
+  string longitude_token = sensorLine.substr(0, sensorLine.find(DELIMITER));
+  sensorLine.erase(0, sensorLine.find(DELIMITER) + 1);
+  double longitude = strtod(longitude_token.c_str(), NULL);
 
   //parse descritpion
-  string description = sensor_line.substr(0, sensor_line.find(DELIMITER));
+  string description = sensorLine.substr(0, sensorLine.find(DELIMITER));
 
   Sensor sensor(id,latitude,longitude,description);
   listeCapteurs.push_back(sensor);
@@ -135,34 +135,40 @@ void SensorFactory::parse_mesure(string sensor_line){
 SensorFactory::SensorFactory(string path_to_file){
   ifstream data_file(path_to_file);
   string data_line;
+  
+  if(data_file){
+    const string sensorHeader = "SensorID;Latitude;Longitude;Description;\r";
+    regex sensorLine("A FAIRE");
+    const string mesureHeader = "Timestamp;SensorID;AttributeID;Value;\r";
+    regex mesureLine("\\d\\d\\d\\d-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d.\\d+;.*\\r");
 
-  const string sensorHeader = "SensorID;Latitude;Longitude;Description;\r";
-  regex sensorLine("A FAIRE");
-  const string mesureHeader = "Timestamp;SensorID;AttributeID;Value;\r";
-  regex mesureLine("\\d\\d\\d\\d-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d.\\d+;.*\\r");
+    //read file header
+    getline(data_file, data_line);
+    assert(data_line == sensorHeader);
 
-  //read file header
-  getline(data_file, data_line);
-  assert(data_line == sensorHeader);
+    //read sensor data / TODO : while(regex_match(data_line,sensorLine))
+    cout << "Importation des capteurs ... " << flush;
+    while(getline(data_file, data_line)){
+      if(data_line != mesureHeader)
+        parse_sensor(data_line); 
+      else
+        break;
+    }
+    cout << listeCapteurs.size() << " capteurs importés" << endl;
 
-  //read sensor data / TODO : while(regex_match(data_line,sensorLine))
-  cout << "Importation des capteurs ... " << flush;
-  while(getline(data_file, data_line)){
-    if(data_line != mesureHeader)
-      parse_sensor(data_line); 
-    else
-      break;
-  }
-  cout << listeCapteurs.size() << " capteurs importés" << endl;
-
-  //read data_file until end of file / TODO : while(regex_match)
-  cout << "Importation des mesures ... " << flush;
-  int nbMesures = 0;
-  while(getline(data_file,data_line)){
-    if(regex_match(data_line,mesureLine)){
-      parse_mesure(data_line);
-      nbMesures++;
-    } 
+    //read data_file until end of file / TODO : while(regex_match)
+    cout << "Importation des mesures ... " << flush;
+    int nbMesures = 0;
+    while(getline(data_file,data_line)){
+      if(regex_match(data_line,mesureLine)){
+        parse_mesure(data_line);
+        nbMesures++;
+      }
+    }
+  }  
+  else
+  {
+    cerr << "Erreur ouverture du fichier " << pathToFile << endl;
   }
   cout << nbMesures << " mesures importées" << endl;
   

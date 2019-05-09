@@ -45,6 +45,7 @@ Sensor & Sensor::operator = ( const Sensor & unSensor )
 
 
 //-------------------------------------------- Constructeurs - destructeur
+
 Sensor::Sensor ( const Sensor & unSensor )
 {
     sensorID = unSensor.sensorID;
@@ -56,7 +57,6 @@ Sensor::Sensor ( const Sensor & unSensor )
 #endif
 } //----- Fin de Sensor (constructeur de copie)
 
-
 Sensor::Sensor (int sID, double sLatitude, double sLongitude, string sDescription)
 {
     sensorID = sID;
@@ -67,7 +67,6 @@ Sensor::Sensor (int sID, double sLatitude, double sLongitude, string sDescriptio
     cout << "Appel au constructeur de <Sensor>" << endl;
 #endif
 } //----- Fin de Sensor
-
 
 Sensor::~Sensor ( )
 // Algorithme :
