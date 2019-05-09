@@ -36,27 +36,23 @@ public:
     //
     // Contrat :
     //
-    const Sensor parse_sensor(string sensor_line);
-    Mesure& parse_mesure(string mesure_line);
 
+    vector<Sensor> getSensors();
 
+    //crée un capteur et l'ajoute à listeCapteurs
+    void parse_sensor(string sensor_line);
+
+    //crée une mesure et l'ajoute à son capteur
+    void parse_mesure(string mesure_line);
+
+    //retourne le capteur correspondant à l'ID
+    Sensor& getSensorByID(int ID);
 
 //------------------------------------------------- Surcharge d'opérateurs
-    SensorFactory & operator = ( const SensorFactory & unSensorFactory );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
 
 //-------------------------------------------- Constructeurs - destructeur
-    SensorFactory ( const SensorFactory & unSensorFactory );
-    // Mode d'emploi (constructeur de copie) :
-    //
-    // Contrat :
-    //
 
-    SensorFactory(string file);
+    SensorFactory(string path_to_file);
     // Mode d'emploi :
     //
     // Contrat :

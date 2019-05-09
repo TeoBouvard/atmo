@@ -29,11 +29,12 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
+void Sensor::ajouterMesure(Mesure& mesure){
+    listeMesure.insert(listeMesure.begin(), mesure);
+}
 
 //------------------------------------------------- Surcharge d'opérateurs
 Sensor & Sensor::operator = ( const Sensor & unSensor )
-// Algorithme :
-//
 {
     sensorID = unSensor.sensorID;
     latitude = unSensor.latitude;
@@ -45,8 +46,6 @@ Sensor & Sensor::operator = ( const Sensor & unSensor )
 
 //-------------------------------------------- Constructeurs - destructeur
 Sensor::Sensor ( const Sensor & unSensor )
-// Algorithme :
-//
 {
     sensorID = unSensor.sensorID;
     latitude = unSensor.latitude;
@@ -59,8 +58,6 @@ Sensor::Sensor ( const Sensor & unSensor )
 
 
 Sensor::Sensor (int sID, double sLatitude, double sLongitude, string sDescription)
-// Algorithme :
-//
 {
     sensorID = sID;
     latitude = sLatitude;

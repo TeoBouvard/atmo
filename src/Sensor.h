@@ -36,6 +36,8 @@ public:
     //
     // Contrat :
     //
+    inline int getID() {return sensorID;}
+    void ajouterMesure(Mesure& mesure);
 
 
 //------------------------------------------------- Surcharge d'opérateurs
@@ -82,7 +84,6 @@ double latitude;
 double longitude;
 string description;
 set<Mesure> listeMesure;
-
 };
 
 //-------------------------------- Autres définitions dépendantes de <Sensor>
