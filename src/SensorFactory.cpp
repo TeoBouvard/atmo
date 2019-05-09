@@ -139,10 +139,10 @@ SensorFactory::SensorFactory(string path_to_file){
   string data_line;
   
   if(data_file){
-    const string sensorHeader = "SensorID;Latitude;Longitude;Description;\r";
+    const string sensorHeader = "SensorID;Latitude;Longitude;Description;";
     regex sensor_line("A FAIRE");
-    const string mesureHeader = "Timestamp;SensorID;AttributeID;Value;\r";
-    regex mesureLine("\\d\\d\\d\\d-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d.\\d+;.*\\r");
+    const string mesureHeader = "Timestamp;SensorID;AttributeID;Value;";
+    regex mesureLine("\\d\\d\\d\\d-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d.\\d+;.*");
 
     //read file header
     getline(data_file, data_line);
