@@ -30,7 +30,7 @@ using namespace std;
 //} //----- Fin de Méthode
 
 void Sensor::AjouterMesure(Mesure& mesure){
-    listeMesure.insert(listeMesure.begin(), mesure);
+    listeMesure.insert(mesure);
 }
 
 //------------------------------------------------- Surcharge d'opérateurs

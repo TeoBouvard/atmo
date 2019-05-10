@@ -41,7 +41,7 @@ Mesure & Mesure::operator = ( const Mesure & uneMesure )
 } //----- Fin de operator =
 
 bool operator<(const Mesure& m1, const Mesure& m2){
-    return false;
+    return m1.date.second < m2.date.second;
 }
 
 //-------------------------------------------- Constructeurs - destructeur
