@@ -41,7 +41,31 @@ Mesure & Mesure::operator = ( const Mesure & uneMesure )
 } //----- Fin de operator =
 
 bool operator<(const Mesure& m1, const Mesure& m2){
-    return m1.date.second < m2.date.second;
+    if(m1.polluant != m2.polluant)
+    {
+        return m1.polluant < m2.polluant;
+    }
+    else if(m1.date.year != m2.date.year)
+    {
+        return m1.date.year < m2.date.year;
+    }
+    else if(m1.date.month != m2.date.month)
+    {
+        return m1.date.month < m2.date.month;
+    }
+    else if(m1.date.day != m2.date.day)
+    {
+        return m1.date.day < m2.date.day;
+    }
+    else if(m1.date.hour != m2.date.hour)
+    {
+        return m1.date.hour < m2.date.hour;
+    }
+    else if(m1.date.minute != m2.date.minute)
+    {
+        return m1.date.minute < m2.date.minute;
+    }
+    return false;
 }
 
 //-------------------------------------------- Constructeurs - destructeur
