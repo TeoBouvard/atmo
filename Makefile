@@ -1,8 +1,7 @@
 CPP = g++
 CPPFLAGS = -g -Wall -Werror -pedantic -ansi #-DMAP std=c++11 has to be put in last
 OPTIMIZATION = -O3
-BIN = bin
-EXE = $(BIN)/atmo
+EXE = bin/atmo
 INT = $(wildcard src/*.h)
 REAL = $(INT:.h=.cpp)
 ECHO = @echo
@@ -16,7 +15,7 @@ help:
 	$(ECHO) "- clean   : Delete binary files"
 
 debug:
-	@ mkdir -p $(BIN)
+	@ mkdir -p bin
 	$(ECHO) "Building debug version of <$(EXE)> ..."
 	@ $(CPP) $(CPPFLAGS) -std=c++11 -o $(EXE) $(REAL)
 
