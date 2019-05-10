@@ -103,7 +103,7 @@ void SensorFactory::ParseSensor(string sensorLine)
   //parse descritpion
   string description = sensorLine.substr(0, sensorLine.find(DELIMITER));
 
-  listeCapteurs.emplace_back(id,latitude,longitude,description);
+  listeCapteurs.emplace_back(id, latitude, longitude, description);
 }
 
 void SensorFactory::ParseMesure(string sensorLine)
@@ -129,8 +129,7 @@ void SensorFactory::ParseMesure(string sensorLine)
   double valeur = strtod(valeur_token.c_str(), NULL);
 
   Mesure mesure(date, polluant, valeur);
-  Sensor sensor = GetSensorByID(id);
-  sensor.AjouterMesure(mesure);
+  GetSensorByID(id).AjouterMesure(mesure);
 }
 
 //------------------------------------------------- Surcharge d'opérateurs
@@ -154,7 +153,7 @@ SensorFactory::SensorFactory(string pathToFile)
 
     //read sensor data / TODO : while(regex_match(data_line,sensorLine))
     cout << "Importation des capteurs ... " << flush;
-    if(dataLine.find(mesureHeader) != string::npos)
+    if (dataLine.find(mesureHeader) != string::npos)
     {
       cout << "Header valide" << endl;
     }
@@ -180,7 +179,7 @@ SensorFactory::SensorFactory(string pathToFile)
     int nbMesures = 0;
     while (getline(dataFile, dataLine))
     {
-      if (regex_match(dataLine, mesureLine)) 
+      if (regex_match(dataLine, mesureLine))
       {
         ParseMesure(dataLine);
         nbMesures++;
@@ -194,19 +193,19 @@ SensorFactory::SensorFactory(string pathToFile)
   }
 
 #ifdef MAP
-    cout << "Appel au constructeur de <SensorFactory>" << endl;
+  cout << "Appel au constructeur de <SensorFactory>" << endl;
 #endif
-  } //----- Fin de SensorFactory
+} //----- Fin de SensorFactory
 
-  SensorFactory::~SensorFactory()
-  // Algorithme :
-  //
-  {
+SensorFactory::~SensorFactory()
+// Algorithme :
+//
+{
 #ifdef MAP
-    cout << "Appel au destructeur de <SensorFactory>" << endl;
+  cout << "Appel au destructeur de <SensorFactory>" << endl;
 #endif
-  } //----- Fin de ~SensorFactory
+} //----- Fin de ~SensorFactory
 
-  //------------------------------------------------------------------ PRIVE
+//------------------------------------------------------------------ PRIVE
 
-  //----------------------------------------------------- Méthodes protégées
+//----------------------------------------------------- Méthodes protégées
