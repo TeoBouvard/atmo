@@ -30,6 +30,14 @@ public:
 //----------------------------------------------------- Méthodes publiques
     void Run();
 
+    void QualiteDeLAir();
+
+    void QualiteSimilaire();
+
+    void QualiteEnUnPoint();
+    
+    void CapteurDefectueux();
+
 
 //------------------------------------------------- Surcharge d'opérateurs
 

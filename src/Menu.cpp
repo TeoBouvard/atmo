@@ -79,19 +79,19 @@ void Menu::Run()
       }
       else if(strcmp(lecture.c_str(),"1") == 0)
       {
-        //put code here
+        QualiteDeLAir();
       }
       else if(strcmp(lecture.c_str(),"2") == 0)
       {
-        
+        QualiteSimilaire();
       }
       else if(strcmp(lecture.c_str(),"3") == 0)
       {
-        
+        QualiteEnUnPoint();
       }
       else if(strcmp(lecture.c_str(),"4") == 0)
       {
-        
+        CapteurDefectueux();
       }
 			else
 			{
@@ -108,6 +108,26 @@ void Menu::Run()
 			cout << endl;
 		}
 	}
+}
+
+void Menu::QualiteDeLAir()
+{
+
+}
+
+void Menu::QualiteSimilaire()
+{
+
+}
+
+void Menu::QualiteEnUnPoint()
+{
+
+}
+
+void Menu::CapteurDefectueux()
+{
+
 }
 
 Menu::Menu()
