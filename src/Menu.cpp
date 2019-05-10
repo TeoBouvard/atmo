@@ -13,11 +13,12 @@
 #include <iostream>
 #include <codecvt>
 #include <fstream>
+#include <cstring>
 
 using namespace std;
 
 //------------------------------------------------------ Include personnel
-//#include "Menu.h"
+#include "Menu.h"
 #include "SensorFactory.h"
 
 ///////////////////////////////////////////////////////////////////  PRIVE
@@ -59,13 +60,64 @@ using namespace std;
 //////////////////////////////////////////////////////////////////  PUBLIC
 //---------------------------------------------------- Fonctions publiques
 
+void Menu::Run()
+{
+  char lecture[100];
+	lecture[0] = '\0';
+  currentMenu = SelectionMenu::M_MENU;
+
+	bool modif = false;
+
+	while (strcmp(lecture, "bye") != 0) //On entre dans le menu
+	{
+		modif = true;
+
+		if (currentMenu == SelectionMenu::M_MENU) // Selection du premier sous menu
+		{
+			if(strcmp(lecture,"yo") == 0)
+      {
+        cout << "yo" << endl;
+      }
+			else
+			{
+				modif = false;
+				cout << endl << "Menu :\n -Creer un trajet [ct]\n -Afficher le contenu du catalogue [af]\n -Rechercher un parcours [rp]\n -Sauvegarder [save]\n -Charger [load]\n -Quitter [bye]" << endl;
+			}
+		}
+		
+		lecture[0] = '\0';
+
+		if (!modif)
+		{
+			cin >> lecture;
+			cout << endl;
+		}
+	}
+}
+
+Menu::Menu()
+{
+#ifdef MAP
+  cout << "Appel au constructeur de <Menu>" << endl;
+#endif
+}
+
+Menu::~Menu()
+{
+#ifdef MAP
+  cout << "Appel au destructeur de <Menu>" << endl;
+#endif
+}
+
 int main(int argc, char* argv[]){
   //utf16_utf8("log/data_10sensors_1year.csv");
 
   SensorFactory sensorFactory("log/data_10sensors_1year.csv");
   vector<Sensor> capteurs = sensorFactory.GetSensors();
   cout << "Nombre de capteurs effectifs : " << capteurs.size() << endl;
-  system("PAUSE");
+  
+  Menu menu;
+  menu.Run();
 
   return 0;
 }

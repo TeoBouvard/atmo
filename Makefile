@@ -4,7 +4,7 @@ OPTIMIZATION = -O3
 BIN = bin
 EXE = $(BIN)/atmo
 INT = $(wildcard src/*.h)
-REAL = $(INT:.h=.cpp) src/Menu.cpp
+REAL = $(INT:.h=.cpp)
 ECHO = @echo
 .PHONY: clean tests
 
