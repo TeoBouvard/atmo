@@ -62,30 +62,45 @@ using namespace std;
 
 void Menu::Run()
 {
-  char lecture[100];
-	lecture[0] = '\0';
+  string lecture("");
   currentMenu = SelectionMenu::M_MENU;
 
 	bool modif = false;
 
-	while (strcmp(lecture, "bye") != 0) //On entre dans le menu
+	while (strcmp(lecture.c_str(), "bye") != 0) //On entre dans le menu
 	{
 		modif = true;
 
 		if (currentMenu == SelectionMenu::M_MENU) // Selection du premier sous menu
 		{
-			if(strcmp(lecture,"yo") == 0)
+			if(strcmp(lecture.c_str(),"5") == 0)
       {
-        cout << "yo" << endl;
+        break;
+      }
+      else if(strcmp(lecture.c_str(),"1") == 0)
+      {
+        //put code here
+      }
+      else if(strcmp(lecture.c_str(),"2") == 0)
+      {
+        
+      }
+      else if(strcmp(lecture.c_str(),"3") == 0)
+      {
+        
+      }
+      else if(strcmp(lecture.c_str(),"4") == 0)
+      {
+        
       }
 			else
 			{
 				modif = false;
-				cout << endl << "Menu :\n -Creer un trajet [ct]\n -Afficher le contenu du catalogue [af]\n -Rechercher un parcours [rp]\n -Sauvegarder [save]\n -Charger [load]\n -Quitter [bye]" << endl;
+				cout << endl << "Menu :\n 1 : Connaître la qualité de l’air sur une zone donnée\n 2 : Identifier les zones ayant une qualité de l’air similaire\n 3 : Connaître la qualité de l\'air en un point donné\n 4 : Identifier les capteurs défectueux\n 5 : Quitter\n" << endl;
 			}
 		}
 		
-		lecture[0] = '\0';
+		lecture = "";
 
 		if (!modif)
 		{
