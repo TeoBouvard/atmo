@@ -30,42 +30,45 @@ class SensorFactory
   //----------------------------------------------------------------- PUBLIC
 
 public:
-//----------------------------------------------------- Méthodes publiques
-    // type Méthode ( liste des paramètres );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
+  //----------------------------------------------------- Méthodes publiques
+  // type Méthode ( liste des paramètres );
+  // Mode d'emploi :
+  //
+  // Contrat :
+  //
 
-    vector<Sensor> GetSensors();
+  //crée une date depuis une string
+  //format : 2017-01-01T00:01:20.6090(+)
+  date_t make_date(string str);
 
-    //crée un capteur et l'ajoute à listeCapteurs
-    void ParseSensor(string sensor_line);
+  vector<Sensor> GetSensors();
 
-    //crée une mesure et l'ajoute à son capteur
-    void ParseMesure(string mesure_line);
+  //crée un capteur et l'ajoute à listeCapteurs
+  void ParseSensor(string sensor_line);
 
-    //retourne le capteur correspondant à l'ID
-    Sensor& GetSensorByID(int ID);
+  //crée une mesure et l'ajoute à son capteur
+  void ParseMesure(string mesure_line);
 
-//------------------------------------------------- Surcharge d'opérateurs
+  //retourne le capteur correspondant à l'ID
+  Sensor &GetSensorByID(int ID);
 
-//-------------------------------------------- Constructeurs - destructeur
+  //------------------------------------------------- Surcharge d'opérateurs
 
-    SensorFactory(string path_to_file);
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
+  //-------------------------------------------- Constructeurs - destructeur
 
-    virtual ~SensorFactory ( );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
+  SensorFactory(string path_to_file);
+  // Mode d'emploi :
+  //
+  // Contrat :
+  //
 
-//------------------------------------------------------------------ PRIVE
+  virtual ~SensorFactory();
+  // Mode d'emploi :
+  //
+  // Contrat :
+  //
 
+  //------------------------------------------------------------------ PRIVE
 
 protected:
   //----------------------------------------------------- Méthodes protégées

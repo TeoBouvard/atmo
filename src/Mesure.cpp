@@ -28,11 +28,8 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
-
 //------------------------------------------------- Surcharge d'opérateurs
-Mesure & Mesure::operator = ( const Mesure & uneMesure )
-// Algorithme :
-//
+Mesure &Mesure::operator=(const Mesure &uneMesure)
 {
     date = uneMesure.date;
     polluant = uneMesure.polluant;
@@ -40,38 +37,41 @@ Mesure & Mesure::operator = ( const Mesure & uneMesure )
     return *this;
 } //----- Fin de operator =
 
-bool operator<(const Mesure& m1, const Mesure& m2){
-    if(m1.polluant != m2.polluant)
+bool operator<(const Mesure &m1, const Mesure &m2)
+{
+    if (m1.polluant != m2.polluant)
     {
         return m1.polluant < m2.polluant;
     }
-    else if(m1.date.year != m2.date.year)
+    else if (m1.date.year != m2.date.year)
     {
         return m1.date.year < m2.date.year;
     }
-    else if(m1.date.month != m2.date.month)
+    else if (m1.date.month != m2.date.month)
     {
         return m1.date.month < m2.date.month;
     }
-    else if(m1.date.day != m2.date.day)
+    else if (m1.date.day != m2.date.day)
     {
         return m1.date.day < m2.date.day;
     }
-    else if(m1.date.hour != m2.date.hour)
+    else if (m1.date.hour != m2.date.hour)
     {
         return m1.date.hour < m2.date.hour;
     }
-    else if(m1.date.minute != m2.date.minute)
+    else if (m1.date.minute != m2.date.minute)
     {
         return m1.date.minute < m2.date.minute;
+    }
+    else if (m1.date.second != m2.date.second)
+    {
+        return m1.date.second < m2.date.second;
     }
     return false;
 }
 
 //-------------------------------------------- Constructeurs - destructeur
-Mesure::Mesure ( const Mesure & uneMesure )
-// Algorithme :
-//
+Mesure::Mesure(const Mesure &uneMesure)
 {
     date = uneMesure.date;
     polluant = uneMesure.polluant;
@@ -81,8 +81,7 @@ Mesure::Mesure ( const Mesure & uneMesure )
 #endif
 } //----- Fin de Mesure (constructeur de copie)
 
-
-Mesure::Mesure (const date_t dateMesure, const string polluantMesure, const double valeurMesure)
+Mesure::Mesure(const date_t dateMesure, const string polluantMesure, const double valeurMesure)
 // Algorithme :
 //
 {
@@ -94,8 +93,7 @@ Mesure::Mesure (const date_t dateMesure, const string polluantMesure, const doub
 #endif
 } //----- Fin de Mesure
 
-
-Mesure::~Mesure ( )
+Mesure::~Mesure()
 // Algorithme :
 //
 {
@@ -107,4 +105,3 @@ Mesure::~Mesure ( )
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées
-

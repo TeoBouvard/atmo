@@ -51,7 +51,7 @@ Sensor &SensorFactory::GetSensorByID(int ID)
   exit(0);
 }
 
-date_t make_date(string str)
+date_t SensorFactory::make_date(string str)
 {
   date_t date;
 

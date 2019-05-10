@@ -1,59 +1,60 @@
 /*************************************************************************
-                           Menu  -  description
+                           Analyse  -  description
                              -------------------
     début                : $DATE$
     copyright            : (C) $YEAR$ par $AUTHOR$
     e-mail               : $EMAIL$
 *************************************************************************/
 
-//---------- Interface de la classe <Menu> (fichier Menu.h) ----------------
-#if !defined(MENU_H)
-#define MENU_H
+//---------- Interface de la classe <Analyse> (fichier Analyse.h) ----------------
+#if !defined(ANALYSE_H)
+#define ANALYSE_H
 
 //--------------------------------------------------- Interfaces utilisées
-
+#include "Mesure.h"
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
 
 //------------------------------------------------------------------------
-// Rôle de la classe <Menu>
+// Rôle de la classe <Analyse>
 //
 //
 //------------------------------------------------------------------------
 
-class Menu
+class Analyse
 {
     //----------------------------------------------------------------- PUBLIC
 
 public:
     //----------------------------------------------------- Méthodes publiques
-    void Run();
-
-    void QualiteDeLAir();
-
-    void QualiteSimilaire();
-
-    void QualiteEnUnPoint();
-
-    void CapteurDefectueux();
-
-    //------------------------------------------------- Surcharge d'opérateurs
-
-    //-------------------------------------------- Constructeurs - destructeur
-    Menu(const Menu &unMenu);
-    // Mode d'emploi (constructeur de copie) :
-    //
-    // Contrat :
-    //
-
-    Menu();
+    // type Méthode ( liste des paramètres );
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    virtual ~Menu();
+    //------------------------------------------------- Surcharge d'opérateurs
+    Analyse &operator=(const Analyse &unAnalyse);
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
+    //-------------------------------------------- Constructeurs - destructeur
+    Analyse(const Analyse &unAnalyse);
+    // Mode d'emploi (constructeur de copie) :
+    //
+    // Contrat :
+    //
+
+    Analyse(double latitude, double longitude, double rayon, date_t debut, date_t fin);
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
+    virtual ~Analyse();
     // Mode d'emploi :
     //
     // Contrat :
@@ -65,13 +66,13 @@ protected:
     //----------------------------------------------------- Méthodes protégées
 
     //----------------------------------------------------- Attributs protégés
-    enum SelectionMenu
-    {
-        M_MENU
-    };
-    SelectionMenu currentMenu;
+    double latitude;
+    double longitude;
+    double rayon;
+    date_t debut;
+    date_t fin;
 };
 
-//-------------------------------- Autres définitions dépendantes de <Menu>
+//-------------------------------- Autres définitions dépendantes de <Analyse>
 
-#endif // MENU_H
+#endif // ANALYSE_H

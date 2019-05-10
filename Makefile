@@ -1,7 +1,8 @@
 CPP = g++
 CPPFLAGS = -g -Wall -Werror -pedantic -ansi #-DMAP std=c++11 has to be put in last
 OPTIMIZATION = -O3
-EXE = bin/atmo
+BIN = bin/
+EXE = $(BIN)/atmo
 INT = $(wildcard src/*.h)
 REAL = $(INT:.h=.cpp)
 ECHO = @echo
@@ -16,18 +17,18 @@ help:
 
 debug:
 	@ mkdir -p bin
-	$(ECHO) "Building debug version of <$(EXE)> ..."
+	$(ECHO) "Building debug version of <Atmo> ..."
 	@ $(CPP) $(CPPFLAGS) -std=c++11 -o $(EXE) $(REAL)
 
 release:
 	@ mkdir -p bin
-	$(ECHO) "Building release version of <$(EXE)> ..."
+	$(ECHO) "Building release version of <Atmo> ..."
 	@ $(CPP) $(OPTIMIZATION) -std=c++11 -o $(EXE) $(REAL)
 
 run:
-	$(ECHO) "Running atmo ..."
+	$(ECHO) "Running <Atmo>"
 	@ ./$(EXE)
 
 clean:
 	@ rm -r $(BIN)/*
-	$(ECHO) "Bin directory is now clean"
+	$(ECHO) "$(BIN) directory is now clean"
