@@ -13,6 +13,7 @@
 //--------------------------------------------------- Interfaces utilisées
 #include <string>
 #include <vector>
+#include <fstream>
 #include "Sensor.h"
 #include "Mesure.h"
 //------------------------------------------------------------- Constantes
@@ -31,17 +32,12 @@ class SensorFactory
 
 public:
   //----------------------------------------------------- Méthodes publiques
-  // type Méthode ( liste des paramètres );
-  // Mode d'emploi :
-  //
-  // Contrat :
-  //
 
   //crée une date depuis une string
   //format : 2017-01-01T00:01:20.6090(+)
   static date_t make_date(string str);
 
-  vector<Sensor> GetSensors();
+  vector<Sensor> GetSensors() { return listeCapteurs; }
 
   //crée un capteur et l'ajoute à listeCapteurs
   void ParseSensor(string sensor_line);
@@ -56,7 +52,7 @@ public:
 
   //-------------------------------------------- Constructeurs - destructeur
 
-  SensorFactory(string path_to_file);
+  SensorFactory(ifstream &dataFile);
   // Mode d'emploi :
   //
   // Contrat :

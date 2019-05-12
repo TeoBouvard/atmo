@@ -27,6 +27,37 @@ using namespace std;
 //
 //{
 //} //----- Fin de Méthode
+bool operator<(const date_t &date1, const date_t &date2)
+{
+    if (date1.year != date2.year)
+    {
+        return (date1.year < date2.year);
+    }
+    else if (date1.month != date2.month)
+    {
+        return (date1.month < date2.month);
+    }
+    else if (date1.day != date2.day)
+    {
+        return (date1.day < date2.day);
+    }
+    else if (date1.hour != date2.hour)
+    {
+        return (date1.hour < date2.hour);
+    }
+    else if (date1.minute != date2.minute)
+    {
+        return (date1.minute < date2.minute);
+    }
+    else if (date1.second != date2.second)
+    {
+        return (date1.second < date2.second);
+    }
+    else
+    {
+        return true;
+    }
+}
 
 //------------------------------------------------- Surcharge d'opérateurs
 Mesure &Mesure::operator=(const Mesure &uneMesure)
@@ -43,31 +74,10 @@ bool operator<(const Mesure &m1, const Mesure &m2)
     {
         return m1.polluant < m2.polluant;
     }
-    else if (m1.date.year != m2.date.year)
+    else
     {
-        return m1.date.year < m2.date.year;
+        return m1.date < m2.date;
     }
-    else if (m1.date.month != m2.date.month)
-    {
-        return m1.date.month < m2.date.month;
-    }
-    else if (m1.date.day != m2.date.day)
-    {
-        return m1.date.day < m2.date.day;
-    }
-    else if (m1.date.hour != m2.date.hour)
-    {
-        return m1.date.hour < m2.date.hour;
-    }
-    else if (m1.date.minute != m2.date.minute)
-    {
-        return m1.date.minute < m2.date.minute;
-    }
-    else if (m1.date.second != m2.date.second)
-    {
-        return m1.date.second < m2.date.second;
-    }
-    return false;
 }
 
 //-------------------------------------------- Constructeurs - destructeur

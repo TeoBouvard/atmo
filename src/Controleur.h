@@ -1,69 +1,46 @@
 /*************************************************************************
-                           Menu  -  description
+                           Controleur  -  description
                              -------------------
     début                : $DATE$
     copyright            : (C) $YEAR$ par $AUTHOR$
     e-mail               : $EMAIL$
 *************************************************************************/
 
-//---------- Interface de la classe <Menu> (fichier Menu.h) ----------------
-#if !defined(MENU_H)
-#define MENU_H
+//---------- Interface de la classe <Controleur> (fichier Controleur.h) ----------------
+#if !defined(CONTROLEUR_H)
+#define CONTROLEUR_H
 
 //--------------------------------------------------- Interfaces utilisées
-#include <string>
-#include "Mesure.h"
-#include "Controleur.h"
 #include "SensorFactory.h"
+#include "Mesure.h"
 
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
+
 //------------------------------------------------------------------------
-// Rôle de la classe <Menu>
+// Rôle de la classe <Controleur>
 //
 //
 //------------------------------------------------------------------------
 
-class Menu
+class Controleur
 {
     //----------------------------------------------------------------- PUBLIC
 
 public:
     //----------------------------------------------------- Méthodes publiques
-    void Run(Controleur &controleur, SensorFactory &sensorFactory);
-
-    void QualiteDeLAir(Controleur &controleur, SensorFactory &sensorFactory);
-
-    void QualiteSimilaire();
-
-    void QualiteEnUnPoint();
-
-    void CapteurDefectueux();
-
-    void input(double &value);
-    date_t input(string value);
+    // type Méthode ( liste des paramètres );
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+    SensorFactory LectureFichier(const string path);
+    void ValeurIntervalle(double latitude, double longitude, double rayon, date_t debut, date_t fin, SensorFactory &sensorFactory);
 
     //------------------------------------------------- Surcharge d'opérateurs
 
     //-------------------------------------------- Constructeurs - destructeur
-    Menu(const Menu &unMenu);
-    // Mode d'emploi (constructeur de copie) :
-    //
-    // Contrat :
-    //
-
-    Menu();
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
-    virtual ~Menu();
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
 
     //------------------------------------------------------------------ PRIVE
 
@@ -71,13 +48,8 @@ protected:
     //----------------------------------------------------- Méthodes protégées
 
     //----------------------------------------------------- Attributs protégés
-    enum SelectionMenu
-    {
-        M_MENU
-    };
-    SelectionMenu currentMenu;
 };
 
-//-------------------------------- Autres définitions dépendantes de <Menu>
+//-------------------------------- Autres définitions dépendantes de <Controleur>
 
-#endif // MENU_H
+#endif // CONTROLEUR_H

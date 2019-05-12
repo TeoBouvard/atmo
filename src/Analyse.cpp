@@ -12,10 +12,14 @@
 
 //-------------------------------------------------------- Include système
 #include <iostream>
+#include <vector>
 using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "Analyse.h"
+#include "SensorFactory.h"
+#include "Sensor.h"
+#include "Geo.h"
 
 //------------------------------------------------------------- Constantes
 
@@ -27,6 +31,22 @@ using namespace std;
 //
 //{
 //} //----- Fin de Méthode
+void Analyse::ValeurIntervalle(SensorFactory &sensorFactory)
+{
+    vector<string> polluants;
+    //récupérer les capteurs de la SensorFactory
+    vector<Sensor> listeCapteurs = sensorFactory.GetSensors();
+    for (Sensor s : listeCapteurs)
+    {
+        //si le capteur et dans la zone choisie
+        if (Geo::CalculDistance(s.GetLatitude(), s.GetLongitude(), this->latitude, this->longitude) < rayon)
+        {
+            for (Mesure m : s.GetListeMesure())
+            {
+                        }
+        }
+    }
+}
 
 //------------------------------------------------- Surcharge d'opérateurs
 /*Analyse & Analyse::operator = ( const Analyse & unAnalyse )

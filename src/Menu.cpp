@@ -21,6 +21,7 @@ using namespace std;
 #include "Menu.h"
 #include "SensorFactory.h"
 #include "Mesure.h"
+#include "Controleur.h"
 
 ///////////////////////////////////////////////////////////////////  PRIVE
 //------------------------------------------------------------- Constantes
@@ -34,7 +35,7 @@ using namespace std;
 //////////////////////////////////////////////////////////////////  PUBLIC
 //---------------------------------------------------- Fonctions publiques
 
-void Menu::Run()
+void Menu::Run(Controleur &controleur, SensorFactory &sensorFactory)
 {
   string lecture("");
   currentMenu = SelectionMenu::M_MENU;
@@ -49,7 +50,7 @@ void Menu::Run()
     {
       if (strcmp(lecture.c_str(), "1") == 0)
       {
-        QualiteDeLAir();
+        QualiteDeLAir(controleur, sensorFactory);
       }
       else if (strcmp(lecture.c_str(), "2") == 0)
       {
@@ -86,7 +87,7 @@ void Menu::input(double &value)
 {
   while (!(cin >> value))
   {
-    cerr << "Saisie erronnée, merci de saisir un double ou un entier. Les nombres décimaux s'écrivent avec un point." << endl;
+    cerr << "Saisie erronnée, merci de saisir un nombre entier ou décimal : ";
     cin.clear();
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
   }
@@ -97,7 +98,7 @@ date_t Menu::input(string value)
   regex dateFormat("\\d\\d\\d\\d-\\d\\d-\\d\\d");
   while (!(cin >> value) || !regex_match(value, dateFormat))
   {
-    cerr << "Saisie erronnée, merci de saisir une date au format YYYY-MM-DD" << endl;
+    cerr << "Saisie erronnée, merci de saisir une date au format YYYY-MM-DD : ";
     cin.clear();
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
   }
@@ -105,7 +106,7 @@ date_t Menu::input(string value)
   return SensorFactory::make_date(convertedDate);
 }
 
-void Menu::QualiteDeLAir()
+void Menu::QualiteDeLAir(Controleur &controleur, SensorFactory &sensorFactory)
 {
   double latitude, longitude, rayon;
   string debut_str, fin_str;
@@ -122,7 +123,7 @@ void Menu::QualiteDeLAir()
   cout << "Date de fin au format YYYY-MM-DD : ";
   fin = input(fin_str);
 
-  cout << latitude << longitude << rayon << endl;
+  controleur.ValeurIntervalle(latitude, longitude, rayon, debut, fin, sensorFactory);
 }
 
 void Menu::QualiteSimilaire()
@@ -153,12 +154,12 @@ Menu::~Menu()
 
 int main(int argc, char *argv[])
 {
-
-  /*SensorFactory sensorFactory(argv[1]);
-  vector<Sensor> sensors = sensorFactory.GetSensors();*/
+  //création de la SensorFactory au début du programme afin de l'avoir en mémoire
+  Controleur controleur;
+  SensorFactory sensorFactory = controleur.LectureFichier(argv[1]);
 
   Menu menu;
-  menu.Run();
+  menu.Run(controleur, sensorFactory);
 
   return 0;
 }

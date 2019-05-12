@@ -7,7 +7,7 @@
 *************************************************************************/
 
 //---------- Interface de la classe <Geo> (fichier Geo.h) ----------------
-#if ! defined ( GEO_H )
+#if !defined(GEO_H)
 #define GEO_H
 
 //--------------------------------------------------- Interfaces utilisées
@@ -24,44 +24,23 @@
 
 class Geo
 {
-//----------------------------------------------------------------- PUBLIC
+    //----------------------------------------------------------------- PUBLIC
 
 public:
-//----------------------------------------------------- Méthodes publiques
-    double CalculDistance(double lat1, double long1, double lat2, double long2);
+    //----------------------------------------------------- Méthodes publiques
+    static double CalculDistance(double lat1, double long1, double lat2, double long2);
+    static double ToRadians(double degree);
 
-    double ToRadians(double degree);
+    //-------------------------------------------- Constructeurs - destructeur
 
-
-//-------------------------------------------- Constructeurs - destructeur
-    Geo ( const Geo & unGeo );
-    // Mode d'emploi (constructeur de copie) :
-    //
-    // Contrat :
-    //
-
-    Geo ( );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
-    virtual ~Geo ( );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
-//------------------------------------------------------------------ PRIVE
+    //------------------------------------------------------------------ PRIVE
 
 protected:
-//----------------------------------------------------- Méthodes protégées
+    //----------------------------------------------------- Méthodes protégées
 
-//----------------------------------------------------- Attributs protégés
-
+    //----------------------------------------------------- Attributs protégés
 };
 
 //-------------------------------- Autres définitions dépendantes de <Geo>
 
 #endif // GEO_H
-

@@ -7,7 +7,7 @@
 *************************************************************************/
 
 //---------- Interface de la classe <Mesure> (fichier Mesure.h) ----------------
-#if ! defined ( MESURE_H )
+#if !defined(MESURE_H)
 #define MESURE_H
 
 //--------------------------------------------------- Interfaces utilisées
@@ -18,14 +18,17 @@ using namespace std;
 
 //------------------------------------------------------------------ Types
 
-typedef struct date_t{
+typedef struct date_t
+{
     int year;
     int month;
-    int day;    
+    int day;
     int hour;
     int minute;
     int second;
 } date_t;
+
+bool operator<(const date_t &date1, const date_t &date2);
 
 //------------------------------------------------------------------------
 // Rôle de la classe <Mesure>
@@ -34,58 +37,51 @@ typedef struct date_t{
 
 class Mesure
 {
-//----------------------------------------------------------------- PUBLIC
+    //----------------------------------------------------------------- PUBLIC
 
 public:
-//----------------------------------------------------- Méthodes publiques
-    // type Méthode ( liste des paramètres );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
+    //----------------------------------------------------- Méthodes publiques
 
-
-//------------------------------------------------- Surcharge d'opérateurs
-    Mesure & operator = ( const Mesure & uneMesure );
+    //------------------------------------------------- Surcharge d'opérateurs
+    Mesure &operator=(const Mesure &uneMesure);
     // Mode d'emploi :
     //
     // Contrat :
     //
 
     //opérateur de comparaison nécéssaire à l'insertion dans un set
-    friend bool operator<(const Mesure& m1, const Mesure& m2);
+    friend bool operator<(const Mesure &m1, const Mesure &m2);
 
-//-------------------------------------------- Constructeurs - destructeur
-    Mesure ( const Mesure & uneMesure );
+    //-------------------------------------------- Constructeurs - destructeur
+    Mesure(const Mesure &uneMesure);
     // Mode d'emploi (constructeur de copie) :
     //
     // Contrat :
     //
 
-    Mesure (const date_t dateMesure, const string polluantMesure,const double valeurMesure);
+    Mesure(const date_t dateMesure, const string polluantMesure, const double valeurMesure);
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    virtual ~Mesure ( );
+    virtual ~Mesure();
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-//------------------------------------------------------------------ PRIVE
+    //------------------------------------------------------------------ PRIVE
 
 protected:
-//----------------------------------------------------- Méthodes protégées
+    //----------------------------------------------------- Méthodes protégées
 
-//----------------------------------------------------- Attributs protégés
-string polluant;
-double valeur;
-date_t date;
+    //----------------------------------------------------- Attributs protégés
+    string polluant;
+    double valeur;
+    date_t date;
 };
 
 //-------------------------------- Autres définitions dépendantes de <Mesure>
 
 #endif // MESURE_H
-

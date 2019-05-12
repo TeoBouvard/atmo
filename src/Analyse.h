@@ -12,6 +12,7 @@
 
 //--------------------------------------------------- Interfaces utilisées
 #include "Mesure.h"
+#include "SensorFactory.h"
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
@@ -28,11 +29,7 @@ class Analyse
 
 public:
     //----------------------------------------------------- Méthodes publiques
-    // type Méthode ( liste des paramètres );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
+    void ValeurIntervalle(SensorFactory &sensorFactory);
 
     //------------------------------------------------- Surcharge d'opérateurs
     Analyse &operator=(const Analyse &unAnalyse);

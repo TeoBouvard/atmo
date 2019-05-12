@@ -7,7 +7,7 @@
 *************************************************************************/
 
 //---------- Interface de la classe <Sensor> (fichier Sensor.h) ----------------
-#if ! defined ( SENSOR_H )
+#if !defined(SENSOR_H)
 #define SENSOR_H
 
 //--------------------------------------------------- Interfaces utilisées
@@ -27,35 +27,36 @@ using namespace std;
 
 class Sensor
 {
-//----------------------------------------------------------------- PUBLIC
+    //----------------------------------------------------------------- PUBLIC
 
 public:
-//----------------------------------------------------- Méthodes publiques
+    //----------------------------------------------------- Méthodes publiques
     // type Méthode ( liste des paramètres );
     // Mode d'emploi :
     //
     // Contrat :
     //
-    int GetID() {return sensorID;}
-    void AjouterMesure(Mesure& mesure);
+    int GetID() { return sensorID; }
+    int GetLatitude() { return latitude; }
+    int GetLongitude() { return longitude; }
+    set<Mesure> GetListeMesure() { return listeMesure; }
+    void AjouterMesure(Mesure &mesure);
 
-
-//------------------------------------------------- Surcharge d'opérateurs
-    Sensor & operator = ( const Sensor & unSensor );
+    //------------------------------------------------- Surcharge d'opérateurs
+    Sensor &operator=(const Sensor &unSensor);
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-
-//-------------------------------------------- Constructeurs - destructeur
-    Sensor ( const Sensor & unSensor );
+    //-------------------------------------------- Constructeurs - destructeur
+    Sensor(const Sensor &unSensor);
     // Mode d'emploi (constructeur de copie) :
     //
     // Contrat :
     //
 
-    Sensor ( );
+    Sensor();
     // Mode d'emploi :
     //
     // Contrat :
@@ -67,26 +68,25 @@ public:
     // Contrat :
     //
 
-    virtual ~Sensor ( );
+    virtual ~Sensor();
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-//------------------------------------------------------------------ PRIVE
+    //------------------------------------------------------------------ PRIVE
 
 protected:
-//----------------------------------------------------- Méthodes protégées
+    //----------------------------------------------------- Méthodes protégées
 
-//----------------------------------------------------- Attributs protégés
-int sensorID;
-double latitude;
-double longitude;
-string description;
-set<Mesure> listeMesure;
+    //----------------------------------------------------- Attributs protégés
+    int sensorID;
+    double latitude;
+    double longitude;
+    string description;
+    set<Mesure> listeMesure;
 };
 
 //-------------------------------- Autres définitions dépendantes de <Sensor>
 
 #endif // SENSOR_H
-

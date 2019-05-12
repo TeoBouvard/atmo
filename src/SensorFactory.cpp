@@ -21,7 +21,7 @@ using namespace std;
 #include "Sensor.h"
 #include "Mesure.h"
 //------------------------------------------------------------- Constantes
-#define FILE_ERROR 100
+#define FILE_ERROR 101
 
 static const char DELIMITER = ';';
 static const char DATE_DELIM = '-';
@@ -29,16 +29,6 @@ static const char TIME_DELIM = ':';
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-// type SensorFactory::Méthode ( liste des paramètres )
-// Algorithme :
-//
-//{
-//} //----- Fin de Méthode
-
-vector<Sensor> SensorFactory::GetSensors()
-{
-  return listeCapteurs;
-}
 
 Sensor &SensorFactory::GetSensorByID(int ID)
 {
@@ -138,9 +128,8 @@ void SensorFactory::ParseMesure(string sensorLine)
 
 //-------------------------------------------- Constructeurs - destructeur
 
-SensorFactory::SensorFactory(string pathToFile)
+SensorFactory::SensorFactory(ifstream &dataFile)
 {
-  ifstream dataFile(pathToFile);
   string dataLine;
 
   const string sensorHeader = "SensorID;Latitude;Longitude;Description;";
@@ -148,55 +137,52 @@ SensorFactory::SensorFactory(string pathToFile)
   regex sensorLine("SensorSensor\\d+;.\\d+.\\d+;.\\d+.\\d+;.*;");
   regex mesureLine("\\d\\d\\d\\d-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d.\\d+;.*;");
 
-  if (dataFile)
+  //read file header
+  getline(dataFile, dataLine);
+  if (dataLine.find(mesureHeader) != string::npos)
   {
-    //read file header
-    getline(dataFile, dataLine);
-    if (dataLine.find(mesureHeader) != string::npos)
-    {
-      cerr << "Header invalide" << endl;
-      exit(FILE_ERROR);
-    }
-
-    cout << "Importation des capteurs ... " << flush;
-    while (getline(dataFile, dataLine))
-    {
-      //parse sensors first
-      if (regex_match(dataLine, sensorLine))
-      {
-        ParseSensor(dataLine);
-      }
-      //but stop as soon as you encouter mesures header
-      else if (dataLine.find(mesureHeader) != string::npos)
-      {
-        cout << listeCapteurs.size() << " capteurs importés" << endl;
-        break;
-      }
-      else
-      {
-        cerr << "Bad sensor line" << endl;
-        exit(FILE_ERROR);
-      }
-    }
-
-    //then read data_file until end of file
-    cout << "Importation des mesures ... " << flush;
-    int nbMesures = 0;
-    while (getline(dataFile, dataLine))
-    {
-      if (regex_match(dataLine, mesureLine))
-      {
-        ParseMesure(dataLine);
-        nbMesures++;
-      }
-    }
-    cout << nbMesures << " mesures importées" << endl;
+    cerr << "Header invalide" << endl;
+    exit(FILE_ERROR);
   }
-  else
+
+  cout << "Importation des capteurs ... " << flush;
+  while (getline(dataFile, dataLine))
   {
-    cerr << "Erreur lors de l'ouverture du fichier " << pathToFile << endl;
-    exit(100);
+    //parse sensors first
+    if (regex_match(dataLine, sensorLine))
+    {
+      ParseSensor(dataLine);
+    }
+    //but stop as soon as you encouter mesures header
+    else if (dataLine.find(mesureHeader) != string::npos)
+    {
+      cout << listeCapteurs.size() << " capteurs importés" << endl;
+      break;
+    }
+    else
+    {
+      cerr << "Ligne de capteur erronnée, merci de vérifier l'intégrité du fichier" << endl;
+      cerr << dataLine << endl;
+    }
   }
+
+  //then read data_file until end of file
+  cout << "Importation des mesures ... " << flush;
+  int nbMesures = 0;
+  while (getline(dataFile, dataLine))
+  {
+    if (regex_match(dataLine, mesureLine))
+    {
+      ParseMesure(dataLine);
+      nbMesures++;
+    }
+    else
+    {
+      cerr << "Ligne de mesure erronnée, merci de vérifier l'intégrité du fichier" << endl;
+      cerr << dataLine << endl;
+    }
+  }
+  cout << nbMesures << " mesures importées" << endl;
 
 #ifdef MAP
   cout << "Appel au constructeur de <SensorFactory>" << endl;
