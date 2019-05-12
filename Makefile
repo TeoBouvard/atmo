@@ -2,6 +2,7 @@ CPP = g++
 CPPFLAGS = -g -Wall -Werror -pedantic -ansi #-DMAP std=c++11 has to be put in last
 OPTIMIZATION = -O3
 BIN = bin/
+LOG = log/
 EXE = $(BIN)/atmo
 INT = $(wildcard src/*.h)
 REAL = $(INT:.h=.cpp)
@@ -27,7 +28,10 @@ release:
 
 run:
 	$(ECHO) "Running <Atmo>"
-	@ ./$(EXE)
+	@ ./$(EXE) $(LOG)/data_10sensors_1year.csv
+
+tests:
+	cd tests && ./mktest.sh
 
 clean:
 	@ rm -r $(BIN)/*

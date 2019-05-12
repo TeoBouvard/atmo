@@ -40,17 +40,13 @@ void Menu::Run()
 
   bool modif = false;
 
-  while (strcmp(lecture.c_str(), "bye") != 0) //On entre dans le menu
+  while (strcmp(lecture.c_str(), "5") != 0) //On entre dans le menu
   {
     modif = true;
 
     if (currentMenu == SelectionMenu::M_MENU) // Selection du premier sous menu
     {
-      if (strcmp(lecture.c_str(), "5") == 0)
-      {
-        break;
-      }
-      else if (strcmp(lecture.c_str(), "1") == 0)
+      if (strcmp(lecture.c_str(), "1") == 0)
       {
         QualiteDeLAir();
       }
@@ -117,9 +113,8 @@ Menu::~Menu()
 
 int main(int argc, char *argv[])
 {
-  //utf16_utf8("log/data_10sensors_1year.csv");
 
-  SensorFactory sensorFactory("log/data_10sensors_1year.csv");
+  SensorFactory sensorFactory(argv[1]);
   vector<Sensor> capteurs = sensorFactory.GetSensors();
   cout << "Nombre de capteurs effectifs : " << capteurs.size() << endl;
 
