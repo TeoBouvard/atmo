@@ -172,7 +172,8 @@ SensorFactory::SensorFactory(string pathToFile)
         cout << listeCapteurs.size() << " capteurs importés" << endl;
         break;
       }
-      else{
+      else
+      {
         cerr << "Bad sensor line" << endl;
         exit(FILE_ERROR);
       }

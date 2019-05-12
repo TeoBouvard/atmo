@@ -39,7 +39,7 @@ public:
 
   //crée une date depuis une string
   //format : 2017-01-01T00:01:20.6090(+)
-  date_t make_date(string str);
+  static date_t make_date(string str);
 
   vector<Sensor> GetSensors();
 

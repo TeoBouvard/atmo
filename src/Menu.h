@@ -11,11 +11,12 @@
 #define MENU_H
 
 //--------------------------------------------------- Interfaces utilisées
+#include <string>
+#include "Mesure.h"
 
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
-
 //------------------------------------------------------------------------
 // Rôle de la classe <Menu>
 //
@@ -37,6 +38,9 @@ public:
     void QualiteEnUnPoint();
 
     void CapteurDefectueux();
+
+    void input(double &value);
+    date_t input(string value);
 
     //------------------------------------------------- Surcharge d'opérateurs
 

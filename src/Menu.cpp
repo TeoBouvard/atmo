@@ -11,15 +11,16 @@
 /////////////////////////////////////////////////////////////////  INCLUDE
 //-------------------------------------------------------- Include système
 #include <iostream>
-#include <codecvt>
 #include <fstream>
 #include <cstring>
+#include <regex>
 
 using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "Menu.h"
 #include "SensorFactory.h"
+#include "Mesure.h"
 
 ///////////////////////////////////////////////////////////////////  PRIVE
 //------------------------------------------------------------- Constantes
@@ -81,8 +82,47 @@ void Menu::Run()
   }
 }
 
+void Menu::input(double &value)
+{
+  while (!(cin >> value))
+  {
+    cerr << "Saisie erronnée, merci de saisir un double ou un entier. Les nombres décimaux s'écrivent avec un point." << endl;
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+  }
+}
+
+date_t Menu::input(string value)
+{
+  regex dateFormat("\\d\\d\\d\\d-\\d\\d-\\d\\d");
+  while (!(cin >> value) || !regex_match(value, dateFormat))
+  {
+    cerr << "Saisie erronnée, merci de saisir une date au format YYYY-MM-DD" << endl;
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+  }
+  string convertedDate = value + "T00:00:00.00";
+  return SensorFactory::make_date(convertedDate);
+}
+
 void Menu::QualiteDeLAir()
 {
+  double latitude, longitude, rayon;
+  string debut_str, fin_str;
+  date_t debut, fin;
+
+  cout << "Latitude : ";
+  input(latitude);
+  cout << "Longitude : ";
+  input(longitude);
+  cout << "Rayon : ";
+  input(rayon);
+  cout << "Date de début au format YYYY-MM-DD : ";
+  debut = input(debut_str);
+  cout << "Date de fin au format YYYY-MM-DD : ";
+  fin = input(fin_str);
+
+  cout << latitude << longitude << rayon << endl;
 }
 
 void Menu::QualiteSimilaire()
@@ -114,9 +154,8 @@ Menu::~Menu()
 int main(int argc, char *argv[])
 {
 
-  SensorFactory sensorFactory(argv[1]);
-  vector<Sensor> capteurs = sensorFactory.GetSensors();
-  cout << "Nombre de capteurs effectifs : " << capteurs.size() << endl;
+  /*SensorFactory sensorFactory(argv[1]);
+  vector<Sensor> sensors = sensorFactory.GetSensors();*/
 
   Menu menu;
   menu.Run();
