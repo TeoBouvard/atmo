@@ -85,12 +85,12 @@ void SensorFactory::ParseSensor(string sensorLine)
   //parse latitude
   string latitude_token = sensorLine.substr(0, sensorLine.find(DELIMITER));
   sensorLine.erase(0, sensorLine.find(DELIMITER) + 1);
-  double latitude = strtod(latitude_token.c_str(), NULL);
+  double latitude = stod(latitude_token);
 
   //parse longitude
   string longitude_token = sensorLine.substr(0, sensorLine.find(DELIMITER));
   sensorLine.erase(0, sensorLine.find(DELIMITER) + 1);
-  double longitude = strtod(longitude_token.c_str(), NULL);
+  double longitude = stod(longitude_token);
 
   //parse descritpion
   string description = sensorLine.substr(0, sensorLine.find(DELIMITER));
@@ -118,7 +118,7 @@ void SensorFactory::ParseMesure(string sensorLine)
   //parse valeur
   string valeur_token = sensorLine.substr(0, sensorLine.find(DELIMITER));
   sensorLine.erase(0, sensorLine.find(DELIMITER) + 1);
-  double valeur = strtod(valeur_token.c_str(), NULL);
+  double valeur = stod(valeur_token.c_str());
 
   Mesure mesure(date, polluant, valeur);
   GetSensorByID(id).AjouterMesure(mesure);
@@ -188,6 +188,10 @@ SensorFactory::SensorFactory(ifstream &dataFile)
   cout << "Appel au constructeur de <SensorFactory>" << endl;
 #endif
 } //----- Fin de SensorFactory
+
+SensorFactory::SensorFactory()
+{
+}
 
 SensorFactory::~SensorFactory()
 // Algorithme :

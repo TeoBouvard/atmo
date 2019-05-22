@@ -29,13 +29,13 @@ using namespace std;
 
 //----------------------------------------------------- Méthodes publiques
 
-SensorFactory Controleur::LectureFichier(const string path)
+void Controleur::LectureFichier(const string path)
 {
     ifstream file(path);
 
     if (file)
     {
-        return (SensorFactory(file));
+        sensorFactory = SensorFactory(file);
     }
     else
     {
@@ -44,7 +44,7 @@ SensorFactory Controleur::LectureFichier(const string path)
     }
 }
 
-void Controleur::ValeurIntervalle(double latitude, double longitude, double rayon, date_t debut, date_t fin, SensorFactory &sensorFactory)
+void Controleur::ValeurIntervalle(double latitude, double longitude, double rayon, date_t debut, date_t fin)
 {
     Analyse analyse(latitude, longitude, rayon, debut, fin);
     analyse.ValeurIntervalle(sensorFactory);
@@ -53,7 +53,8 @@ void Controleur::ValeurIntervalle(double latitude, double longitude, double rayo
 //------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------- Constructeurs - destructeur
-
+Controleur::Controleur()
+{};
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées

@@ -35,16 +35,18 @@ public:
     //
     // Contrat :
     //
-    SensorFactory LectureFichier(const string path);
-    void ValeurIntervalle(double latitude, double longitude, double rayon, date_t debut, date_t fin, SensorFactory &sensorFactory);
+
+    void LectureFichier(const string path);
+    void ValeurIntervalle(double latitude, double longitude, double rayon, date_t debut, date_t fin);
 
     //------------------------------------------------- Surcharge d'opérateurs
 
     //-------------------------------------------- Constructeurs - destructeur
-
+    Controleur();
     //------------------------------------------------------------------ PRIVE
 
 protected:
+    SensorFactory sensorFactory;
     //----------------------------------------------------- Méthodes protégées
 
     //----------------------------------------------------- Attributs protégés

@@ -12,7 +12,7 @@
 //-------------------------------------------------------- Include système
 #include <iostream>
 #include <fstream>
-#include <cstring>
+#include <string>
 #include <regex>
 
 using namespace std;
@@ -35,7 +35,7 @@ using namespace std;
 //////////////////////////////////////////////////////////////////  PUBLIC
 //---------------------------------------------------- Fonctions publiques
 
-void Menu::Run(Controleur &controleur, SensorFactory &sensorFactory)
+void Menu::Run(Controleur &controleur)
 {
   string lecture("");
   currentMenu = SelectionMenu::M_MENU;
@@ -50,7 +50,7 @@ void Menu::Run(Controleur &controleur, SensorFactory &sensorFactory)
     {
       if (strcmp(lecture.c_str(), "1") == 0)
       {
-        QualiteDeLAir(controleur, sensorFactory);
+        QualiteDeLAir(controleur);
       }
       else if (strcmp(lecture.c_str(), "2") == 0)
       {
@@ -106,10 +106,11 @@ date_t Menu::input(string value)
   return SensorFactory::make_date(convertedDate);
 }
 
-void Menu::QualiteDeLAir(Controleur &controleur, SensorFactory &sensorFactory)
+void Menu::QualiteDeLAir(Controleur &controleur)
 {
   double latitude, longitude, rayon;
-  string debut_str, fin_str;
+  string debut_str = "";
+  string fin_str = "";
   date_t debut, fin;
 
   cout << "Latitude : ";
@@ -123,7 +124,7 @@ void Menu::QualiteDeLAir(Controleur &controleur, SensorFactory &sensorFactory)
   cout << "Date de fin au format YYYY-MM-DD : ";
   fin = input(fin_str);
 
-  controleur.ValeurIntervalle(latitude, longitude, rayon, debut, fin, sensorFactory);
+  controleur.ValeurIntervalle(latitude, longitude, rayon, debut, fin);
 }
 
 void Menu::QualiteSimilaire()
@@ -154,12 +155,12 @@ Menu::~Menu()
 
 int main(int argc, char *argv[])
 {
-  //création de la SensorFactory au début du programme afin de l'avoir en mémoire
   Controleur controleur;
-  SensorFactory sensorFactory = controleur.LectureFichier(argv[1]);
+
+  controleur.LectureFichier(argv[1]);
 
   Menu menu;
-  menu.Run(controleur, sensorFactory);
+  menu.Run(controleur);
 
   return 0;
 }

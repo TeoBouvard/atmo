@@ -31,9 +31,9 @@ class Menu
 
 public:
     //----------------------------------------------------- Méthodes publiques
-    void Run(Controleur &controleur, SensorFactory &sensorFactory);
+    void Run(Controleur &controleur);
 
-    void QualiteDeLAir(Controleur &controleur, SensorFactory &sensorFactory);
+    void QualiteDeLAir(Controleur &controleur);
 
     void QualiteSimilaire();
 
