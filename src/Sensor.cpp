@@ -34,30 +34,12 @@ void Sensor::AjouterMesure(Mesure& mesure){
 }
 
 //------------------------------------------------- Surcharge d'opérateurs
-Sensor & Sensor::operator = ( const Sensor & unSensor )
-{
-    sensorID = unSensor.sensorID;
-    latitude = unSensor.latitude;
-    longitude = unSensor.longitude;
-    description = unSensor.description;
-    listeMesure = unSensor.listeMesure;
-    return *this;
-} //----- Fin de operator =
+ //----- Fin de operator =
 
 
 //-------------------------------------------- Constructeurs - destructeur
 
-Sensor::Sensor ( const Sensor & unSensor )
-{
-    sensorID = unSensor.sensorID;
-    latitude = unSensor.latitude;
-    longitude = unSensor.longitude;
-    description = unSensor.description;
-    listeMesure = unSensor.listeMesure;
-#ifdef MAP
-    cout << "Appel au constructeur de copie de <Sensor>" << endl;
-#endif
-} //----- Fin de Sensor (constructeur de copie)
+ //----- Fin de Sensor (constructeur de copie)
 
 Sensor::Sensor (int sID, double sLatitude, double sLongitude, string sDescription)
 {
@@ -70,14 +52,6 @@ Sensor::Sensor (int sID, double sLatitude, double sLongitude, string sDescriptio
 #endif
 } //----- Fin de Sensor
 
-Sensor::~Sensor ( )
-// Algorithme :
-//
-{
-#ifdef MAP
-    cout << "Appel au destructeur de <Sensor>" << endl;
-#endif
-} //----- Fin de ~Sensor
 
 
 //------------------------------------------------------------------ PRIVE

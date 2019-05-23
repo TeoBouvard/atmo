@@ -46,7 +46,6 @@ public:
 	date_t GetDate() { return date; }
     
     //--------- Surcharge d'opérateurs
-    Mesure &operator=(const Mesure &uneMesure);
     // Mode d'emploi :
     //
     // Contrat :
@@ -56,7 +55,6 @@ public:
     friend bool operator<(const Mesure &m1, const Mesure &m2);
 
     //-------------------------------------------- Constructeurs - destructeur
-    Mesure(const Mesure &uneMesure);
     // Mode d'emploi (constructeur de copie) :
     //
     // Contrat :
@@ -68,11 +66,6 @@ public:
     // Contrat :
     //
 
-    virtual ~Mesure();
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
 
     //------------------------------------------------------------------ PRIVE
 

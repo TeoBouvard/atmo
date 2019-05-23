@@ -60,13 +60,6 @@ bool operator<(const date_t &date1, const date_t &date2)
 }
 
 //------------------------------------------------- Surcharge d'opérateurs
-Mesure &Mesure::operator=(const Mesure &uneMesure)
-{
-    date = uneMesure.date;
-    polluant = uneMesure.polluant;
-    valeur = uneMesure.valeur;
-    return *this;
-} //----- Fin de operator =
 
 bool operator<(const Mesure &m1, const Mesure &m2)
 {
@@ -81,15 +74,6 @@ bool operator<(const Mesure &m1, const Mesure &m2)
 }
 
 //-------------------------------------------- Constructeurs - destructeur
-Mesure::Mesure(const Mesure &uneMesure)
-{
-    date = uneMesure.date;
-    polluant = uneMesure.polluant;
-    valeur = uneMesure.valeur;
-#ifdef MAP
-    cout << "Appel au constructeur de copie de <Mesure>" << endl;
-#endif
-} //----- Fin de Mesure (constructeur de copie)
 
 Mesure::Mesure(const date_t dateMesure, const string polluantMesure, const double valeurMesure)
 // Algorithme :
@@ -102,15 +86,6 @@ Mesure::Mesure(const date_t dateMesure, const string polluantMesure, const doubl
     cout << "Appel au constructeur de <Mesure>" << endl;
 #endif
 } //----- Fin de Mesure
-
-Mesure::~Mesure()
-// Algorithme :
-//
-{
-#ifdef MAP
-    cout << "Appel au destructeur de <Mesure>" << endl;
-#endif
-} //----- Fin de ~Mesure
 
 //------------------------------------------------------------------ PRIVE
 

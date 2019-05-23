@@ -35,7 +35,8 @@ void Controleur::LectureFichier(const string path)
 
     if (file)
     {
-        sensorFactory = SensorFactory(file);
+        SensorFactory&& sensorFactoryTemp = SensorFactory(file);
+		sensorFactory = std::move(sensorFactoryTemp);
     }
     else
     {
@@ -60,7 +61,8 @@ void Controleur::CapteursSimilaires(date_t debut, date_t fin)
 
 //-------------------------------------------- Constructeurs - destructeur
 Controleur::Controleur()
-{}
+{
+}
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées

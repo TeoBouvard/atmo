@@ -43,14 +43,12 @@ public:
     void AjouterMesure(Mesure &mesure);
 
     //------------------------------------------------- Surcharge d'opérateurs
-    Sensor &operator=(const Sensor &unSensor);
     // Mode d'emploi :
     //
     // Contrat :
     //
 
     //-------------------------------------------- Constructeurs - destructeur
-    Sensor(const Sensor &unSensor);
     // Mode d'emploi (constructeur de copie) :
     //
     // Contrat :
@@ -68,11 +66,6 @@ public:
     // Contrat :
     //
 
-    virtual ~Sensor();
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
 
     //------------------------------------------------------------------ PRIVE
 

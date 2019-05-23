@@ -27,7 +27,7 @@ static const char DELIMITER = ';';
 static const char DATE_DELIM = '-';
 static const char TIME_DELIM = ':';
 //----------------------------------------------------------------- PUBLIC
-
+#define MAP
 //----------------------------------------------------- Méthodes publiques
 
 Sensor &SensorFactory::GetSensorByID(int ID)
@@ -37,9 +37,7 @@ Sensor &SensorFactory::GetSensorByID(int ID)
     if (s.GetID() == ID)
       return s;
   }
-#ifdef MAP
   cerr << "Mesure erronée : aucun capteur associé à l'ID" << ID << endl;
-#endif
   exit(FILE_ERROR);
 }
 
@@ -191,16 +189,12 @@ SensorFactory::SensorFactory(ifstream &dataFile)
 
 SensorFactory::SensorFactory()
 {
+#ifdef MAP
+	cout << "Appel au constructeur par défaut de <SensorFactory>" << endl;
+#endif
 }
 
-SensorFactory::~SensorFactory()
-// Algorithme :
-//
-{
-#ifdef MAP
-  cout << "Appel au destructeur de <SensorFactory>" << endl;
-#endif
-} //----- Fin de ~SensorFactory
+
 
 //------------------------------------------------------------------ PRIVE
 

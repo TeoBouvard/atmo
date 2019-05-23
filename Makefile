@@ -1,5 +1,5 @@
 CPP = g++
-CPPFLAGS = -g -Wall -Werror -pedantic -ansi #-DMAP std=c++11 has to be put in last
+CPPFLAGS = -g -Wall -Werror -ansi #-DMAP std=c++11 has to be put in last
 OPTIMIZATION = -O3
 BIN = bin/
 LOG = log/
