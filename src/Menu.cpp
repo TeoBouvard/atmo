@@ -54,7 +54,7 @@ void Menu::Run(Controleur &controleur)
       }
       else if (strcmp(lecture.c_str(), "2") == 0)
       {
-        QualiteSimilaire();
+        QualiteSimilaire(controleur);
       }
       else if (strcmp(lecture.c_str(), "3") == 0)
       {
@@ -127,8 +127,17 @@ void Menu::QualiteDeLAir(Controleur &controleur)
   controleur.ValeurIntervalle(latitude, longitude, rayon, debut, fin);
 }
 
-void Menu::QualiteSimilaire()
+void Menu::QualiteSimilaire(Controleur &controleur)
 {
+	string debut_str = "";
+	string fin_str = "";
+	date_t debut, fin;
+	cout << "Date de début au format YYYY-MM-DD : ";
+	debut = input(debut_str);
+	cout << "Date de fin au format YYYY-MM-DD : ";
+	fin = input(fin_str);
+
+	controleur.CapteursSimilaires(debut, fin);
 }
 
 void Menu::QualiteEnUnPoint()

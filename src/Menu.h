@@ -35,7 +35,7 @@ public:
 
     void QualiteDeLAir(Controleur &controleur);
 
-    void QualiteSimilaire();
+	void QualiteSimilaire(Controleur &controleur);
 
     void QualiteEnUnPoint();
 

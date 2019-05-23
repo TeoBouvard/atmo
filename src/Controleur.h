@@ -38,6 +38,7 @@ public:
 
     void LectureFichier(const string path);
     void ValeurIntervalle(double latitude, double longitude, double rayon, date_t debut, date_t fin);
+	void CapteursSimilaires(date_t debut, date_t fin);
 
     //------------------------------------------------- Surcharge d'opérateurs
 

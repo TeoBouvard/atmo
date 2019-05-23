@@ -50,6 +50,12 @@ void Controleur::ValeurIntervalle(double latitude, double longitude, double rayo
     analyse.ValeurIntervalle(sensorFactory);
 }
 
+
+void Controleur::CapteursSimilaires(date_t debut, date_t fin)
+{
+	Analyse analyse(0, 0, 0 ,debut, fin);
+	analyse.CapteursSimilaires(sensorFactory);
+}
 //------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------- Constructeurs - destructeur

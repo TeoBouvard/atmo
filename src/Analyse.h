@@ -31,6 +31,8 @@ public:
     //----------------------------------------------------- Méthodes publiques
     void ValeurIntervalle(SensorFactory &sensorFactory);
 
+	void CapteursSimilaires(SensorFactory &sensorFactory);
+
     //------------------------------------------------- Surcharge d'opérateurs
     Analyse &operator=(const Analyse &unAnalyse);
     // Mode d'emploi :
