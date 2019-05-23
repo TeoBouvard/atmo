@@ -129,15 +129,15 @@ void Menu::QualiteDeLAir(Controleur &controleur)
 
 void Menu::QualiteSimilaire(Controleur &controleur)
 {
-	string debut_str = "";
-	string fin_str = "";
-	date_t debut, fin;
-	cout << "Date de début au format YYYY-MM-DD : ";
-	debut = input(debut_str);
-	cout << "Date de fin au format YYYY-MM-DD : ";
-	fin = input(fin_str);
+  string debut_str = "";
+  string fin_str = "";
+  date_t debut, fin;
+  cout << "Date de début au format YYYY-MM-DD : ";
+  debut = input(debut_str);
+  cout << "Date de fin au format YYYY-MM-DD : ";
+  fin = input(fin_str);
 
-	controleur.CapteursSimilaires(debut, fin);
+  controleur.CapteursSimilaires(debut, fin);
 }
 
 void Menu::QualiteEnUnPoint()
@@ -146,20 +146,6 @@ void Menu::QualiteEnUnPoint()
 
 void Menu::CapteurDefectueux()
 {
-}
-
-Menu::Menu()
-{
-#ifdef MAP
-  cout << "Appel au constructeur de <Menu>" << endl;
-#endif
-}
-
-Menu::~Menu()
-{
-#ifdef MAP
-  cout << "Appel au destructeur de <Menu>" << endl;
-#endif
 }
 
 int main(int argc, char *argv[])

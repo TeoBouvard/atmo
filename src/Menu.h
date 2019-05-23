@@ -35,7 +35,7 @@ public:
 
     void QualiteDeLAir(Controleur &controleur);
 
-	void QualiteSimilaire(Controleur &controleur);
+    void QualiteSimilaire(Controleur &controleur);
 
     void QualiteEnUnPoint();
 
@@ -47,23 +47,6 @@ public:
     //------------------------------------------------- Surcharge d'opérateurs
 
     //-------------------------------------------- Constructeurs - destructeur
-    Menu(const Menu &unMenu);
-    // Mode d'emploi (constructeur de copie) :
-    //
-    // Contrat :
-    //
-
-    Menu();
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
-    virtual ~Menu();
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
 
     //------------------------------------------------------------------ PRIVE
 
