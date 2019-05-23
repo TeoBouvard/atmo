@@ -54,7 +54,7 @@ void Controleur::ValeurIntervalle(double latitude, double longitude, double rayo
 
 //-------------------------------------------- Constructeurs - destructeur
 Controleur::Controleur()
-{};
+{}
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées

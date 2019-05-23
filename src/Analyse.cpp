@@ -13,6 +13,7 @@
 //-------------------------------------------------------- Include système
 #include <iostream>
 #include <vector>
+#include <string>
 using namespace std;
 
 //------------------------------------------------------ Include personnel
@@ -33,19 +34,42 @@ using namespace std;
 //} //----- Fin de Méthode
 void Analyse::ValeurIntervalle(SensorFactory &sensorFactory)
 {
-    vector<string> polluants;
+    cout << "debut analyse" << endl;
     //récupérer les capteurs de la SensorFactory
     vector<Sensor> listeCapteurs = sensorFactory.GetSensors();
+    int nbSensor = 0;
+/*
+    double moyO3 = 0;
+    double moyNO2 = 0;
+    double moySO2 = 0;
+    double moyPM10 = 0;
+*/
     for (Sensor s : listeCapteurs)
     {
+        cout << "sensor" << endl;
         //si le capteur et dans la zone choisie
         if (Geo::CalculDistance(s.GetLatitude(), s.GetLongitude(), this->latitude, this->longitude) < rayon)
         {
-            for (Mesure m : s.GetListeMesure())
+            cout << "sensor valide" << endl;
+            set<Mesure> ms = s.GetListeMesure();
+            cout << ms.size() << endl;
+            nbSensor++;
+            for (auto m : s.GetListeMesure())
             {
-                        }
+                string type = m.GetPolluant();
+                cout << type << endl;
+            }
         }
     }
+    if(nbSensor)
+    {
+
+    }
+    else
+    {
+        
+    }
+    
 }
 
 //------------------------------------------------- Surcharge d'opérateurs

@@ -39,7 +39,7 @@ public:
     int GetID() { return sensorID; }
     int GetLatitude() { return latitude; }
     int GetLongitude() { return longitude; }
-    set<Mesure> GetListeMesure() { return listeMesure; }
+    set<Mesure>& GetListeMesure() { return listeMesure; }
     void AjouterMesure(Mesure &mesure);
 
     //------------------------------------------------- Surcharge d'opérateurs
