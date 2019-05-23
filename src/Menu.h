@@ -34,12 +34,9 @@ public:
     void Run(Controleur &controleur);
 
     void QualiteDeLAir(Controleur &controleur);
-
     void QualiteSimilaire(Controleur &controleur);
-
-    void QualiteEnUnPoint();
-
-    void CapteurDefectueux();
+    void QualiteEnUnPoint(Controleur &controleur);
+    void CapteurDefectueux(Controleur &controleur);
 
     void input(double &value);
     date_t input(string value);
