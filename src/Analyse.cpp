@@ -279,7 +279,11 @@ void Analyse::CalculValeurAtmo(double O3, double NO2, double SO2, double PM10)
     
     atmoGene = max(max(atmoO3, atmoNO2),max(atmoSO2,atmoPM10));
 
-    cout << "Indice atmo : " << atmoGene << endl;
+    cout << "Sous indice atmo O3 :" << atmoO3 << endl;
+    cout << "Sous indice atmo NO2 :" << atmoNO2 << endl;
+    cout << "Sous indice atmo SO2 :" << atmoSO2 << endl;
+    cout << "Sous indice atmo PM10 :" << atmoPM10 << endl;
+    cout << "Pire indice atmo : " << atmoGene << endl;
     
 }
 
