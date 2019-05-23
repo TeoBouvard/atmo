@@ -31,6 +31,8 @@ public:
     //----------------------------------------------------- Méthodes publiques
     void ValeurIntervalle(SensorFactory &sensorFactory);
 
+    void CalculValeurAtmo(double O3, double NO2, double SO2, double PM10);
+
     //------------------------------------------------- Surcharge d'opérateurs
     Analyse &operator=(const Analyse &unAnalyse);
     // Mode d'emploi :
