@@ -43,6 +43,7 @@ public:
     //----------------------------------------------------- Méthodes publiques
     string GetPolluant() {return polluant;}
     double GetValeur() {return valeur;}
+	date_t GetDate() { return date; }
     
     //--------- Surcharge d'opérateurs
     Mesure &operator=(const Mesure &uneMesure);
