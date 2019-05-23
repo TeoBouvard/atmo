@@ -87,15 +87,6 @@ Mesure::Mesure(const date_t dateMesure, const string polluantMesure, const doubl
 #endif
 } //----- Fin de Mesure
 
-Mesure::~Mesure()
-// Algorithme :
-//
-{
-#ifdef MAP
-    cout << "Appel au destructeur de <Mesure>" << endl;
-#endif
-} //----- Fin de ~Mesure
-
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées

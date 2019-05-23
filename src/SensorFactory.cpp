@@ -195,14 +195,6 @@ SensorFactory::SensorFactory()
 }
 
 
-SensorFactory::~SensorFactory()
-// Algorithme :
-//
-{
-#ifdef MAP
-  cout << "Appel au destructeur de <SensorFactory>" << endl;
-#endif
-} //----- Fin de ~SensorFactory
 
 //------------------------------------------------------------------ PRIVE
 

@@ -65,11 +65,6 @@ public:
     // Contrat :
     //
 
-    virtual ~Mesure();
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
 
     //------------------------------------------------------------------ PRIVE
 

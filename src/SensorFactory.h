@@ -61,11 +61,7 @@ public:
 
   SensorFactory();
 
-  virtual ~SensorFactory();
-  // Mode d'emploi :
-  //
-  // Contrat :
-  //
+
 
   //------------------------------------------------------------------ PRIVE
 

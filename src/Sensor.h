@@ -66,11 +66,6 @@ public:
     // Contrat :
     //
 
-    virtual ~Sensor();
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
 
     //------------------------------------------------------------------ PRIVE
 
