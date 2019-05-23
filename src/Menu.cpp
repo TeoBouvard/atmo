@@ -142,6 +142,21 @@ void Menu::QualiteSimilaire(Controleur &controleur)
 
 void Menu::QualiteEnUnPoint()
 {
+  double latitude, longitude;
+  string debut_str = "";
+  string fin_str = "";
+  date_t debut, fin;
+
+  cout << "Latitude : ";
+  input(latitude);
+  cout << "Longitude : ";
+  input(longitude);
+  cout << "Date de début au format YYYY-MM-DD : ";
+  debut = input(debut_str);
+  cout << "Date de fin au format YYYY-MM-DD : ";
+  fin = input(fin_str);
+
+  controleur.ValeurIntervalle(latitude, longitude, 0, debut, fin);
 }
 
 void Menu::CapteurDefectueux()
