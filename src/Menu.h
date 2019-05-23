@@ -34,12 +34,9 @@ public:
     void Run(Controleur &controleur);
 
     void QualiteDeLAir(Controleur &controleur);
-
-	void QualiteSimilaire(Controleur &controleur);
-
-    void QualiteEnUnPoint();
-
-    void CapteurDefectueux();
+    void QualiteSimilaire(Controleur &controleur);
+    void QualiteEnUnPoint(Controleur &controleur);
+    void CapteurDefectueux(Controleur &controleur);
 
     void input(double &value);
     date_t input(string value);
@@ -47,23 +44,6 @@ public:
     //------------------------------------------------- Surcharge d'opérateurs
 
     //-------------------------------------------- Constructeurs - destructeur
-    Menu(const Menu &unMenu);
-    // Mode d'emploi (constructeur de copie) :
-    //
-    // Contrat :
-    //
-
-    Menu();
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
-    virtual ~Menu();
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
 
     //------------------------------------------------------------------ PRIVE
 

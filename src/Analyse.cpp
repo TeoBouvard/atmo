@@ -14,11 +14,14 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <iterator> 
 using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "Analyse.h"
+#include "SensorFactory.h"
+#include "Sensor.h"
+#include "Geo.h"
+
 //------------------------------------------------------------- Constantes
 
 //----------------------------------------------------------------- PUBLIC
@@ -29,10 +32,8 @@ using namespace std;
 //
 //{
 //} //----- Fin de Méthode
-
 void Analyse::ValeurIntervalle(SensorFactory &sensorFactory)
 {
-	/*
     //récupérer les capteurs de la SensorFactory
     vector<Sensor> listeCapteurs = sensorFactory.GetSensors();
     int nbSensor = 0;
@@ -54,26 +55,29 @@ void Analyse::ValeurIntervalle(SensorFactory &sensorFactory)
             nbSensor++;
             for (auto m : s.GetListeMesure())
             {
-                string type = m.GetPolluant();
-                if(type.compare("O3") == 0)
+                if(comparerDebut(m.GetDate()) && comparerFin(m.GetDate()))
                 {
-                    totO3 += m.GetValeur();
-                    nbO3++;
-                }
-                else if(type.compare("NO2") == 0)
-                {
-                    totNO2 += m.GetValeur();
-                    nbNO2++;
-                }
-                else if(type.compare("SO2") == 0)
-                {
-                    totSO2 += m.GetValeur();
-                    nbSO2++;
-                }
-                else if(type.compare("PM10") == 0)
-                {
-                    totPM10 += m.GetValeur();
-                    nbPM10++;
+                    string type = m.GetPolluant();
+                    if(type.compare("O3") == 0)
+                    {
+                        totO3 += m.GetValeur();
+                        nbO3++;
+                    }
+                    else if(type.compare("NO2") == 0)
+                    {
+                        totNO2 += m.GetValeur();
+                        nbNO2++;
+                    }
+                    else if(type.compare("SO2") == 0)
+                    {
+                        totSO2 += m.GetValeur();
+                        nbSO2++;
+                    }
+                    else if(type.compare("PM10") == 0)
+                    {
+                        totPM10 += m.GetValeur();
+                        nbPM10++;
+                    }
                 }
             }
         }
@@ -97,12 +101,45 @@ void Analyse::ValeurIntervalle(SensorFactory &sensorFactory)
 
         CalculValeurAtmo(moyO3, moyNO2, moySO2, moyPM10);
     }
-    */
+    
+}
+
+bool Analyse::comparerDebut(date_t date)
+{
+    if (date.year != debut.year)
+    {
+        return (date.year >= debut.year);
+    }
+    else if (date.month != debut.month)
+    {
+        return (date.month >= debut.month);
+    }
+    else if (date.day != debut.day)
+    {
+        return (date.day >= debut.day);
+    }
+    return true;
+}
+
+bool Analyse::comparerFin(date_t date)
+{
+    if (date.year != fin.year)
+    {
+        return (date.year <= fin.year);
+    }
+    else if (date.month != fin.month)
+    {
+        return (date.month <= fin.month);
+    }
+    else if (date.day != fin.day)
+    {
+        return (date.day <= fin.day);
+    }
+    return true;
 }
 
 void Analyse::CalculValeurAtmo(double O3, double NO2, double SO2, double PM10)
 {
-/*
     int atmoO3, atmoNO2, atmoSO2, atmoPM10, atmoGene = 0;
     switch ((int)O3)
     {
@@ -242,8 +279,12 @@ void Analyse::CalculValeurAtmo(double O3, double NO2, double SO2, double PM10)
     
     atmoGene = max(max(atmoO3, atmoNO2),max(atmoSO2,atmoPM10));
 
-    cout << "Indice atmo : " << atmoGene << endl;
-    */
+    cout << "Sous indice atmo O3 :" << atmoO3 << endl;
+    cout << "Sous indice atmo NO2 :" << atmoNO2 << endl;
+    cout << "Sous indice atmo SO2 :" << atmoSO2 << endl;
+    cout << "Sous indice atmo PM10 :" << atmoPM10 << endl;
+    cout << "Pire indice atmo : " << atmoGene << endl;
+    
 }
 
 void Analyse::CapteursSimilaires(SensorFactory &sensorFactory)
@@ -258,36 +299,32 @@ void Analyse::CapteursSimilaires(SensorFactory &sensorFactory)
 
 	double similitudeMesure = 0;
 	int compteur = 0;
-	int nbmesure = 0;
-	
-	
 	for (unsigned int i = 0; i < listeCapteurs.size(); i++)
 	{
 		for (unsigned int j = i + 1; j < listeCapteurs.size(); j++)
 		{
-			set<Mesure> listeMesure = listeCapteurs[j].GetListeMesure();
-			auto it = listeMesure.begin();
 			for (Mesure m : listeCapteurs[i].GetListeMesure())
 			{
 				if ((this->debut < m.GetDate()) && (m.GetDate() < this->fin))
 				{
-					++it;
-					similitudeMesure += 1 - (m.GetValeur() - *it->GetValeur() / m.GetValeur());
-					compteur++;
-					break;
-						
-					
+					for (Mesure n : listeCapteurs[j].GetListeMesure())
+					{
+						if (m < n && m.GetPolluant() == n.GetPolluant())
+						{
+							similitudeMesure += 1 - (m.GetValeur() - n.GetValeur() / m.GetValeur());
+							compteur++;
+							break;
+						}
+					}
 				}
-			nbmesure++;
 			}
 			matriceCapteurs[i][j] = similitudeMesure / compteur;
-			cout << matriceCapteurs[i][j] << endl;
+			cout << matriceCapteurs[i] << endl;
 		}
 	}
 
-	for (unsigned int i = 0; i < listeCapteurs.size(); i++) {
+	for (unsigned int i = 0; i < listeCapteurs.size(); i++)
 		delete[] matriceCapteurs[i];
-	}
 	delete[] matriceCapteurs;
 }
 

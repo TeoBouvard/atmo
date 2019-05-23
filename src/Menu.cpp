@@ -58,11 +58,11 @@ void Menu::Run(Controleur &controleur)
       }
       else if (strcmp(lecture.c_str(), "3") == 0)
       {
-        QualiteEnUnPoint();
+        QualiteEnUnPoint(controleur);
       }
       else if (strcmp(lecture.c_str(), "4") == 0)
       {
-        CapteurDefectueux();
+        CapteurDefectueux(controleur);
       }
       else
       {
@@ -129,37 +129,38 @@ void Menu::QualiteDeLAir(Controleur &controleur)
 
 void Menu::QualiteSimilaire(Controleur &controleur)
 {
-	string debut_str = "";
-	string fin_str = "";
-	date_t debut, fin;
-	cout << "Date de début au format YYYY-MM-DD : ";
-	debut = input(debut_str);
-	cout << "Date de fin au format YYYY-MM-DD : ";
-	fin = input(fin_str);
+  string debut_str = "";
+  string fin_str = "";
+  date_t debut, fin;
+  cout << "Date de début au format YYYY-MM-DD : ";
+  debut = input(debut_str);
+  cout << "Date de fin au format YYYY-MM-DD : ";
+  fin = input(fin_str);
 
-	controleur.CapteursSimilaires(debut, fin);
+  controleur.CapteursSimilaires(debut, fin);
 }
 
-void Menu::QualiteEnUnPoint()
+void Menu::QualiteEnUnPoint(Controleur &controleur)
 {
+  double latitude, longitude;
+  string debut_str = "";
+  string fin_str = "";
+  date_t debut, fin;
+
+  cout << "Latitude : ";
+  input(latitude);
+  cout << "Longitude : ";
+  input(longitude);
+  cout << "Date de début au format YYYY-MM-DD : ";
+  debut = input(debut_str);
+  cout << "Date de fin au format YYYY-MM-DD : ";
+  fin = input(fin_str);
+
+  controleur.ValeurIntervalle(latitude, longitude, 0, debut, fin);
 }
 
-void Menu::CapteurDefectueux()
+void Menu::CapteurDefectueux(Controleur &controleur)
 {
-}
-
-Menu::Menu()
-{
-#ifdef MAP
-  cout << "Appel au constructeur de <Menu>" << endl;
-#endif
-}
-
-Menu::~Menu()
-{
-#ifdef MAP
-  cout << "Appel au destructeur de <Menu>" << endl;
-#endif
 }
 
 int main(int argc, char *argv[])
