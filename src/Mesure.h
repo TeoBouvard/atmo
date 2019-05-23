@@ -41,8 +41,10 @@ class Mesure
 
 public:
     //----------------------------------------------------- Méthodes publiques
-
-    //------------------------------------------------- Surcharge d'opérateurs
+    string GetPolluant() {return polluant;}
+    double GetValeur() {return valeur;}
+    
+    //--------- Surcharge d'opérateurs
     Mesure &operator=(const Mesure &uneMesure);
     // Mode d'emploi :
     //
