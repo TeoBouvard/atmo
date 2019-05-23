@@ -14,14 +14,11 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <iterator> 
 using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "Analyse.h"
-#include "SensorFactory.h"
-#include "Sensor.h"
-#include "Geo.h"
-
 //------------------------------------------------------------- Constantes
 
 //----------------------------------------------------------------- PUBLIC
@@ -32,8 +29,10 @@ using namespace std;
 //
 //{
 //} //----- Fin de Méthode
+
 void Analyse::ValeurIntervalle(SensorFactory &sensorFactory)
 {
+	/*
     //récupérer les capteurs de la SensorFactory
     vector<Sensor> listeCapteurs = sensorFactory.GetSensors();
     int nbSensor = 0;
@@ -98,11 +97,12 @@ void Analyse::ValeurIntervalle(SensorFactory &sensorFactory)
 
         CalculValeurAtmo(moyO3, moyNO2, moySO2, moyPM10);
     }
-    
+    */
 }
 
 void Analyse::CalculValeurAtmo(double O3, double NO2, double SO2, double PM10)
 {
+/*
     int atmoO3, atmoNO2, atmoSO2, atmoPM10, atmoGene = 0;
     switch ((int)O3)
     {
@@ -243,7 +243,7 @@ void Analyse::CalculValeurAtmo(double O3, double NO2, double SO2, double PM10)
     atmoGene = max(max(atmoO3, atmoNO2),max(atmoSO2,atmoPM10));
 
     cout << "Indice atmo : " << atmoGene << endl;
-    
+    */
 }
 
 void Analyse::CapteursSimilaires(SensorFactory &sensorFactory)
@@ -252,38 +252,42 @@ void Analyse::CapteursSimilaires(SensorFactory &sensorFactory)
 	vector<Sensor> listeCapteurs = sensorFactory.GetSensors();
 
 	double **matriceCapteurs = new double*[listeCapteurs.size()];
-	for (int i = 0; i < listeCapteurs.size(); i++) {
+	for (unsigned int i = 0; i < listeCapteurs.size(); i++) {
 		matriceCapteurs[i] = new double[listeCapteurs.size()];
 	}
 
 	double similitudeMesure = 0;
 	int compteur = 0;
-	for (int i = 0; i < listeCapteurs.size(); i++)
+	int nbmesure = 0;
+	
+	
+	for (unsigned int i = 0; i < listeCapteurs.size(); i++)
 	{
-		for (int j = i + 1; j < listeCapteurs.size(); j++)
+		for (unsigned int j = i + 1; j < listeCapteurs.size(); j++)
 		{
+			set<Mesure> listeMesure = listeCapteurs[j].GetListeMesure();
+			auto it = listeMesure.begin();
 			for (Mesure m : listeCapteurs[i].GetListeMesure())
 			{
 				if ((this->debut < m.GetDate()) && (m.GetDate() < this->fin))
 				{
-					for (Mesure n : listeCapteurs[j].GetListeMesure())
-					{
-						if (m < n && m.GetPolluant() == n.GetPolluant())
-						{
-							similitudeMesure += 1 - (m.GetValeur() - n.GetValeur() / m.GetValeur());
-							compteur++;
-							break;
-						}
-					}
+					++it;
+					similitudeMesure += 1 - (m.GetValeur() - *it->GetValeur() / m.GetValeur());
+					compteur++;
+					break;
+						
+					
 				}
+			nbmesure++;
 			}
 			matriceCapteurs[i][j] = similitudeMesure / compteur;
-			cout << matriceCapteurs[i] << endl;
+			cout << matriceCapteurs[i][j] << endl;
 		}
 	}
 
-	for (int i = 0; i < listeCapteurs.size(); i++)
+	for (unsigned int i = 0; i < listeCapteurs.size(); i++) {
 		delete[] matriceCapteurs[i];
+	}
 	delete[] matriceCapteurs;
 }
 
