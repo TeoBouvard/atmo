@@ -35,6 +35,10 @@ public:
 
     void CalculValeurAtmo(double O3, double NO2, double SO2, double PM10);
 
+    bool comparerDebut(date_t date);
+
+    bool comparerFin(date_t date);
+
     //------------------------------------------------- Surcharge d'opérateurs
     Analyse &operator=(const Analyse &unAnalyse);
     // Mode d'emploi :

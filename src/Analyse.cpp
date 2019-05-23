@@ -55,26 +55,29 @@ void Analyse::ValeurIntervalle(SensorFactory &sensorFactory)
             nbSensor++;
             for (auto m : s.GetListeMesure())
             {
-                string type = m.GetPolluant();
-                if(type.compare("O3") == 0)
+                if(comparerDebut(m.GetDate()) && comparerFin(m.GetDate()))
                 {
-                    totO3 += m.GetValeur();
-                    nbO3++;
-                }
-                else if(type.compare("NO2") == 0)
-                {
-                    totNO2 += m.GetValeur();
-                    nbNO2++;
-                }
-                else if(type.compare("SO2") == 0)
-                {
-                    totSO2 += m.GetValeur();
-                    nbSO2++;
-                }
-                else if(type.compare("PM10") == 0)
-                {
-                    totPM10 += m.GetValeur();
-                    nbPM10++;
+                    string type = m.GetPolluant();
+                    if(type.compare("O3") == 0)
+                    {
+                        totO3 += m.GetValeur();
+                        nbO3++;
+                    }
+                    else if(type.compare("NO2") == 0)
+                    {
+                        totNO2 += m.GetValeur();
+                        nbNO2++;
+                    }
+                    else if(type.compare("SO2") == 0)
+                    {
+                        totSO2 += m.GetValeur();
+                        nbSO2++;
+                    }
+                    else if(type.compare("PM10") == 0)
+                    {
+                        totPM10 += m.GetValeur();
+                        nbPM10++;
+                    }
                 }
             }
         }
@@ -99,6 +102,40 @@ void Analyse::ValeurIntervalle(SensorFactory &sensorFactory)
         CalculValeurAtmo(moyO3, moyNO2, moySO2, moyPM10);
     }
     
+}
+
+bool Analyse::comparerDebut(date_t date)
+{
+    if (date.year != debut.year)
+    {
+        return (date.year >= debut.year);
+    }
+    else if (date.month != debut.month)
+    {
+        return (date.month >= debut.month);
+    }
+    else if (date.day != debut.day)
+    {
+        return (date.day >= debut.day);
+    }
+    return true;
+}
+
+bool Analyse::comparerFin(date_t date)
+{
+    if (date.year != fin.year)
+    {
+        return (date.year <= fin.year);
+    }
+    else if (date.month != fin.month)
+    {
+        return (date.month <= fin.month);
+    }
+    else if (date.day != fin.day)
+    {
+        return (date.day <= fin.day);
+    }
+    return true;
 }
 
 void Analyse::CalculValeurAtmo(double O3, double NO2, double SO2, double PM10)
@@ -252,15 +289,15 @@ void Analyse::CapteursSimilaires(SensorFactory &sensorFactory)
 	vector<Sensor> listeCapteurs = sensorFactory.GetSensors();
 
 	double **matriceCapteurs = new double*[listeCapteurs.size()];
-	for (int i = 0; i < listeCapteurs.size(); i++) {
+	for (unsigned int i = 0; i < listeCapteurs.size(); i++) {
 		matriceCapteurs[i] = new double[listeCapteurs.size()];
 	}
 
 	double similitudeMesure = 0;
 	int compteur = 0;
-	for (int i = 0; i < listeCapteurs.size(); i++)
+	for (unsigned int i = 0; i < listeCapteurs.size(); i++)
 	{
-		for (int j = i + 1; j < listeCapteurs.size(); j++)
+		for (unsigned int j = i + 1; j < listeCapteurs.size(); j++)
 		{
 			for (Mesure m : listeCapteurs[i].GetListeMesure())
 			{
@@ -282,7 +319,7 @@ void Analyse::CapteursSimilaires(SensorFactory &sensorFactory)
 		}
 	}
 
-	for (int i = 0; i < listeCapteurs.size(); i++)
+	for (unsigned int i = 0; i < listeCapteurs.size(); i++)
 		delete[] matriceCapteurs[i];
 	delete[] matriceCapteurs;
 }
