@@ -299,32 +299,36 @@ void Analyse::CapteursSimilaires(SensorFactory &sensorFactory)
 
 	double similitudeMesure = 0;
 	int compteur = 0;
+	int nbmesure = 0;
+
+
 	for (unsigned int i = 0; i < listeCapteurs.size(); i++)
 	{
 		for (unsigned int j = i + 1; j < listeCapteurs.size(); j++)
 		{
+			set<Mesure> listeMesure = listeCapteurs[j].GetListeMesure();
+			auto it = listeMesure.begin();
 			for (Mesure m : listeCapteurs[i].GetListeMesure())
 			{
 				if ((this->debut < m.GetDate()) && (m.GetDate() < this->fin))
 				{
-					for (Mesure n : listeCapteurs[j].GetListeMesure())
-					{
-						if (m < n && m.GetPolluant() == n.GetPolluant())
-						{
-							similitudeMesure += 1 - (m.GetValeur() - n.GetValeur() / m.GetValeur());
-							compteur++;
-							break;
-						}
-					}
+					++it;
+					similitudeMesure += 1 - (m.GetValeur() - *it->GetValeur() / m.GetValeur());
+					compteur++;
+					break;
+
+
 				}
+				nbmesure++;
 			}
 			matriceCapteurs[i][j] = similitudeMesure / compteur;
-			cout << matriceCapteurs[i] << endl;
+			cout << matriceCapteurs[i][j] << endl;
 		}
 	}
 
-	for (unsigned int i = 0; i < listeCapteurs.size(); i++)
+	for (unsigned int i = 0; i < listeCapteurs.size(); i++) {
 		delete[] matriceCapteurs[i];
+	}
 	delete[] matriceCapteurs;
 }
 
