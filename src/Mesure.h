@@ -45,7 +45,6 @@ public:
     double GetValeur() {return valeur;}
     
     //--------- Surcharge d'opérateurs
-    Mesure &operator=(const Mesure &uneMesure);
     // Mode d'emploi :
     //
     // Contrat :
@@ -55,7 +54,6 @@ public:
     friend bool operator<(const Mesure &m1, const Mesure &m2);
 
     //-------------------------------------------- Constructeurs - destructeur
-    Mesure(const Mesure &uneMesure);
     // Mode d'emploi (constructeur de copie) :
     //
     // Contrat :

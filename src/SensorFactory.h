@@ -58,6 +58,7 @@ public:
   // Contrat :
   //
 
+
   SensorFactory();
 
   virtual ~SensorFactory();

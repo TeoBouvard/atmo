@@ -35,7 +35,8 @@ void Controleur::LectureFichier(const string path)
 
     if (file)
     {
-        sensorFactory = SensorFactory(file);
+        SensorFactory&& sensorFactoryTemp = SensorFactory(file);
+		sensorFactory = std::move(sensorFactoryTemp);
     }
     else
     {
@@ -54,7 +55,8 @@ void Controleur::ValeurIntervalle(double latitude, double longitude, double rayo
 
 //-------------------------------------------- Constructeurs - destructeur
 Controleur::Controleur()
-{}
+{
+}
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées
