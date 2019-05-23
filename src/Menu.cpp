@@ -58,11 +58,11 @@ void Menu::Run(Controleur &controleur)
       }
       else if (strcmp(lecture.c_str(), "3") == 0)
       {
-        QualiteEnUnPoint();
+        QualiteEnUnPoint(controleur);
       }
       else if (strcmp(lecture.c_str(), "4") == 0)
       {
-        CapteurDefectueux();
+        CapteurDefectueux(controleur);
       }
       else
       {
@@ -140,7 +140,7 @@ void Menu::QualiteSimilaire(Controleur &controleur)
   controleur.CapteursSimilaires(debut, fin);
 }
 
-void Menu::QualiteEnUnPoint()
+void Menu::QualiteEnUnPoint(Controleur &controleur)
 {
   double latitude, longitude;
   string debut_str = "";
@@ -159,7 +159,7 @@ void Menu::QualiteEnUnPoint()
   controleur.ValeurIntervalle(latitude, longitude, 0, debut, fin);
 }
 
-void Menu::CapteurDefectueux()
+void Menu::CapteurDefectueux(Controleur &controleur)
 {
 }
 
