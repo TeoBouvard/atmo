@@ -37,9 +37,7 @@ Sensor &SensorFactory::GetSensorByID(int ID)
     if (s.GetID() == ID)
       return s;
   }
-#ifdef MAP
   cerr << "Mesure erronée : aucun capteur associé à l'ID" << ID << endl;
-#endif
   exit(FILE_ERROR);
 }
 
