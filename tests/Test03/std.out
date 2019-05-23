@@ -1,0 +1,23 @@
+Importation des capteurs ... 1 capteurs importés
+Importation des mesures ... 8 mesures importées
+
+Menu :
+ 1 : Connaître la qualité de l’air sur une zone donnée
+ 2 : Identifier les zones ayant une qualité de l’air similaire
+ 3 : Connaître la qualité de l'air en un point donné
+ 4 : Identifier les capteurs défectueux
+ 5 : Quitter
+
+Latitude :
+Longitude :
+Rayon :
+Date de début au format YYYY-MM-DD :
+Date de fin au format YYYY-MM-DD :
+
+
+Menu :
+ 1 : Connaître la qualité de l’air sur une zone donnée
+ 2 : Identifier les zones ayant une qualité de l’air similaire
+ 3 : Connaître la qualité de l'air en un point donné
+ 4 : Identifier les capteurs défectueux
+ 5 : Quitter

@@ -1,2 +1,5 @@
 Test ID;Return code validation;Out result;StdErr result;File creation result;Global result
-Test01;0;2;2;2;0
+Test01;1;0;2;2;0
+Test02;1;0;2;2;0
+Test03;1;0;2;2;0
+Test04;0;0;2;2;0
