@@ -40,6 +40,7 @@ Sensor & Sensor::operator = ( const Sensor & unSensor )
     latitude = unSensor.latitude;
     longitude = unSensor.longitude;
     description = unSensor.description;
+    listeMesure = unSensor.listeMesure;
     return *this;
 } //----- Fin de operator =
 
@@ -52,6 +53,7 @@ Sensor::Sensor ( const Sensor & unSensor )
     latitude = unSensor.latitude;
     longitude = unSensor.longitude;
     description = unSensor.description;
+    listeMesure = unSensor.listeMesure;
 #ifdef MAP
     cout << "Appel au constructeur de copie de <Sensor>" << endl;
 #endif
