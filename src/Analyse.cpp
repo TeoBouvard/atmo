@@ -15,7 +15,6 @@
 #include <vector>
 #include <string>
 #include <math.h>
-#include <iomanip> // A VIRER QUAND AFFICHAGE DANS MENU
 using namespace std;
 
 //------------------------------------------------------ Include personnel
@@ -23,6 +22,7 @@ using namespace std;
 #include "SensorFactory.h"
 #include "Sensor.h"
 #include "Geo.h"
+#include "Result.h"
 
 //------------------------------------------------------------- Constantes
 
@@ -30,11 +30,11 @@ using namespace std;
 
 //----------------------------------------------------- Méthodes publiques
 
-void Analyse::ValeurIntervalle(SensorFactory &sensorFactory)
+Result Analyse::ValeurIntervalle(SensorFactory &sensorFactory)
 {
     //récupérer les capteurs de la SensorFactory
     vector<Sensor> listeCapteurs = sensorFactory.GetSensors();
-    int nbSensor = 0;
+    vector<Sensor> capteursSurZone;
 
     double totO3 = 0;
     int nbO3 = 0;
@@ -50,7 +50,7 @@ void Analyse::ValeurIntervalle(SensorFactory &sensorFactory)
         //si le capteur et dans la zone choisie
         if (Geo::CalculDistance(s.GetLatitude(), s.GetLongitude(), this->latitude, this->longitude) < rayon)
         {
-            nbSensor++;
+            capteursSurZone.push_back(s);
             for (auto mesure : s.GetListeMesure())
             {
                 if (comparerDebut(mesure.GetDate()) && comparerFin(mesure.GetDate()))
@@ -80,10 +80,11 @@ void Analyse::ValeurIntervalle(SensorFactory &sensorFactory)
             }
         }
     }
-    if (nbSensor == 0)
+    if (capteursSurZone.size() == 0)
     {
-        cout << "Auncun capteur dans cette zone" << endl;
+        return Result(capteursSurZone, {0, 0, 0, 0}, {0, 0, 0, 0});
     }
+
     else
     {
         double moyO3 = (totO3 / nbO3);
@@ -91,13 +92,10 @@ void Analyse::ValeurIntervalle(SensorFactory &sensorFactory)
         double moySO2 = (totSO2 / nbSO2);
         double moyPM10 = (totPM10 / nbPM10);
 
-        cout << "Nombre de capteurs dans la zone : " << nbSensor << endl;
-        cout << "Moyenne 03 : " << moyO3 << "µg / m3" << endl;
-        cout << "Moyenne NO2 : " << moyNO2 << "µg / m3" << endl;
-        cout << "Moyenne SO2 : " << moySO2 << "µg / m3" << endl;
-        cout << "Moyenne PM10 : " << moyPM10 << "µg / m3" << endl;
+        vector<double> moyennes = {moyO3, moyNO2, moySO2, moyPM10};
+        vector<int> indicesAtmo = CalculIndicesAtmo(moyennes);
 
-        CalculValeurAtmo(moyO3, moyNO2, moySO2, moyPM10);
+        return Result(capteursSurZone, moyennes, indicesAtmo);
     }
 }
 
@@ -135,10 +133,10 @@ bool Analyse::comparerFin(date_t date)
     return true;
 }
 
-void Analyse::CalculValeurAtmo(double O3, double NO2, double SO2, double PM10)
+vector<int> Analyse::CalculIndicesAtmo(vector<double> moyennes)
 {
     int atmoO3, atmoNO2, atmoSO2, atmoPM10, atmoGlobal = 0;
-    switch ((int)O3)
+    switch ((int)moyennes.at(0))
     {
     case 0 ... 29:
         atmoO3 = 1;
@@ -172,7 +170,7 @@ void Analyse::CalculValeurAtmo(double O3, double NO2, double SO2, double PM10)
         break;
     }
 
-    switch ((int)NO2)
+    switch ((int)moyennes.at(1))
     {
     case 0 ... 29:
         atmoNO2 = 1;
@@ -206,7 +204,7 @@ void Analyse::CalculValeurAtmo(double O3, double NO2, double SO2, double PM10)
         break;
     }
 
-    switch ((int)SO2)
+    switch ((int)moyennes.at(2))
     {
     case 0 ... 39:
         atmoSO2 = 1;
@@ -240,7 +238,7 @@ void Analyse::CalculValeurAtmo(double O3, double NO2, double SO2, double PM10)
         break;
     }
 
-    switch ((int)PM10)
+    switch ((int)moyennes.at(3))
     {
     case 0 ... 6:
         atmoPM10 = 1;
@@ -276,11 +274,8 @@ void Analyse::CalculValeurAtmo(double O3, double NO2, double SO2, double PM10)
 
     atmoGlobal = max(max(atmoO3, atmoNO2), max(atmoSO2, atmoPM10));
 
-    cout << "Sous indice atmo O3 :" << atmoO3 << endl;
-    cout << "Sous indice atmo NO2 :" << atmoNO2 << endl;
-    cout << "Sous indice atmo SO2 :" << atmoSO2 << endl;
-    cout << "Sous indice atmo PM10 :" << atmoPM10 << endl;
-    cout << "Indice ATMO : " << atmoGlobal << endl;
+    vector<int> indicesAtmo = {atmoO3, atmoNO2, atmoSO2, atmoPM10, atmoGlobal};
+    return indicesAtmo;
 }
 
 void Analyse::CapteursSimilaires(SensorFactory &sensorFactory)
@@ -327,7 +322,7 @@ void Analyse::CapteursSimilaires(SensorFactory &sensorFactory)
     delete[] matriceCapteurs;
 }
 
-vector<vector<double>> Analyse::computeSimiarity(SensorFactory &sensorFactory, string polluant)
+Result Analyse::computeSimiarity(SensorFactory &sensorFactory, string polluant) //A MODIFIER POUR FAIRE TOUS LES POLLUANTS
 {
     vector<vector<double>> similarityMatrix;
     vector<double> distances;
@@ -362,9 +357,7 @@ vector<vector<double>> Analyse::computeSimiarity(SensorFactory &sensorFactory, s
                     }
                 }
             }
-
             distances.push_back(distanceEuclidienne(listeMesureA, listeMesureB));
-            //cout << s1.GetID() << " | " << s2.GetID() << " : " << distance << endl;
             listeMesureB.clear();
         }
         normalizeVector(distances);
@@ -374,14 +367,7 @@ vector<vector<double>> Analyse::computeSimiarity(SensorFactory &sensorFactory, s
         listeMesureA.clear();
     }
 
-    for (int i = 0; i < similarityMatrix.size(); i++)
-    {
-        for (int j = 0; j < similarityMatrix[i].size(); j++)
-            cout << setw(10) << similarityMatrix[i][j] << " ";
-        cout << endl;
-    }
-
-    return similarityMatrix;
+    return Result(listeCapteurs, similarityMatrix);
 }
 
 double Analyse::distanceEuclidienne(vector<double> A, vector<double> B)

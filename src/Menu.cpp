@@ -22,6 +22,7 @@ using namespace std;
 #include "SensorFactory.h"
 #include "Mesure.h"
 #include "Controleur.h"
+#include "Result.h"
 
 ///////////////////////////////////////////////////////////////////  PRIVE
 //------------------------------------------------------------- Constantes
@@ -93,17 +94,27 @@ void Menu::input(double &value)
   }
 }
 
-date_t Menu::input(string value)
+date_t Menu::input(string value, date_t borneInf)
 {
-  regex dateFormat("\\d\\d\\d\\d-\\d\\d-\\d\\d");
-  while (!(cin >> value) || !regex_match(value, dateFormat))
+  regex dateFormat("\\d\\d\\d\\d-(0[1-9]|1[012])-((0|1)[0-9]|2[0-3])");
+
+  while (!(cin >> value) || !regex_match(value, dateFormat) || SensorFactory::make_date(value + "T00:00:00.00") < borneInf)
   {
-    cerr << "Saisie erronnée, merci de saisir une date au format YYYY-MM-DD : ";
+    if (!regex_match(value, dateFormat))
+    {
+      cerr << "Saisie erronnée, merci de saisir une date au format YYYY-MM-DD : ";
+    }
+    else
+    {
+      cerr << "Sasir une date de fin postérieure à l'heure de début : ";
+    }
+
     cin.clear();
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
   }
-  string convertedDate = value + "T00:00:00.00";
-  return SensorFactory::make_date(convertedDate);
+
+  date_t date = SensorFactory::make_date(value + "T00:00:00.00");
+  return date;
 }
 
 void Menu::QualiteDeLAir(Controleur &controleur)
@@ -122,9 +133,10 @@ void Menu::QualiteDeLAir(Controleur &controleur)
   cout << "Date de début au format YYYY-MM-DD : ";
   debut = input(debut_str);
   cout << "Date de fin au format YYYY-MM-DD : ";
-  fin = input(fin_str);
+  fin = input(fin_str, debut);
 
-  controleur.ValeurIntervalle(latitude, longitude, rayon, debut, fin);
+  Result result = controleur.ValeurIntervalle(latitude, longitude, rayon, debut, fin);
+  cout << result << endl;
 }
 
 void Menu::QualiteSimilaire(Controleur &controleur)
@@ -135,9 +147,10 @@ void Menu::QualiteSimilaire(Controleur &controleur)
   cout << "Date de début au format YYYY-MM-DD : ";
   debut = input(debut_str);
   cout << "Date de fin au format YYYY-MM-DD : ";
-  fin = input(fin_str);
+  fin = input(fin_str, debut);
 
-  controleur.CapteursSimilaires(debut, fin);
+  Result result = controleur.CapteursSimilaires(debut, fin);
+  cout << result << endl;
 }
 
 void Menu::QualiteEnUnPoint(Controleur &controleur)
@@ -154,9 +167,10 @@ void Menu::QualiteEnUnPoint(Controleur &controleur)
   cout << "Date de début au format YYYY-MM-DD : ";
   debut = input(debut_str);
   cout << "Date de fin au format YYYY-MM-DD : ";
-  fin = input(fin_str);
+  fin = input(fin_str, debut);
 
-  controleur.ValeurIntervalle(latitude, longitude, 0, debut, fin);
+  Result result = controleur.ValeurIntervalle(latitude, longitude, 0, debut, fin);
+  cout << result << endl;
 }
 
 void Menu::CapteurDefectueux(Controleur &controleur)

@@ -1,73 +1,58 @@
 /*************************************************************************
-                           Analyse  -  description
+                           Result  -  description
                              -------------------
     début                : $DATE$
     copyright            : (C) $YEAR$ par $AUTHOR$
     e-mail               : $EMAIL$
 *************************************************************************/
 
-//---------- Interface de la classe <Analyse> (fichier Analyse.h) ----------------
-#if !defined(ANALYSE_H)
-#define ANALYSE_H
+//---------- Interface de la classe <Result> (fichier Result.h) ----------------
+#if !defined(RESULT_H)
+#define RESULT_H
 
 //--------------------------------------------------- Interfaces utilisées
 #include <vector>
-
-#include "Mesure.h"
-#include "SensorFactory.h"
+#include <string>
 #include "Sensor.h"
-#include "Geo.h"
-#include "Result.h"
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
-
+typedef vector<vector<double>> matrice_t;
 //------------------------------------------------------------------------
-// Rôle de la classe <Analyse>
+// Rôle de la classe <Result>
 //
 //
 //------------------------------------------------------------------------
 
-class Analyse
+class Result
 {
     //----------------------------------------------------------------- PUBLIC
 
 public:
     //----------------------------------------------------- Méthodes publiques
-    Result ValeurIntervalle(SensorFactory &sensorFactory);
-
-    void CapteursSimilaires(SensorFactory &sensorFactory);
-
-    Result computeSimiarity(SensorFactory &sensorFactory, string polluant);
-
-    vector<int> CalculIndicesAtmo(vector<double> moyennes);
-    bool comparerDebut(date_t date);
-    bool comparerFin(date_t date);
-    double distanceEuclidienne(vector<double> A, vector<double> B);
-    vector<double> &normalizeVector(vector<double> &vec);
 
     //------------------------------------------------- Surcharge d'opérateurs
 
+    friend ostream &operator<<(ostream &os, const Result &r);
+
     //-------------------------------------------- Constructeurs - destructeur
 
-    Analyse(double latitude, double longitude, double rayon, date_t debut, date_t fin);
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
+    Result(vector<Sensor> capteursSurZone, vector<double> moyennes, vector<int> indicesAtmo);
+    Result(vector<Sensor> capteursSurZone, matrice_t similarityMatrix);
+
     //------------------------------------------------------------------ PRIVE
 
 protected:
     //----------------------------------------------------- Méthodes protégées
 
     //----------------------------------------------------- Attributs protégés
-    double latitude;
-    double longitude;
-    double rayon;
-    date_t debut;
-    date_t fin;
+    string type; // sans doute mieux avec de l'héritage
+    matrice_t similarityMatrix;
+    vector<int> indices;
+    vector<Sensor> capteurs;
+    vector<double> concentrationsMoyennes;
 };
 
-//-------------------------------- Autres définitions dépendantes de <Analyse>
+//-------------------------------- Autres définitions dépendantes de <Result>
 
-#endif // ANALYSE_H
+#endif // RESULT_H

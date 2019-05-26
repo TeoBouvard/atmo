@@ -13,6 +13,7 @@
 //--------------------------------------------------- Interfaces utilisées
 #include "SensorFactory.h"
 #include "Mesure.h"
+#include "Result.h"
 
 //------------------------------------------------------------- Constantes
 
@@ -30,15 +31,11 @@ class Controleur
 
 public:
     //----------------------------------------------------- Méthodes publiques
-    // type Méthode ( liste des paramètres );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
 
     void LectureFichier(const string path);
-    void ValeurIntervalle(double latitude, double longitude, double rayon, date_t debut, date_t fin);
-    void CapteursSimilaires(date_t debut, date_t fin);
+
+    Result ValeurIntervalle(double latitude, double longitude, double rayon, date_t debut, date_t fin);
+    Result CapteursSimilaires(date_t debut, date_t fin);
 
     //------------------------------------------------- Surcharge d'opérateurs
 

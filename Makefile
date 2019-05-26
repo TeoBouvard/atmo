@@ -7,7 +7,7 @@ EXE = $(BIN)/atmo
 INT = $(wildcard src/*.h)
 REAL = $(INT:.h=.cpp)
 ECHO = @echo
-.PHONY: clean tests
+.PHONY: clean tests help
 
 help:
 	$(ECHO) "- help    : Display this message"
@@ -20,11 +20,13 @@ debug:
 	@ mkdir -p bin
 	$(ECHO) "Building debug version of <Atmo> ..."
 	@ $(CPP) $(CPPFLAGS) -std=c++11 -o $(EXE) $(REAL)
+	$(ECHO) "Done."
 
 release:
 	@ mkdir -p bin
 	$(ECHO) "Building release version of <Atmo> ..."
 	@ $(CPP) $(OPTIMIZATION) -std=c++11 -o $(EXE) $(REAL)
+	$(ECHO) "Done."
 
 run:
 	$(ECHO) "Running <Atmo>"
