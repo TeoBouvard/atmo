@@ -41,10 +41,10 @@ class Mesure
 
 public:
     //----------------------------------------------------- Méthodes publiques
-    string GetPolluant() {return polluant;}
-    double GetValeur() {return valeur;}
-	date_t GetDate() { return date; }
-    
+    string GetPolluant() const { return polluant; }
+    double GetValeur() const { return valeur; }
+    date_t GetDate() const { return date; }
+
     //--------- Surcharge d'opérateurs
     // Mode d'emploi :
     //
@@ -65,7 +65,6 @@ public:
     //
     // Contrat :
     //
-
 
     //------------------------------------------------------------------ PRIVE
 

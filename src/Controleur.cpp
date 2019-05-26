@@ -35,8 +35,8 @@ void Controleur::LectureFichier(const string path)
 
     if (file)
     {
-        SensorFactory&& sensorFactoryTemp = SensorFactory(file);
-		sensorFactory = std::move(sensorFactoryTemp);
+        SensorFactory &&sensorFactoryTemp = SensorFactory(file);
+        sensorFactory = std::move(sensorFactoryTemp);
     }
     else
     {
@@ -51,18 +51,14 @@ void Controleur::ValeurIntervalle(double latitude, double longitude, double rayo
     analyse.ValeurIntervalle(sensorFactory);
 }
 
-
 void Controleur::CapteursSimilaires(date_t debut, date_t fin)
 {
-	Analyse analyse(0, 0, 0 ,debut, fin);
-	analyse.CapteursSimilaires(sensorFactory);
+    Analyse analyse(0, 0, 0, debut, fin);
+    analyse.computeSimiarity(sensorFactory, "O3");
 }
 //------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------- Constructeurs - destructeur
-Controleur::Controleur()
-{
-}
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées

@@ -27,7 +27,6 @@ static const char DELIMITER = ';';
 static const char DATE_DELIM = '-';
 static const char TIME_DELIM = ':';
 //----------------------------------------------------------------- PUBLIC
-#define MAP
 //----------------------------------------------------- Méthodes publiques
 
 Sensor &SensorFactory::GetSensorByID(int ID)
@@ -190,11 +189,9 @@ SensorFactory::SensorFactory(ifstream &dataFile)
 SensorFactory::SensorFactory()
 {
 #ifdef MAP
-	cout << "Appel au constructeur par défaut de <SensorFactory>" << endl;
+  cout << "Appel au constructeur par défaut de <SensorFactory>" << endl;
 #endif
 }
-
-
 
 //------------------------------------------------------------------ PRIVE
 
