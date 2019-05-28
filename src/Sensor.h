@@ -36,10 +36,10 @@ public:
     //
     // Contrat :
     //
-    int GetID() { return sensorID; }
-    int GetLatitude() { return latitude; }
-    int GetLongitude() { return longitude; }
-    set<Mesure>& GetListeMesure() { return listeMesure; }
+    int GetID() const { return sensorID; }
+    int GetLatitude() const { return latitude; }
+    int GetLongitude() const { return longitude; }
+    set<Mesure> &GetListeMesure() { return listeMesure; }
     void AjouterMesure(Mesure &mesure);
 
     //------------------------------------------------- Surcharge d'opérateurs
@@ -65,7 +65,6 @@ public:
     //
     // Contrat :
     //
-
 
     //------------------------------------------------------------------ PRIVE
 

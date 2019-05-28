@@ -82,7 +82,7 @@ Result Analyse::ValeurIntervalle(SensorFactory &sensorFactory)
     }
     if (capteursSurZone.size() == 0)
     {
-        return Result(capteursSurZone, {0, 0, 0, 0}, {0, 0, 0, 0});
+        return Result();
     }
 
     else
@@ -95,7 +95,9 @@ Result Analyse::ValeurIntervalle(SensorFactory &sensorFactory)
         vector<double> moyennes = {moyO3, moyNO2, moySO2, moyPM10};
         vector<int> indicesAtmo = CalculIndicesAtmo(moyennes);
 
-        return Result(capteursSurZone, moyennes, indicesAtmo);
+        int nbMesures = nbNO2 + nbO3 + nbPM10 + nbPM10;
+
+        return Result(capteursSurZone, moyennes, indicesAtmo, nbMesures);
     }
 }
 
@@ -278,7 +280,7 @@ vector<int> Analyse::CalculIndicesAtmo(vector<double> moyennes)
     return indicesAtmo;
 }
 
-void Analyse::CapteursSimilaires(SensorFactory &sensorFactory)
+/*void Analyse::CapteursSimilaires(SensorFactory &sensorFactory)
 {
     vector<string> polluants;
     vector<Sensor> listeCapteurs = sensorFactory.GetSensors();
@@ -320,7 +322,7 @@ void Analyse::CapteursSimilaires(SensorFactory &sensorFactory)
         delete[] matriceCapteurs[i];
     }
     delete[] matriceCapteurs;
-}
+}*/
 
 Result Analyse::computeSimiarity(SensorFactory &sensorFactory, string polluant) //A MODIFIER POUR FAIRE TOUS LES POLLUANTS
 {

@@ -37,8 +37,9 @@ public:
 
     //-------------------------------------------- Constructeurs - destructeur
 
-    Result(vector<Sensor> capteursSurZone, vector<double> moyennes, vector<int> indicesAtmo);
+    Result(vector<Sensor> capteursSurZone, vector<double> moyennes, vector<int> indicesAtmo, int nbMesures);
     Result(vector<Sensor> capteursSurZone, matrice_t similarityMatrix);
+    inline Result(){};
 
     //------------------------------------------------------------------ PRIVE
 
@@ -48,6 +49,7 @@ protected:
     //----------------------------------------------------- Attributs protégés
     string type; // sans doute mieux avec de l'héritage
     matrice_t similarityMatrix;
+    int nbMesures;
     vector<int> indices;
     vector<Sensor> capteurs;
     vector<double> concentrationsMoyennes;

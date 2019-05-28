@@ -47,18 +47,18 @@ void Controleur::LectureFichier(const string path)
 
 Result Controleur::ValeurIntervalle(double latitude, double longitude, double rayon, date_t debut, date_t fin)
 {
-    cout << endl
-         << "Analyse en cours ... " << endl;
     Analyse analyse(latitude, longitude, rayon, debut, fin);
     return (analyse.ValeurIntervalle(sensorFactory));
 }
 
 Result Controleur::CapteursSimilaires(date_t debut, date_t fin)
 {
-    cout << endl
-         << "Analyse en cours ... " << endl;
     Analyse analyse(0, 0, 0, debut, fin);
     return (analyse.computeSimiarity(sensorFactory, "O3"));
+}
+
+void Controleur::CapteursDefectueux(date_t debut, date_t fin)
+{
 }
 //------------------------------------------------- Surcharge d'opérateurs
 

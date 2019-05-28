@@ -36,6 +36,7 @@ public:
 
     Result ValeurIntervalle(double latitude, double longitude, double rayon, date_t debut, date_t fin);
     Result CapteursSimilaires(date_t debut, date_t fin);
+    void CapteursDefectueux(date_t debut, date_t fin); //A FAIRE
 
     //------------------------------------------------- Surcharge d'opérateurs
 

@@ -36,7 +36,7 @@ public:
     //----------------------------------------------------- Méthodes publiques
     Result ValeurIntervalle(SensorFactory &sensorFactory);
 
-    void CapteursSimilaires(SensorFactory &sensorFactory);
+    //void CapteursSimilaires(SensorFactory &sensorFactory);
 
     Result computeSimiarity(SensorFactory &sensorFactory, string polluant);
 

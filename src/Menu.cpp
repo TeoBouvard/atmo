@@ -135,8 +135,13 @@ void Menu::QualiteDeLAir(Controleur &controleur)
   cout << "Date de fin au format YYYY-MM-DD : ";
   fin = input(fin_str, debut);
 
+  cout << endl
+       << "Analyse en cours ... " << endl;
+
   Result result = controleur.ValeurIntervalle(latitude, longitude, rayon, debut, fin);
   cout << result << endl;
+
+  cout << "Analyse terminée." << endl;
 }
 
 void Menu::QualiteSimilaire(Controleur &controleur)
@@ -149,8 +154,13 @@ void Menu::QualiteSimilaire(Controleur &controleur)
   cout << "Date de fin au format YYYY-MM-DD : ";
   fin = input(fin_str, debut);
 
+  cout << endl
+       << "Analyse en cours ... " << endl;
+
   Result result = controleur.CapteursSimilaires(debut, fin);
   cout << result << endl;
+
+  cout << "Analyse terminée." << endl;
 }
 
 void Menu::QualiteEnUnPoint(Controleur &controleur)
@@ -169,12 +179,25 @@ void Menu::QualiteEnUnPoint(Controleur &controleur)
   cout << "Date de fin au format YYYY-MM-DD : ";
   fin = input(fin_str, debut);
 
+  cout << endl
+       << "Analyse en cours ... " << endl;
+
   Result result = controleur.ValeurIntervalle(latitude, longitude, 0, debut, fin);
   cout << result << endl;
+
+  cout << "Analyse terminée." << endl;
 }
 
 void Menu::CapteurDefectueux(Controleur &controleur)
 {
+
+  cout << endl
+       << "Analyse en cours ... " << endl;
+
+  //Result result = controleur.
+  //cout << result << endl;
+
+  cout << "Analyse terminée." << endl;
 }
 
 int main(int argc, char *argv[])

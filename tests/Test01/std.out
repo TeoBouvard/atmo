@@ -8,8 +8,25 @@ Menu :
  4 : Identifier les capteurs défectueux
  5 : Quitter
 
-Latitude :
-Longitude :
-Rayon :
-Date de début au format YYYY-MM-DD :
-Date de fin au format YYYY-MM-DD :
+
+Latitude : Longitude : Rayon : Date de début au format YYYY-MM-DD : Date de fin au format YYYY-MM-DD : 
+Analyse en cours ... 
+
+[1m[37mNombre de capteurs dans la zone : 1
+
+[1m[36mMoyenne 03 : 68.5 µg/m3 | Sous indice 03 : 3
+Moyenne NO2 : 99 µg/m3 | Sous indice NO2 : 4
+Moyenne SO2 : 119 µg/m3 | Sous indice SO2 : 3
+Moyenne PM10 : 17 µg/m3 | Sous indice PM10 : 3
+
+[1m[31mIndice ATMO : 4[0m
+
+Analyse terminée.
+
+Menu :
+ 1 : Connaître la qualité de l’air sur une zone donnée
+ 2 : Identifier les zones ayant une qualité de l’air similaire
+ 3 : Connaître la qualité de l'air en un point donné
+ 4 : Identifier les capteurs défectueux
+ 5 : Quitter
+
