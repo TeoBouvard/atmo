@@ -38,7 +38,7 @@ using namespace std;
 
 void Menu::Run(Controleur &controleur)
 {
-  string lecture("");
+  string lecture;
   currentMenu = SelectionMenu::M_MENU;
 
   bool modif = false;
@@ -74,7 +74,7 @@ void Menu::Run(Controleur &controleur)
       }
     }
 
-    lecture.empty();
+    lecture.clear();
 
     if (!modif)
     {
@@ -96,16 +96,18 @@ void Menu::inputDouble(double &value)
 
 void Menu::inputPolluant(string &polluant)
 {
-  regex polluantFormat("O3|NO2|SO2|PM10");
+  regex polluantFormat("^O3$|^NO2$|^SO2$|^PM10$");
 
   while (!(cin >> polluant) || !regex_match(polluant, polluantFormat))
   {
-    cout << "saisie : " << polluant << endl;
-    cerr << "Saisie erronnée, merci de saisir un polluant : ";
-    cin.clear();
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-  }
+    if(!regex_match(polluant, polluantFormat)){
+      cerr << "Saisie erronnée, merci de saisir un polluant : ";
+      cin.clear();
+      cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+    }    
+  }    
 }
+
 
 date_t Menu::inputDate(string value, date_t borneInf)
 {

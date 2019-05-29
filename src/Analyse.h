@@ -44,7 +44,7 @@ public:
     bool comparerDebut(date_t date);
     bool comparerFin(date_t date);
     double distanceEuclidienne(vector<double> A, vector<double> B);
-    vector<double> &normalizeVector(vector<double> &vec);
+    matrice_t &normalizeMatrix(matrice_t &mat);
 
     //------------------------------------------------- Surcharge d'opérateurs
 

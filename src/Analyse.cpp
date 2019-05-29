@@ -343,7 +343,6 @@ Result Analyse::computeSimiarity(SensorFactory &sensorFactory, string polluant)
             {
                 if (mesure.GetPolluant() == polluant)
                 {
-                    nbMesures++;
                     listeMesureA.push_back(mesure.GetValeur());
                 }
             }
@@ -357,6 +356,7 @@ Result Analyse::computeSimiarity(SensorFactory &sensorFactory, string polluant)
                 {
                     if (mesure.GetPolluant() == polluant)
                     {
+                        nbMesures++;
                         listeMesureB.push_back(mesure.GetValeur());
                     }
                 }
@@ -364,13 +364,13 @@ Result Analyse::computeSimiarity(SensorFactory &sensorFactory, string polluant)
             distances.push_back(distanceEuclidienne(listeMesureA, listeMesureB));
             listeMesureB.clear();
         }
-        normalizeVector(distances);
         similarityMatrix.push_back(distances);
 
         distances.clear();
         listeMesureA.clear();
     }
 
+    normalizeMatrix(similarityMatrix);
     return Result(listeCapteurs, similarityMatrix, nbMesures);
 }
 
@@ -381,18 +381,29 @@ double Analyse::distanceEuclidienne(vector<double> A, vector<double> B)
     int nbElements = min(A.size(), B.size());
     for (int i = 0; i < nbElements; i++)
     {
-        dist += pow(A.at(i) - B.at(i), 2);
+        dist += (A[i]-B[i]) * (A[i]-B[i]);
     }
-
     return sqrt(dist);
 }
 
-vector<double> &Analyse::normalizeVector(vector<double> &vec)
+matrice_t &Analyse::normalizeMatrix(matrice_t &mat)
 {
-    double max = *max_element(vec.begin(), vec.end());
-    double norm = 1.0 / max;
-    transform(vec.begin(), vec.end(), vec.begin(), [norm](double d) { return 100.0 - 100.0 * (d * norm); });
-    return vec;
+    double maxElement = 0;
+    for(vector<double> line : mat){
+        double maxLine = *max_element(line.begin(), line.end());
+        if (maxLine > maxElement){
+            maxElement = maxLine;
+        }    
+    }
+    
+    double norm = 1.0 / maxElement;
+
+    for(int i = 0; i < mat.size(); i++)
+    {
+        transform(mat[i].begin(), mat[i].end(), mat[i].begin(), [norm](double d) { return 100.0 * (1-(d * norm)); });
+    }
+
+    return mat;
 }
 
 //------------------------------------------------- Surcharge d'opérateurs
