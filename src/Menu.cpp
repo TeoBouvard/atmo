@@ -74,7 +74,7 @@ void Menu::Run(Controleur &controleur)
       }
     }
 
-    lecture = "";
+    lecture.empty();
 
     if (!modif)
     {
@@ -84,7 +84,7 @@ void Menu::Run(Controleur &controleur)
   }
 }
 
-void Menu::input(double &value)
+void Menu::inputDouble(double &value)
 {
   while (!(cin >> value))
   {
@@ -94,7 +94,20 @@ void Menu::input(double &value)
   }
 }
 
-date_t Menu::input(string value, date_t borneInf)
+void Menu::inputPolluant(string &polluant)
+{
+  regex polluantFormat("O3|NO2|SO2|PM10");
+
+  while (!(cin >> polluant) || !regex_match(polluant, polluantFormat))
+  {
+    cout << "saisie : " << polluant << endl;
+    cerr << "Saisie erronnée, merci de saisir un polluant : ";
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+  }
+}
+
+date_t Menu::inputDate(string value, date_t borneInf)
 {
   regex dateFormat("\\d\\d\\d\\d-(0[1-9]|1[012])-((0|1)[0-9]|2[0-3])");
 
@@ -125,15 +138,15 @@ void Menu::QualiteDeLAir(Controleur &controleur)
   date_t debut, fin;
 
   cout << "Latitude : ";
-  input(latitude);
+  inputDouble(latitude);
   cout << "Longitude : ";
-  input(longitude);
+  inputDouble(longitude);
   cout << "Rayon : ";
-  input(rayon);
+  inputDouble(rayon);
   cout << "Date de début au format YYYY-MM-DD : ";
-  debut = input(debut_str);
+  debut = inputDate(debut_str);
   cout << "Date de fin au format YYYY-MM-DD : ";
-  fin = input(fin_str, debut);
+  fin = inputDate(fin_str, debut);
 
   cout << endl
        << "Analyse en cours ... " << endl;
@@ -148,16 +161,20 @@ void Menu::QualiteSimilaire(Controleur &controleur)
 {
   string debut_str = "";
   string fin_str = "";
+  string polluant = "";
   date_t debut, fin;
+
+  cout << "Polluant (O3 | NO2 | SO2 | PM10) : ";
+  inputPolluant(polluant); //MARCHE PAS ENCORE
   cout << "Date de début au format YYYY-MM-DD : ";
-  debut = input(debut_str);
+  debut = inputDate(debut_str);
   cout << "Date de fin au format YYYY-MM-DD : ";
-  fin = input(fin_str, debut);
+  fin = inputDate(fin_str, debut);
 
   cout << endl
        << "Analyse en cours ... " << endl;
 
-  Result result = controleur.CapteursSimilaires(debut, fin);
+  Result result = controleur.CapteursSimilaires(debut, fin, polluant);
   cout << result << endl;
 
   cout << "Analyse terminée." << endl;
@@ -171,13 +188,13 @@ void Menu::QualiteEnUnPoint(Controleur &controleur)
   date_t debut, fin;
 
   cout << "Latitude : ";
-  input(latitude);
+  inputDouble(latitude);
   cout << "Longitude : ";
-  input(longitude);
+  inputDouble(longitude);
   cout << "Date de début au format YYYY-MM-DD : ";
-  debut = input(debut_str);
+  debut = inputDate(debut_str);
   cout << "Date de fin au format YYYY-MM-DD : ";
-  fin = input(fin_str, debut);
+  fin = inputDate(fin_str, debut);
 
   cout << endl
        << "Analyse en cours ... " << endl;

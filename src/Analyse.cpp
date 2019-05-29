@@ -324,7 +324,7 @@ vector<int> Analyse::CalculIndicesAtmo(vector<double> moyennes)
     delete[] matriceCapteurs;
 }*/
 
-Result Analyse::computeSimiarity(SensorFactory &sensorFactory, string polluant) //A MODIFIER POUR FAIRE TOUS LES POLLUANTS
+Result Analyse::computeSimiarity(SensorFactory &sensorFactory, string polluant)
 {
     vector<vector<double>> similarityMatrix;
     vector<double> distances;
@@ -333,6 +333,7 @@ Result Analyse::computeSimiarity(SensorFactory &sensorFactory, string polluant) 
     vector<Sensor> listeCapteurs = sensorFactory.GetSensors();
     vector<double> listeMesureA;
     vector<double> listeMesureB;
+    int nbMesures = 0;
 
     for (Sensor s1 : listeCapteurs)
     {
@@ -342,6 +343,7 @@ Result Analyse::computeSimiarity(SensorFactory &sensorFactory, string polluant) 
             {
                 if (mesure.GetPolluant() == polluant)
                 {
+                    nbMesures++;
                     listeMesureA.push_back(mesure.GetValeur());
                 }
             }
@@ -369,7 +371,7 @@ Result Analyse::computeSimiarity(SensorFactory &sensorFactory, string polluant) 
         listeMesureA.clear();
     }
 
-    return Result(listeCapteurs, similarityMatrix);
+    return Result(listeCapteurs, similarityMatrix, nbMesures);
 }
 
 double Analyse::distanceEuclidienne(vector<double> A, vector<double> B)
@@ -389,7 +391,7 @@ vector<double> &Analyse::normalizeVector(vector<double> &vec)
 {
     double max = *max_element(vec.begin(), vec.end());
     double norm = 1.0 / max;
-    transform(vec.begin(), vec.end(), vec.begin(), [norm](double d) { return 1 - (d * norm); });
+    transform(vec.begin(), vec.end(), vec.begin(), [norm](double d) { return 100.0 - 100.0 * (d * norm); });
     return vec;
 }
 

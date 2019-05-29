@@ -38,7 +38,7 @@ public:
     //-------------------------------------------- Constructeurs - destructeur
 
     Result(vector<Sensor> capteursSurZone, vector<double> moyennes, vector<int> indicesAtmo, int nbMesures);
-    Result(vector<Sensor> capteursSurZone, matrice_t similarityMatrix);
+    Result(vector<Sensor> capteursSurZone, matrice_t similarityMatrix, int nbMesures);
     inline Result(){};
 
     //------------------------------------------------------------------ PRIVE

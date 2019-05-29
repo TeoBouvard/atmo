@@ -38,8 +38,9 @@ public:
     void QualiteEnUnPoint(Controleur &controleur);
     void CapteurDefectueux(Controleur &controleur);
 
-    void input(double &value);
-    date_t input(string value, date_t borneInf = SensorFactory::make_date("0000-00-00T00:00:00.00"));
+    void inputDouble(double &value);
+    void inputPolluant(string &polluant);
+    date_t inputDate(string value, date_t borneInf = SensorFactory::make_date("0000-00-00T00:00:00.00"));
 
     //------------------------------------------------- Surcharge d'opérateurs
 

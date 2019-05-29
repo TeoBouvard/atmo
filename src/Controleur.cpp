@@ -16,6 +16,7 @@
 using namespace std;
 
 //------------------------------------------------------ Include personnel
+#include <string>
 #include "Controleur.h"
 #include "SensorFactory.h"
 #include "Mesure.h"
@@ -51,10 +52,10 @@ Result Controleur::ValeurIntervalle(double latitude, double longitude, double ra
     return (analyse.ValeurIntervalle(sensorFactory));
 }
 
-Result Controleur::CapteursSimilaires(date_t debut, date_t fin)
+Result Controleur::CapteursSimilaires(date_t debut, date_t fin, string polluant)
 {
     Analyse analyse(0, 0, 0, debut, fin);
-    return (analyse.computeSimiarity(sensorFactory, "O3"));
+    return (analyse.computeSimiarity(sensorFactory, polluant));
 }
 
 void Controleur::CapteursDefectueux(date_t debut, date_t fin)

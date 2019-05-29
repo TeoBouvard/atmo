@@ -92,27 +92,39 @@ ostream &operator<<(ostream &os, const Result &r)
                  << "Aucune mesure sur cet intervalle de temps" << RESET << endl;
         }
         else
-        { 
+        {
+            cout << endl
+                 << BOLDWHITE << "Nombre de capteurs comparés : " << r.capteurs.size() << endl
+                 << "Nombre de mesures sur cette période de temps : " << r.nbMesures << RESET << endl
+                 << endl;
+
             cout << setw(12) << "|";
-            for(Sensor s : r.capteurs){
+            for (Sensor s : r.capteurs)
+            {
                 cout << setw(4) << s.GetID() << setw(3) << "|";
             }
             cout << endl;
+
             for (int i = 0; i < r.similarityMatrix.size(); i++)
             {
                 cout << "Sensor n°" << r.capteurs[i].GetID() << " | ";
-                for (int j = 0; j < r.similarityMatrix[i].size() && j<=i; j++)
+                for (int j = 0; j < r.similarityMatrix[i].size(); j++)
                 {
-                    double similarite = r.similarityMatrix[i][j];
+                    int similarite = (int)r.similarityMatrix[i][j];
                     cout << setw(9) << fixed << setprecision(2);
-                    if(similarite < 0.33){
+                    if (similarite < 33)
+                    {
                         cout << BOLDRED;
-                    } else if (similarite < 0.66){
+                    }
+                    else if (similarite < 66)
+                    {
                         cout << BOLDYELLOW;
-                    } else if (similarite <= 1){
+                    }
+                    else if (similarite <= 100)
+                    {
                         cout << BOLDGREEN;
                     }
-                    cout << similarite << RESET << " | ";
+                    cout << setw(3) << similarite << "%" << RESET << " | ";
                 }
                 cout << endl
                      << endl;
@@ -137,11 +149,12 @@ Result::Result(vector<Sensor> capteursSurZone, vector<double> moyennes, vector<i
 #endif
 } //----- Fin de Result
 
-Result::Result(vector<Sensor> capteursSurZone, matrice_t similarityMatrix)
+Result::Result(vector<Sensor> capteursSurZone, matrice_t similarityMatrix, int nbMesures)
 {
     this->type = "similarite";
     this->capteurs = capteursSurZone;
     this->similarityMatrix = similarityMatrix;
+    this->nbMesures = nbMesures;
 
 #ifdef MAP
     cout << "Appel au constructeur de <Result>" << endl;

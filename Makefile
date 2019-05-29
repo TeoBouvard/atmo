@@ -16,13 +16,13 @@ help:
 	$(ECHO) "- run	   : Run program"
 	$(ECHO) "- clean   : Delete binary files"
 
-debug:
+debug: $(INT) $(REAL)
 	@ mkdir -p bin
 	$(ECHO) "Building debug version of <Atmo> ..."
 	@ $(CPP) $(CPPFLAGS) -std=c++11 -o $(EXE) $(REAL)
 	$(ECHO) "Done."
 
-release:
+release: $(INT) $(REAL)
 	@ mkdir -p bin
 	$(ECHO) "Building release version of <Atmo> ..."
 	@ $(CPP) $(OPTIMIZATION) -std=c++11 -o $(EXE) $(REAL)
