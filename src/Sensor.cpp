@@ -29,19 +29,19 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
-void Sensor::AjouterMesure(Mesure& mesure){
-    listeMesure.insert(mesure);
+void Sensor::AjouterMesure(date_t date, string polluant, double valeur)
+{
+    listeMesure.emplace_back(date, polluant, valeur);
 }
 
 //------------------------------------------------- Surcharge d'opérateurs
- //----- Fin de operator =
-
+//----- Fin de operator =
 
 //-------------------------------------------- Constructeurs - destructeur
 
- //----- Fin de Sensor (constructeur de copie)
+//----- Fin de Sensor (constructeur de copie)
 
-Sensor::Sensor (int sID, double sLatitude, double sLongitude, string sDescription)
+Sensor::Sensor(int sID, double sLatitude, double sLongitude, string sDescription)
 {
     sensorID = sID;
     latitude = sLatitude;
@@ -52,9 +52,6 @@ Sensor::Sensor (int sID, double sLatitude, double sLongitude, string sDescriptio
 #endif
 } //----- Fin de Sensor
 
-
-
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées
-

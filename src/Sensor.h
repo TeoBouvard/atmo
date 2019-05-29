@@ -13,6 +13,7 @@
 //--------------------------------------------------- Interfaces utilisées
 #include <string>
 #include <set>
+#include <vector>
 #include "Mesure.h"
 using namespace std;
 //------------------------------------------------------------- Constantes
@@ -39,8 +40,8 @@ public:
     int GetID() const { return sensorID; }
     int GetLatitude() const { return latitude; }
     int GetLongitude() const { return longitude; }
-    set<Mesure> &GetListeMesure() { return listeMesure; }
-    void AjouterMesure(Mesure &mesure);
+    vector<Mesure> &GetListeMesure() { return listeMesure; }
+    void AjouterMesure(date_t date, string polluant, double valeur);
 
     //------------------------------------------------- Surcharge d'opérateurs
     // Mode d'emploi :
@@ -76,7 +77,7 @@ protected:
     double latitude;
     double longitude;
     string description;
-    set<Mesure> listeMesure;
+    vector<Mesure> listeMesure;
 };
 
 //-------------------------------- Autres définitions dépendantes de <Sensor>

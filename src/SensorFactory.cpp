@@ -117,8 +117,7 @@ void SensorFactory::ParseMesure(string sensorLine)
   sensorLine.erase(0, sensorLine.find(DELIMITER) + 1);
   double valeur = stod(valeur_token.c_str());
 
-  Mesure mesure(date, polluant, valeur);
-  GetSensorByID(id).AjouterMesure(mesure);
+  GetSensorByID(id).AjouterMesure(date, polluant, valeur);
 }
 
 //------------------------------------------------- Surcharge d'opérateurs

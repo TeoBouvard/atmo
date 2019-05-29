@@ -65,6 +65,7 @@ protected:
 
   //----------------------------------------------------- Attributs protégés
   vector<Sensor> listeCapteurs;
+  vector<Sensor> capteurDefectueux;
 };
 
 //-------------------------------- Autres définitions dépendantes de <SensorFactory>
