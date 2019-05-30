@@ -19,7 +19,8 @@
 #include "Geo.h"
 #include "Result.h"
 //------------------------------------------------------------- Constantes
-
+const date_t DEBUT = SensorFactory::make_date("1970-01-01T00:00:00");
+const date_t FIN = SensorFactory::make_date("1970-01-01T00:00:00");
 //------------------------------------------------------------------ Types
 
 //------------------------------------------------------------------------
@@ -34,11 +35,9 @@ class Analyse
 
 public:
     //----------------------------------------------------- Méthodes publiques
-    Result ValeurIntervalle(SensorFactory &sensorFactory);
-
-    //void CapteursSimilaires(SensorFactory &sensorFactory);
-
+    Result valeurIntervalle(SensorFactory &sensorFactory);
     Result computeSimiarity(SensorFactory &sensorFactory, string polluant);
+    Result identifyBrokenSensors(SensorFactory &sensorFactory);
 
     vector<int> CalculIndicesAtmo(vector<double> moyennes);
     bool comparerDebut(date_t date);
@@ -50,11 +49,8 @@ public:
 
     //-------------------------------------------- Constructeurs - destructeur
 
-    Analyse(double latitude, double longitude, double rayon, date_t debut, date_t fin);
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
+    Analyse(double latitude = 0, double longitude = 0, double rayon = 0, date_t debut = DEBUT, date_t fin = FIN);
+
     //------------------------------------------------------------------ PRIVE
 
 protected:

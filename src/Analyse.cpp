@@ -15,12 +15,14 @@
 #include <vector>
 #include <string>
 #include <math.h>
+#include <float.h>
 using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "Analyse.h"
 #include "SensorFactory.h"
 #include "Sensor.h"
+#include "Mesure.h"
 #include "Geo.h"
 #include "Result.h"
 
@@ -30,27 +32,57 @@ using namespace std;
 
 //----------------------------------------------------- Méthodes publiques
 
-Result Analyse::ValeurIntervalle(SensorFactory &sensorFactory)
+Result Analyse::valeurIntervalle(SensorFactory &sensorFactory)
 {
     //récupérer les capteurs de la SensorFactory
     vector<Sensor> listeCapteurs = sensorFactory.GetSensors();
     vector<Sensor> capteursSurZone;
 
-    double totO3 = 0;
-    int nbO3 = 0;
-    double totNO2 = 0;
-    int nbNO2 = 0;
-    double totSO2 = 0;
-    int nbSO2 = 0;
-    double totPM10 = 0;
-    int nbPM10 = 0;
-
-    for (Sensor s : listeCapteurs)
+    if (rayon > 0)
     {
-        //si le capteur et dans la zone choisie
-        if (Geo::CalculDistance(s.GetLatitude(), s.GetLongitude(), this->latitude, this->longitude) < rayon)
+        for (Sensor s : listeCapteurs)
         {
-            capteursSurZone.push_back(s);
+            //si le capteur et dans la zone choisie
+            if (Geo::CalculDistance(s.GetLatitude(), s.GetLongitude(), this->latitude, this->longitude) < rayon)
+            {
+                capteursSurZone.push_back(s);
+            }
+        }
+    }
+    else
+    {
+        double distanceMin = DBL_MAX;
+        for (Sensor s : listeCapteurs)
+        {
+            double distanceS = Geo::CalculDistance(s.GetLatitude(), s.GetLongitude(), this->latitude, this->longitude);
+            if (distanceS < distanceMin)
+            {
+                distanceMin = distanceS;
+                capteursSurZone.clear();
+                capteursSurZone.push_back(s);
+            }
+        }
+    }
+
+    if (capteursSurZone.size() == 0)
+    {
+        return Result();
+    }
+
+    else
+    {
+
+        double totO3 = 0;
+        int nbO3 = 0;
+        double totNO2 = 0;
+        int nbNO2 = 0;
+        double totSO2 = 0;
+        int nbSO2 = 0;
+        double totPM10 = 0;
+        int nbPM10 = 0;
+
+        for (Sensor s : capteursSurZone)
+        {
             for (auto mesure : s.GetListeMesure())
             {
                 if (comparerDebut(mesure.GetDate()) && comparerFin(mesure.GetDate()))
@@ -79,14 +111,7 @@ Result Analyse::ValeurIntervalle(SensorFactory &sensorFactory)
                 }
             }
         }
-    }
-    if (capteursSurZone.size() == 0)
-    {
-        return Result();
-    }
 
-    else
-    {
         double moyO3 = (totO3 / nbO3);
         double moyNO2 = (totNO2 / nbNO2);
         double moySO2 = (totSO2 / nbSO2);
@@ -99,6 +124,105 @@ Result Analyse::ValeurIntervalle(SensorFactory &sensorFactory)
 
         return Result(capteursSurZone, moyennes, indicesAtmo, nbMesures);
     }
+}
+
+Result Analyse::computeSimiarity(SensorFactory &sensorFactory, string polluant)
+{
+    vector<vector<double>> similarityMatrix;
+    vector<double> distances;
+
+    //récupérer les capteurs de la SensorFactory
+    vector<Sensor> listeCapteurs = sensorFactory.GetSensors();
+    vector<double> listeMesureA;
+    vector<double> listeMesureB;
+    int nbMesures = 0;
+
+    for (Sensor s1 : listeCapteurs)
+    {
+        for (auto mesure : s1.GetListeMesure())
+        {
+            if (comparerDebut(mesure.GetDate()) && comparerFin(mesure.GetDate()))
+            {
+                if (mesure.GetPolluant() == polluant)
+                {
+                    listeMesureA.push_back(mesure.GetValeur());
+                }
+            }
+        }
+
+        for (Sensor s2 : listeCapteurs)
+        {
+            for (auto mesure : s2.GetListeMesure())
+            {
+                if (comparerDebut(mesure.GetDate()) && comparerFin(mesure.GetDate()))
+                {
+                    if (mesure.GetPolluant() == polluant)
+                    {
+                        nbMesures++;
+                        listeMesureB.push_back(mesure.GetValeur());
+                    }
+                }
+            }
+            distances.push_back(distanceEuclidienne(listeMesureA, listeMesureB));
+            listeMesureB.clear();
+        }
+        similarityMatrix.push_back(distances);
+
+        distances.clear();
+        listeMesureA.clear();
+    }
+
+    normalizeMatrix(similarityMatrix);
+    return Result(listeCapteurs, similarityMatrix, nbMesures);
+}
+
+
+Result Analyse::identifyBrokenSensors(SensorFactory &sensorFactory)
+{
+    vector<Sensor> brokenSensorsTmp = sensorFactory.GetBrokenSensors();
+    vector<Sensor> brokenSensors;
+
+    for(Sensor s : brokenSensorsTmp)
+    {
+        if(!s.GetListeMesure().empty()){
+            brokenSensors.push_back(s);
+        }
+    }
+    return Result(brokenSensors);
+}
+
+double Analyse::distanceEuclidienne(vector<double> A, vector<double> B)
+{
+    double dist = 0.0;
+
+    int nbElements = min(A.size(), B.size());
+    for (int i = 0; i < nbElements; i++)
+    {
+        dist += (A[i] - B[i]) * (A[i] - B[i]);
+    }
+    return sqrt(dist);
+}
+
+matrice_t &Analyse::normalizeMatrix(matrice_t &mat)
+{
+    double maxElement = 0;
+    for (vector<double> line : mat)
+    {
+        double maxLine = *max_element(line.begin(), line.end());
+        if (maxLine > maxElement)
+        {
+            maxElement = maxLine;
+        }
+    }
+
+    double norm = 1.0 / maxElement;
+
+    for (int i = 0; i < mat.size(); i++)
+    {
+        transform(mat[i].begin(), mat[i].end(), mat[i].begin(), [norm](double d) { return 100.0 * (1 - (d * norm)); });
+    }
+
+    return mat;
 }
 
 bool Analyse::comparerDebut(date_t date)
@@ -279,133 +403,6 @@ vector<int> Analyse::CalculIndicesAtmo(vector<double> moyennes)
     vector<int> indicesAtmo = {atmoO3, atmoNO2, atmoSO2, atmoPM10, atmoGlobal};
     return indicesAtmo;
 }
-
-/*void Analyse::CapteursSimilaires(SensorFactory &sensorFactory)
-{
-    vector<string> polluants;
-    vector<Sensor> listeCapteurs = sensorFactory.GetSensors();
-
-    double **matriceCapteurs = new double *[listeCapteurs.size()];
-    for (unsigned int i = 0; i < listeCapteurs.size(); i++)
-    {
-        matriceCapteurs[i] = new double[listeCapteurs.size()];
-    }
-
-    double similitudeMesure = 0;
-    int compteur = 0;
-    int nbmesure = 0;
-
-    for (unsigned int i = 0; i < listeCapteurs.size(); i++)
-    {
-        for (unsigned int j = i + 1; j < listeCapteurs.size(); j++)
-        {
-            set<Mesure> listeMesure = listeCapteurs[j].GetListeMesure();
-            auto it = listeMesure.begin();
-            for (Mesure mesure : listeCapteurs[i].GetListeMesure())
-            {
-                if ((this->debut < mesure.GetDate()) && (mesure.GetDate() < this->fin))
-                {
-                    ++it;
-                    similitudeMesure += 1 - (mesure.GetValeur() - it->GetValeur() / mesure.GetValeur());
-                    compteur++;
-                    break;
-                }
-                nbmesure++;
-            }
-            matriceCapteurs[i][j] = similitudeMesure / compteur;
-            cout << matriceCapteurs[i][j] << endl;
-        }
-    }
-
-    for (unsigned int i = 0; i < listeCapteurs.size(); i++)
-    {
-        delete[] matriceCapteurs[i];
-    }
-    delete[] matriceCapteurs;
-}*/
-
-Result Analyse::computeSimiarity(SensorFactory &sensorFactory, string polluant)
-{
-    vector<vector<double>> similarityMatrix;
-    vector<double> distances;
-
-    //récupérer les capteurs de la SensorFactory
-    vector<Sensor> listeCapteurs = sensorFactory.GetSensors();
-    vector<double> listeMesureA;
-    vector<double> listeMesureB;
-    int nbMesures = 0;
-
-    for (Sensor s1 : listeCapteurs)
-    {
-        for (auto mesure : s1.GetListeMesure())
-        {
-            if (comparerDebut(mesure.GetDate()) && comparerFin(mesure.GetDate()))
-            {
-                if (mesure.GetPolluant() == polluant)
-                {
-                    listeMesureA.push_back(mesure.GetValeur());
-                }
-            }
-        }
-
-        for (Sensor s2 : listeCapteurs)
-        {
-            for (auto mesure : s2.GetListeMesure())
-            {
-                if (comparerDebut(mesure.GetDate()) && comparerFin(mesure.GetDate()))
-                {
-                    if (mesure.GetPolluant() == polluant)
-                    {
-                        nbMesures++;
-                        listeMesureB.push_back(mesure.GetValeur());
-                    }
-                }
-            }
-            distances.push_back(distanceEuclidienne(listeMesureA, listeMesureB));
-            listeMesureB.clear();
-        }
-        similarityMatrix.push_back(distances);
-
-        distances.clear();
-        listeMesureA.clear();
-    }
-
-    normalizeMatrix(similarityMatrix);
-    return Result(listeCapteurs, similarityMatrix, nbMesures);
-}
-
-double Analyse::distanceEuclidienne(vector<double> A, vector<double> B)
-{
-    double dist = 0.0;
-
-    int nbElements = min(A.size(), B.size());
-    for (int i = 0; i < nbElements; i++)
-    {
-        dist += (A[i]-B[i]) * (A[i]-B[i]);
-    }
-    return sqrt(dist);
-}
-
-matrice_t &Analyse::normalizeMatrix(matrice_t &mat)
-{
-    double maxElement = 0;
-    for(vector<double> line : mat){
-        double maxLine = *max_element(line.begin(), line.end());
-        if (maxLine > maxElement){
-            maxElement = maxLine;
-        }    
-    }
-    
-    double norm = 1.0 / maxElement;
-
-    for(int i = 0; i < mat.size(); i++)
-    {
-        transform(mat[i].begin(), mat[i].end(), mat[i].begin(), [norm](double d) { return 100.0 * (1-(d * norm)); });
-    }
-
-    return mat;
-}
-
 //------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------- Constructeurs - destructeur

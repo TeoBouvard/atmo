@@ -23,11 +23,6 @@ using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-// type Sensor::Méthode ( liste des paramètres )
-// Algorithme :
-//
-//{
-//} //----- Fin de Méthode
 
 void Sensor::AjouterMesure(date_t date, string polluant, double valeur)
 {
@@ -35,11 +30,8 @@ void Sensor::AjouterMesure(date_t date, string polluant, double valeur)
 }
 
 //------------------------------------------------- Surcharge d'opérateurs
-//----- Fin de operator =
 
 //-------------------------------------------- Constructeurs - destructeur
-
-//----- Fin de Sensor (constructeur de copie)
 
 Sensor::Sensor(int sID, double sLatitude, double sLongitude, string sDescription)
 {

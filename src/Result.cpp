@@ -77,7 +77,7 @@ ostream &operator<<(ostream &os, const Result &r)
         }
     }
 
-    else if (r.type == "similarite") //FINIR AFFICHAGE (titres colonnes et lignes)
+    else if (r.type == "similarite")
     {
         if (r.capteurs.empty())
         {
@@ -131,6 +131,29 @@ ostream &operator<<(ostream &os, const Result &r)
             }
         }
     }
+    else if (r.type == "defectueux")
+    {
+        if (r.capteurs.empty())
+        {
+            cout << endl
+                 << BOLDWHITE << "Aucun capteur défectueux" << RESET << endl;
+        }
+        else
+        {
+            cout << endl
+                 << BOLDWHITE << "Nombre de capteurs défectueux : " << r.capteurs.size() << endl
+                 << endl;
+
+            for (Sensor s : r.capteurs)
+            {
+                cout << "Sensor n°" << s.GetID() << " | " << s.GetListeMesure().size() << " mesures erronées"
+                     << " ["
+                     << s.GetListeMesure().front().GetDate() << " -> "
+                     << s.GetListeMesure().back().GetDate() << "]" << endl;
+            }
+            cout << RESET;
+        }
+    }
 
     return os;
 }
@@ -155,6 +178,16 @@ Result::Result(vector<Sensor> capteursSurZone, matrice_t similarityMatrix, int n
     this->capteurs = capteursSurZone;
     this->similarityMatrix = similarityMatrix;
     this->nbMesures = nbMesures;
+
+#ifdef MAP
+    cout << "Appel au constructeur de <Result>" << endl;
+#endif
+} //----- Fin de Result
+
+Result::Result(vector<Sensor> capteursSurZone)
+{
+    this->type = "defectueux";
+    this->capteurs = capteursSurZone;
 
 #ifdef MAP
     cout << "Appel au constructeur de <Result>" << endl;

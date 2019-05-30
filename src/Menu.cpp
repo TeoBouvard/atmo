@@ -63,7 +63,7 @@ void Menu::Run(Controleur &controleur)
       }
       else if (strcmp(lecture.c_str(), "4") == 0)
       {
-        CapteurDefectueux(controleur);
+        CapteursDefectueux(controleur);
       }
       else
       {
@@ -100,14 +100,14 @@ void Menu::inputPolluant(string &polluant)
 
   while (!(cin >> polluant) || !regex_match(polluant, polluantFormat))
   {
-    if(!regex_match(polluant, polluantFormat)){
+    if (!regex_match(polluant, polluantFormat))
+    {
       cerr << "Saisie erronnée, merci de saisir un polluant : ";
       cin.clear();
-      cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
-    }    
-  }    
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
+  }
 }
-
 
 date_t Menu::inputDate(string value, date_t borneInf)
 {
@@ -166,8 +166,8 @@ void Menu::QualiteSimilaire(Controleur &controleur)
   string polluant = "";
   date_t debut, fin;
 
-  cout << "Polluant (O3 | NO2 | SO2 | PM10) : ";
-  inputPolluant(polluant); //MARCHE PAS ENCORE
+  cout << "Choisir un polluant (O3 | NO2 | SO2 | PM10) : ";
+  inputPolluant(polluant);
   cout << "Date de début au format YYYY-MM-DD : ";
   debut = inputDate(debut_str);
   cout << "Date de fin au format YYYY-MM-DD : ";
@@ -207,14 +207,14 @@ void Menu::QualiteEnUnPoint(Controleur &controleur)
   cout << "Analyse terminée." << endl;
 }
 
-void Menu::CapteurDefectueux(Controleur &controleur)
+void Menu::CapteursDefectueux(Controleur &controleur)
 {
 
   cout << endl
        << "Analyse en cours ... " << endl;
 
-  //Result result = controleur.
-  //cout << result << endl;
+  Result result = controleur.CapteursDefectueux();
+  cout << result << endl;
 
   cout << "Analyse terminée." << endl;
 }

@@ -13,6 +13,7 @@
 //--------------------------------------------------- Interfaces utilisées
 #include <string>
 #include <vector>
+#include <map>
 #include <fstream>
 #include "Sensor.h"
 #include "Mesure.h"
@@ -37,16 +38,14 @@ public:
   //format : 2017-01-01T00:01:20.6090(+)
   static date_t make_date(string str);
 
-  vector<Sensor> GetSensors() { return listeCapteurs; }
+  vector<Sensor> GetSensors();
+  vector<Sensor> GetBrokenSensors();
 
   //crée un capteur et l'ajoute à listeCapteurs
   void ParseSensor(string sensor_line);
 
   //crée une mesure et l'ajoute à son capteur
   void ParseMesure(string mesure_line);
-
-  //retourne le capteur correspondant à l'ID
-  Sensor &GetSensorByID(int ID);
 
   //------------------------------------------------- Surcharge d'opérateurs
 
@@ -64,8 +63,8 @@ protected:
   //----------------------------------------------------- Méthodes protégées
 
   //----------------------------------------------------- Attributs protégés
-  vector<Sensor> listeCapteurs;
-  vector<Sensor> capteurDefectueux;
+  map<int, Sensor> listeCapteurs;
+  map<int, Sensor> capteursDefectueux;
 };
 
 //-------------------------------- Autres définitions dépendantes de <SensorFactory>

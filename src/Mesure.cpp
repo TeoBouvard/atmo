@@ -73,6 +73,14 @@ bool operator<(const Mesure &m1, const Mesure &m2)
     }
 }
 
+ostream &operator<<(ostream &os, const date_t &date)
+{
+    os << date.year << "-"
+       << ((date.month < 10) ? "0" : "") << date.month << "-"
+       << ((date.day < 10) ? "0" : "") << date.day;
+    return os;
+}
+
 //-------------------------------------------- Constructeurs - destructeur
 
 Mesure::Mesure(const date_t dateMesure, const string polluantMesure, const double valeurMesure)

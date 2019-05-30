@@ -29,15 +29,24 @@ static const char TIME_DELIM = ':';
 //----------------------------------------------------------------- PUBLIC
 //----------------------------------------------------- Méthodes publiques
 
-Sensor &SensorFactory::GetSensorByID(int ID)
+vector<Sensor> SensorFactory::GetSensors()
 {
-  for (Sensor &s : listeCapteurs)
+  vector<Sensor> capteurs;
+  for (map<int, Sensor>::iterator it = listeCapteurs.begin(); it != listeCapteurs.end(); ++it)
   {
-    if (s.GetID() == ID)
-      return s;
+    capteurs.push_back(it->second);
   }
-  cerr << "Mesure erronée : aucun capteur associé à l'ID" << ID << endl;
-  exit(FILE_ERROR);
+  return capteurs;
+}
+
+vector<Sensor> SensorFactory::GetBrokenSensors()
+{
+  vector<Sensor> capteurs;
+  for (map<int, Sensor>::iterator it = capteursDefectueux.begin(); it != capteursDefectueux.end(); ++it)
+  {
+    capteurs.push_back(it->second);
+  }
+  return capteurs;
 }
 
 date_t SensorFactory::make_date(string str)
@@ -92,7 +101,9 @@ void SensorFactory::ParseSensor(string sensorLine)
   //parse descritpion
   string description = sensorLine.substr(0, sensorLine.find(DELIMITER));
 
-  listeCapteurs.emplace_back(id, latitude, longitude, description);
+  Sensor &&sensor = Sensor(id, latitude, longitude, description);
+  listeCapteurs.insert(pair<int, Sensor>(id, sensor));
+  capteursDefectueux.insert(pair<int, Sensor>(id, sensor));
 }
 
 void SensorFactory::ParseMesure(string sensorLine)
@@ -117,7 +128,12 @@ void SensorFactory::ParseMesure(string sensorLine)
   sensorLine.erase(0, sensorLine.find(DELIMITER) + 1);
   double valeur = stod(valeur_token.c_str());
 
-  GetSensorByID(id).AjouterMesure(date, polluant, valeur);
+  //ajouter la mesure dans tous les cas pour cohérence calcul similarite
+  if (valeur == 0)
+  {
+    capteursDefectueux.find(id)->second.AjouterMesure(date, polluant, valeur);
+  }
+  listeCapteurs.find(id)->second.AjouterMesure(date, polluant, valeur);
 }
 
 //------------------------------------------------- Surcharge d'opérateurs
@@ -130,8 +146,8 @@ SensorFactory::SensorFactory(ifstream &dataFile)
 
   const string sensorHeader = "SensorID;Latitude;Longitude;Description;";
   const string mesureHeader = "Timestamp;SensorID;AttributeID;Value;";
-  regex sensorLine("SensorSensor\\d+;.\\d+.\\d+;.\\d+.\\d+;.*;");
-  regex mesureLine("\\d\\d\\d\\d-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d.\\d+;.*;");
+  regex sensorLine("^SensorSensor\\d+;.\\d+.\\d+;.\\d+.\\d+;.*;$");
+  regex mesureLine("^\\d\\d\\d\\d-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d.\\d+;.*;$");
 
   //read file header
   getline(dataFile, dataLine);
@@ -167,7 +183,7 @@ SensorFactory::SensorFactory(ifstream &dataFile)
   int nbMesures = 0;
   while (getline(dataFile, dataLine))
   {
-    if (regex_match(dataLine, mesureLine))
+    if (true) //regex_match(dataLine, mesureLine)) //<- MULTIPLIE PAR 10 LE TEMPS DE CHARGEMENT MAIS PLUS SAFE
     {
       ParseMesure(dataLine);
       nbMesures++;

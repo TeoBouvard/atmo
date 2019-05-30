@@ -12,7 +12,7 @@
 
 //--------------------------------------------------- Interfaces utilisées
 #include <string>
-
+#include <iostream>
 using namespace std;
 //------------------------------------------------------------- Constantes
 
@@ -26,7 +26,10 @@ typedef struct date_t
     int hour;
     int minute;
     int second;
+
 } date_t;
+
+ostream &operator<<(ostream &os, const date_t &date);
 
 bool operator<(const date_t &date1, const date_t &date2);
 

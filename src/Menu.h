@@ -36,7 +36,7 @@ public:
     void QualiteDeLAir(Controleur &controleur);
     void QualiteSimilaire(Controleur &controleur);
     void QualiteEnUnPoint(Controleur &controleur);
-    void CapteurDefectueux(Controleur &controleur);
+    void CapteursDefectueux(Controleur &controleur);
 
     void inputDouble(double &value);
     void inputPolluant(string &polluant);
