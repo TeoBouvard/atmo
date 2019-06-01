@@ -12,10 +12,10 @@
 
 //-------------------------------------------------------- Include système
 #include <iostream>
-#include <vector>
 #include <string>
 #include <math.h>
 #include <float.h>
+#include <algorithm>
 using namespace std;
 
 //------------------------------------------------------ Include personnel
@@ -262,141 +262,171 @@ bool Analyse::comparerFin(date_t date)
 vector<int> Analyse::CalculIndicesAtmo(vector<double> moyennes)
 {
     int atmoO3, atmoNO2, atmoSO2, atmoPM10, atmoGlobal = 0;
-    switch ((int)moyennes.at(0))
-    {
-    case 0 ... 29:
-        atmoO3 = 1;
-        break;
-    case 30 ... 54:
-        atmoO3 = 2;
-        break;
-    case 55 ... 79:
-        atmoO3 = 3;
-        break;
-    case 80 ... 104:
-        atmoO3 = 4;
-        break;
-    case 105 ... 129:
-        atmoO3 = 5;
-        break;
-    case 130 ... 149:
-        atmoO3 = 6;
-        break;
-    case 150 ... 179:
-        atmoO3 = 7;
-        break;
-    case 180 ... 209:
-        atmoO3 = 8;
-        break;
-    case 210 ... 239:
-        atmoO3 = 9;
-        break;
-    default:
-        atmoO3 = 10;
-        break;
-    }
+	if ((int)moyennes.at(0) >= 0 && (int)moyennes.at(0) <= 29)
+	{
+		atmoO3 = 1;
+	}
+	else if ((int)moyennes.at(0) >= 30 && (int)moyennes.at(0) <= 54)
+	{
+		atmoO3 = 2;
+	}
+	else if ((int)moyennes.at(0) >= 55 && (int)moyennes.at(0) <= 79)
+	{
+		atmoO3 = 3;
+	}
+	else if ((int)moyennes.at(0) >= 80 && (int)moyennes.at(0) <= 104)
+	{
+		atmoO3 = 4;
+	}
+	else if ((int)moyennes.at(0) >= 105 && (int)moyennes.at(0) <= 129)
+	{
+		atmoO3 = 5;
+	}
+	else if ((int)moyennes.at(0) >= 130 && (int)moyennes.at(0) <= 149)
+	{
+		atmoO3 = 6;
+	}
+	else if ((int)moyennes.at(0) >= 150 && (int)moyennes.at(0) <= 179)
+	{
+		atmoO3 = 7;
+	}
+	else if ((int)moyennes.at(0) >= 180 && (int)moyennes.at(0) <= 209)
+	{
+		atmoO3 = 8;
+	}
+	else if ((int)moyennes.at(0) >= 210 && (int)moyennes.at(0) <= 239)
+	{
+		atmoO3 = 9;
+	}
+	else
+	{
+		atmoO3 = 10;
+	}
 
-    switch ((int)moyennes.at(1))
-    {
-    case 0 ... 29:
-        atmoNO2 = 1;
-        break;
-    case 30 ... 54:
-        atmoNO2 = 2;
-        break;
-    case 55 ... 84:
-        atmoNO2 = 3;
-        break;
-    case 85 ... 109:
-        atmoNO2 = 4;
-        break;
-    case 110 ... 134:
-        atmoNO2 = 5;
-        break;
-    case 135 ... 164:
-        atmoNO2 = 6;
-        break;
-    case 165 ... 199:
-        atmoNO2 = 7;
-        break;
-    case 200 ... 274:
-        atmoNO2 = 8;
-        break;
-    case 275 ... 399:
-        atmoNO2 = 9;
-        break;
-    default:
-        atmoNO2 = 10;
-        break;
-    }
+	if ((int)moyennes.at(1) >= 0 && (int)moyennes.at(1) <= 29)
+	{
+		atmoNO2 = 1;
+	}
+	else if ((int)moyennes.at(1) >= 30 && (int)moyennes.at(1) <= 54)
+	{
+		atmoNO2 = 2;
+	}
+	else if ((int)moyennes.at(1) >= 55 && (int)moyennes.at(1) <= 84)
+	{
+		atmoNO2 = 3;
+	}
+	else if ((int)moyennes.at(1) >= 85 && (int)moyennes.at(1) <= 109)
+	{
+		atmoNO2 = 4;
+	}
+	else if ((int)moyennes.at(1) >= 110 && (int)moyennes.at(1) <= 134)
+	{
+		atmoNO2 = 5;
+	}
+	else if ((int)moyennes.at(1) >= 135 && (int)moyennes.at(1) <= 164)
+	{
+		atmoNO2 = 6;
+	}
+	else if ((int)moyennes.at(1) >= 165 && (int)moyennes.at(1) <= 199)
+	{
+		atmoNO2 = 7;
+	}
+	else if ((int)moyennes.at(1) >= 200 && (int)moyennes.at(1) <= 274)
+	{
+		atmoNO2 = 8;
+	}
+	else if ((int)moyennes.at(1) >= 275 && (int)moyennes.at(1) <= 399)
+	{
+		atmoNO2 = 9;
+	}
+	else
+	{
+		atmoNO2 = 10;
+	}
 
-    switch ((int)moyennes.at(2))
-    {
-    case 0 ... 39:
-        atmoSO2 = 1;
-        break;
-    case 40 ... 79:
-        atmoSO2 = 2;
-        break;
-    case 80 ... 119:
-        atmoSO2 = 3;
-        break;
-    case 120 ... 159:
-        atmoSO2 = 4;
-        break;
-    case 160 ... 199:
-        atmoSO2 = 5;
-        break;
-    case 200 ... 249:
-        atmoSO2 = 6;
-        break;
-    case 250 ... 299:
-        atmoSO2 = 7;
-        break;
-    case 300 ... 399:
-        atmoSO2 = 8;
-        break;
-    case 400 ... 499:
-        atmoSO2 = 9;
-        break;
-    default:
-        atmoSO2 = 10;
-        break;
-    }
+	if ((int)moyennes.at(2) >= 0 && (int)moyennes.at(2) <= 39)
+	{
+		atmoSO2 = 1;
+	}
+	else if ((int)moyennes.at(2) >= 40 && (int)moyennes.at(2) <= 79)
+	{
+		atmoSO2 = 2;
+	}
+	else if ((int)moyennes.at(2) >= 80 && (int)moyennes.at(2) <= 119)
+	{
+		atmoSO2 = 3;
+	}
+	else if ((int)moyennes.at(2) >= 120 && (int)moyennes.at(2) <= 159)
+	{
+		atmoSO2 = 4;
+	}
+	else if ((int)moyennes.at(2) >= 160 && (int)moyennes.at(2) <= 199)
+	{
+		atmoSO2 = 5;
+	}
+	else if ((int)moyennes.at(2) >= 200 && (int)moyennes.at(2) <= 249)
+	{
+		atmoSO2 = 6;
+	}
+	else if ((int)moyennes.at(2) >= 250 && (int)moyennes.at(2) <= 299)
+	{
+		atmoSO2 = 7;
+	}
+	else if ((int)moyennes.at(2) >= 300 && (int)moyennes.at(2) <= 399)
+	{
+		atmoSO2 = 8;
+	}
+	else if ((int)moyennes.at(2) >= 400 && (int)moyennes.at(2) <= 499)
+	{
+		atmoSO2 = 9;
+	}
+	else
+	{
+		atmoSO2 = 10;
+	}
 
-    switch ((int)moyennes.at(3))
-    {
-    case 0 ... 6:
-        atmoPM10 = 1;
-        break;
-    case 7 ... 13:
-        atmoPM10 = 2;
-        break;
-    case 14 ... 20:
-        atmoPM10 = 3;
-        break;
-    case 21 ... 27:
-        atmoPM10 = 4;
-        break;
-    case 28 ... 34:
-        atmoPM10 = 5;
-        break;
-    case 35 ... 41:
-        atmoPM10 = 6;
-        break;
-    case 42 ... 49:
-        atmoPM10 = 7;
-        break;
-    case 50 ... 64:
-        atmoPM10 = 8;
-        break;
-    case 65 ... 79:
-        atmoPM10 = 9;
-        break;
-    default:
-        atmoPM10 = 10;
-        break;
-    }
+	
+	if ((int)moyennes.at(3) >= 0 && (int)moyennes.at(3) <= 6)
+	{
+		atmoPM10 = 1;
+	}
+	else if ((int)moyennes.at(3) >= 7 && (int)moyennes.at(3) <= 13)
+	{
+		atmoPM10 = 2;
+	}
+	else if ((int)moyennes.at(3) >= 14 && (int)moyennes.at(3) <= 20)
+	{
+		atmoPM10 = 3;
+	}
+	else if ((int)moyennes.at(3) >= 21 && (int)moyennes.at(3) <= 27)
+	{
+		atmoPM10 = 4;
+	}
+	else if ((int)moyennes.at(3) >= 28 && (int)moyennes.at(3) <= 34)
+	{
+		atmoPM10 = 5;
+	}
+	else if ((int)moyennes.at(3) >= 35 && (int)moyennes.at(3) <= 41)
+	{
+		atmoPM10 = 6;
+	}
+	else if ((int)moyennes.at(3) >= 42 && (int)moyennes.at(3) <= 49)
+	{
+		atmoPM10 = 7;
+	}
+	else if ((int)moyennes.at(3) >= 50 && (int)moyennes.at(3) <= 64)
+	{
+		atmoPM10 = 8;
+	}
+	else if ((int)moyennes.at(3) >= 65 && (int)moyennes.at(3) <= 79)
+	{
+		atmoPM10 = 9;
+	}
+	else
+	{
+		atmoPM10 = 10;
+	}
+
 
     atmoGlobal = max(max(atmoO3, atmoNO2), max(atmoSO2, atmoPM10));
 
