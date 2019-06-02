@@ -30,8 +30,8 @@ release: $(INT) $(REAL)
 
 run:
 	$(ECHO) "Running <Atmo>"
-	#@ ./$(EXE) $(LOG)/data_10sensors_1year.csv
-	@ ./$(EXE) ./tests/test_data.csv
+	@ ./$(EXE) $(LOG)/data_10sensors_1year.csv
+	#@ ./$(EXE) ./tests/test_data.csv
 
 tests:
 	cd tests && ./mktest.sh

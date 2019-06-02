@@ -55,7 +55,7 @@ bool operator<(const date_t &date1, const date_t &date2)
     }
     else
     {
-        return true;
+        return false;
     }
 }
 

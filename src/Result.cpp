@@ -61,7 +61,13 @@ ostream &operator<<(ostream &os, const Result &r)
         else
         {
             cout << endl
-                 << BOLDWHITE << "Nombre de capteurs dans la zone : " << r.capteurs.size() << endl
+                 << BOLDWHITE << "Capteur(s) selectionné(s) : " << endl
+                 << endl;
+            for (int i = 0; i < r.capteurs.size(); i++)
+            {
+                cout << "Sensor n°" << r.capteurs[i].GetID() << " | Distance au centre : " << r.distancesAuCentre[i] << "km" << endl;
+            }
+            cout << endl
                  << "Nombre de mesures sur cette période de temps : " << r.nbMesures << endl
                  << endl;
             cout << BOLDCYAN << "Moyenne 03 : " << r.concentrationsMoyennes.at(0) << " µg/m3 "
@@ -160,13 +166,14 @@ ostream &operator<<(ostream &os, const Result &r)
 
 //-------------------------------------------- Constructeurs - destructeur
 
-Result::Result(vector<Sensor> capteursSurZone, vector<double> moyennes, vector<int> indicesAtmo, int nbMesures)
+Result::Result(vector<Sensor> capteursSurZone, vector<double> moyennes, vector<int> indicesAtmo, int nbMesures, vector<double> distancesAuCentre)
 {
     this->type = "indices";
     this->capteurs = capteursSurZone;
     this->concentrationsMoyennes = moyennes;
     this->indices = indicesAtmo;
     this->nbMesures = nbMesures;
+    this->distancesAuCentre = distancesAuCentre;
 #ifdef MAP
     cout << "Appel au constructeur de <Result>" << endl;
 #endif

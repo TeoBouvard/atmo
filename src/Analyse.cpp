@@ -37,29 +37,35 @@ Result Analyse::valeurIntervalle(SensorFactory &sensorFactory)
     //récupérer les capteurs de la SensorFactory
     vector<Sensor> listeCapteurs = sensorFactory.GetSensors();
     vector<Sensor> capteursSurZone;
+    vector<double> distancesAuCentre;
 
     if (rayon > 0)
     {
+        //identification des capteurs dans la zone
         for (Sensor s : listeCapteurs)
         {
-            //si le capteur et dans la zone choisie
-            if (Geo::CalculDistance(s.GetLatitude(), s.GetLongitude(), this->latitude, this->longitude) < rayon)
+            double distanceCapteurCentre = Geo::CalculDistance(s.GetLatitude(), s.GetLongitude(), this->latitude, this->longitude);
+            if (distanceCapteurCentre < rayon)
             {
                 capteursSurZone.push_back(s);
+                distancesAuCentre.push_back(distanceCapteurCentre);
             }
         }
     }
     else
     {
+        //identification du capteur le plus proche
         double distanceMin = DBL_MAX;
         for (Sensor s : listeCapteurs)
         {
-            double distanceS = Geo::CalculDistance(s.GetLatitude(), s.GetLongitude(), this->latitude, this->longitude);
-            if (distanceS < distanceMin)
+            double distanceCapteurCentre = Geo::CalculDistance(s.GetLatitude(), s.GetLongitude(), this->latitude, this->longitude);
+            if (distanceCapteurCentre < distanceMin)
             {
-                distanceMin = distanceS;
+                distanceMin = distanceCapteurCentre;
                 capteursSurZone.clear();
+                distancesAuCentre.clear();
                 capteursSurZone.push_back(s);
+                distancesAuCentre.push_back(distanceCapteurCentre);
             }
         }
     }
@@ -71,7 +77,6 @@ Result Analyse::valeurIntervalle(SensorFactory &sensorFactory)
 
     else
     {
-
         double totO3 = 0;
         int nbO3 = 0;
         double totNO2 = 0;
@@ -87,23 +92,23 @@ Result Analyse::valeurIntervalle(SensorFactory &sensorFactory)
             {
                 if (comparerDebut(mesure.GetDate()) && comparerFin(mesure.GetDate()))
                 {
-                    string type = mesure.GetPolluant();
-                    if (type.compare("O3") == 0)
+                    string polluant = mesure.GetPolluant();
+                    if (polluant.compare("O3") == 0)
                     {
                         totO3 += mesure.GetValeur();
                         nbO3++;
                     }
-                    else if (type.compare("NO2") == 0)
+                    else if (polluant.compare("NO2") == 0)
                     {
                         totNO2 += mesure.GetValeur();
                         nbNO2++;
                     }
-                    else if (type.compare("SO2") == 0)
+                    else if (polluant.compare("SO2") == 0)
                     {
                         totSO2 += mesure.GetValeur();
                         nbSO2++;
                     }
-                    else if (type.compare("PM10") == 0)
+                    else if (polluant.compare("PM10") == 0)
                     {
                         totPM10 += mesure.GetValeur();
                         nbPM10++;
@@ -122,7 +127,7 @@ Result Analyse::valeurIntervalle(SensorFactory &sensorFactory)
 
         int nbMesures = nbNO2 + nbO3 + nbPM10 + nbPM10;
 
-        return Result(capteursSurZone, moyennes, indicesAtmo, nbMesures);
+        return Result(capteursSurZone, moyennes, indicesAtmo, nbMesures, distancesAuCentre);
     }
 }
 
@@ -158,8 +163,11 @@ Result Analyse::computeSimiarity(SensorFactory &sensorFactory, string polluant)
                 {
                     if (mesure.GetPolluant() == polluant)
                     {
-                        nbMesures++;
                         listeMesureB.push_back(mesure.GetValeur());
+                        if (s1.GetID() < s2.GetID())
+                        {
+                            nbMesures++;
+                        }
                     }
                 }
             }
@@ -173,18 +181,18 @@ Result Analyse::computeSimiarity(SensorFactory &sensorFactory, string polluant)
     }
 
     normalizeMatrix(similarityMatrix);
-    return Result(listeCapteurs, similarityMatrix, nbMesures);
+    return Result(listeCapteurs, similarityMatrix, nbMesures / 2);
 }
-
 
 Result Analyse::identifyBrokenSensors(SensorFactory &sensorFactory)
 {
-    vector<Sensor> brokenSensorsTmp = sensorFactory.GetBrokenSensors();
+    vector<Sensor> sensors = sensorFactory.GetBrokenSensors();
     vector<Sensor> brokenSensors;
 
-    for(Sensor s : brokenSensorsTmp)
+    for (Sensor s : sensors)
     {
-        if(!s.GetListeMesure().empty()){
+        if (!s.GetListeMesure().empty())
+        {
             brokenSensors.push_back(s);
         }
     }
@@ -261,172 +269,175 @@ bool Analyse::comparerFin(date_t date)
 
 vector<int> Analyse::CalculIndicesAtmo(vector<double> moyennes)
 {
+    int moyenneO3 = (int)moyennes[0];
+    int moyenneNO2 = (int)moyennes[1];
+    int moyenneSO2 = (int)moyennes[2];
+    int moyennePM10 = (int)moyennes[3];
     int atmoO3, atmoNO2, atmoSO2, atmoPM10, atmoGlobal = 0;
-	if ((int)moyennes.at(0) >= 0 && (int)moyennes.at(0) <= 29)
-	{
-		atmoO3 = 1;
-	}
-	else if ((int)moyennes.at(0) >= 30 && (int)moyennes.at(0) <= 54)
-	{
-		atmoO3 = 2;
-	}
-	else if ((int)moyennes.at(0) >= 55 && (int)moyennes.at(0) <= 79)
-	{
-		atmoO3 = 3;
-	}
-	else if ((int)moyennes.at(0) >= 80 && (int)moyennes.at(0) <= 104)
-	{
-		atmoO3 = 4;
-	}
-	else if ((int)moyennes.at(0) >= 105 && (int)moyennes.at(0) <= 129)
-	{
-		atmoO3 = 5;
-	}
-	else if ((int)moyennes.at(0) >= 130 && (int)moyennes.at(0) <= 149)
-	{
-		atmoO3 = 6;
-	}
-	else if ((int)moyennes.at(0) >= 150 && (int)moyennes.at(0) <= 179)
-	{
-		atmoO3 = 7;
-	}
-	else if ((int)moyennes.at(0) >= 180 && (int)moyennes.at(0) <= 209)
-	{
-		atmoO3 = 8;
-	}
-	else if ((int)moyennes.at(0) >= 210 && (int)moyennes.at(0) <= 239)
-	{
-		atmoO3 = 9;
-	}
-	else
-	{
-		atmoO3 = 10;
-	}
 
-	if ((int)moyennes.at(1) >= 0 && (int)moyennes.at(1) <= 29)
-	{
-		atmoNO2 = 1;
-	}
-	else if ((int)moyennes.at(1) >= 30 && (int)moyennes.at(1) <= 54)
-	{
-		atmoNO2 = 2;
-	}
-	else if ((int)moyennes.at(1) >= 55 && (int)moyennes.at(1) <= 84)
-	{
-		atmoNO2 = 3;
-	}
-	else if ((int)moyennes.at(1) >= 85 && (int)moyennes.at(1) <= 109)
-	{
-		atmoNO2 = 4;
-	}
-	else if ((int)moyennes.at(1) >= 110 && (int)moyennes.at(1) <= 134)
-	{
-		atmoNO2 = 5;
-	}
-	else if ((int)moyennes.at(1) >= 135 && (int)moyennes.at(1) <= 164)
-	{
-		atmoNO2 = 6;
-	}
-	else if ((int)moyennes.at(1) >= 165 && (int)moyennes.at(1) <= 199)
-	{
-		atmoNO2 = 7;
-	}
-	else if ((int)moyennes.at(1) >= 200 && (int)moyennes.at(1) <= 274)
-	{
-		atmoNO2 = 8;
-	}
-	else if ((int)moyennes.at(1) >= 275 && (int)moyennes.at(1) <= 399)
-	{
-		atmoNO2 = 9;
-	}
-	else
-	{
-		atmoNO2 = 10;
-	}
+    if (moyenneO3 >= 0 && moyenneO3 <= 29)
+    {
+        atmoO3 = 1;
+    }
+    else if (moyenneO3 >= 30 && moyenneO3 <= 54)
+    {
+        atmoO3 = 2;
+    }
+    else if (moyenneO3 >= 55 && moyenneO3 <= 79)
+    {
+        atmoO3 = 3;
+    }
+    else if (moyenneO3 >= 80 && moyenneO3 <= 104)
+    {
+        atmoO3 = 4;
+    }
+    else if (moyenneO3 >= 105 && moyenneO3 <= 129)
+    {
+        atmoO3 = 5;
+    }
+    else if (moyenneO3 >= 130 && moyenneO3 <= 149)
+    {
+        atmoO3 = 6;
+    }
+    else if (moyenneO3 >= 150 && moyenneO3 <= 179)
+    {
+        atmoO3 = 7;
+    }
+    else if (moyenneO3 >= 180 && moyenneO3 <= 209)
+    {
+        atmoO3 = 8;
+    }
+    else if (moyenneO3 >= 210 && moyenneO3 <= 239)
+    {
+        atmoO3 = 9;
+    }
+    else
+    {
+        atmoO3 = 10;
+    }
 
-	if ((int)moyennes.at(2) >= 0 && (int)moyennes.at(2) <= 39)
-	{
-		atmoSO2 = 1;
-	}
-	else if ((int)moyennes.at(2) >= 40 && (int)moyennes.at(2) <= 79)
-	{
-		atmoSO2 = 2;
-	}
-	else if ((int)moyennes.at(2) >= 80 && (int)moyennes.at(2) <= 119)
-	{
-		atmoSO2 = 3;
-	}
-	else if ((int)moyennes.at(2) >= 120 && (int)moyennes.at(2) <= 159)
-	{
-		atmoSO2 = 4;
-	}
-	else if ((int)moyennes.at(2) >= 160 && (int)moyennes.at(2) <= 199)
-	{
-		atmoSO2 = 5;
-	}
-	else if ((int)moyennes.at(2) >= 200 && (int)moyennes.at(2) <= 249)
-	{
-		atmoSO2 = 6;
-	}
-	else if ((int)moyennes.at(2) >= 250 && (int)moyennes.at(2) <= 299)
-	{
-		atmoSO2 = 7;
-	}
-	else if ((int)moyennes.at(2) >= 300 && (int)moyennes.at(2) <= 399)
-	{
-		atmoSO2 = 8;
-	}
-	else if ((int)moyennes.at(2) >= 400 && (int)moyennes.at(2) <= 499)
-	{
-		atmoSO2 = 9;
-	}
-	else
-	{
-		atmoSO2 = 10;
-	}
+    if (moyenneNO2 >= 0 && moyenneNO2 <= 29)
+    {
+        atmoNO2 = 1;
+    }
+    else if (moyenneNO2 >= 30 && moyenneNO2 <= 54)
+    {
+        atmoNO2 = 2;
+    }
+    else if (moyenneNO2 >= 55 && moyenneNO2 <= 84)
+    {
+        atmoNO2 = 3;
+    }
+    else if (moyenneNO2 >= 85 && moyenneNO2 <= 109)
+    {
+        atmoNO2 = 4;
+    }
+    else if (moyenneNO2 >= 110 && moyenneNO2 <= 134)
+    {
+        atmoNO2 = 5;
+    }
+    else if (moyenneNO2 >= 135 && moyenneNO2 <= 164)
+    {
+        atmoNO2 = 6;
+    }
+    else if (moyenneNO2 >= 165 && moyenneNO2 <= 199)
+    {
+        atmoNO2 = 7;
+    }
+    else if (moyenneNO2 >= 200 && moyenneNO2 <= 274)
+    {
+        atmoNO2 = 8;
+    }
+    else if (moyenneNO2 >= 275 && moyenneNO2 <= 399)
+    {
+        atmoNO2 = 9;
+    }
+    else
+    {
+        atmoNO2 = 10;
+    }
 
-	
-	if ((int)moyennes.at(3) >= 0 && (int)moyennes.at(3) <= 6)
-	{
-		atmoPM10 = 1;
-	}
-	else if ((int)moyennes.at(3) >= 7 && (int)moyennes.at(3) <= 13)
-	{
-		atmoPM10 = 2;
-	}
-	else if ((int)moyennes.at(3) >= 14 && (int)moyennes.at(3) <= 20)
-	{
-		atmoPM10 = 3;
-	}
-	else if ((int)moyennes.at(3) >= 21 && (int)moyennes.at(3) <= 27)
-	{
-		atmoPM10 = 4;
-	}
-	else if ((int)moyennes.at(3) >= 28 && (int)moyennes.at(3) <= 34)
-	{
-		atmoPM10 = 5;
-	}
-	else if ((int)moyennes.at(3) >= 35 && (int)moyennes.at(3) <= 41)
-	{
-		atmoPM10 = 6;
-	}
-	else if ((int)moyennes.at(3) >= 42 && (int)moyennes.at(3) <= 49)
-	{
-		atmoPM10 = 7;
-	}
-	else if ((int)moyennes.at(3) >= 50 && (int)moyennes.at(3) <= 64)
-	{
-		atmoPM10 = 8;
-	}
-	else if ((int)moyennes.at(3) >= 65 && (int)moyennes.at(3) <= 79)
-	{
-		atmoPM10 = 9;
-	}
-	else
-	{
-		atmoPM10 = 10;
-	}
+    if (moyenneSO2 >= 0 && moyenneSO2 <= 39)
+    {
+        atmoSO2 = 1;
+    }
+    else if (moyenneSO2 >= 40 && moyenneSO2 <= 79)
+    {
+        atmoSO2 = 2;
+    }
+    else if (moyenneSO2 >= 80 && moyenneSO2 <= 119)
+    {
+        atmoSO2 = 3;
+    }
+    else if (moyenneSO2 >= 120 && moyenneSO2 <= 159)
+    {
+        atmoSO2 = 4;
+    }
+    else if (moyenneSO2 >= 160 && moyenneSO2 <= 199)
+    {
+        atmoSO2 = 5;
+    }
+    else if (moyenneSO2 >= 200 && moyenneSO2 <= 249)
+    {
+        atmoSO2 = 6;
+    }
+    else if (moyenneSO2 >= 250 && moyenneSO2 <= 299)
+    {
+        atmoSO2 = 7;
+    }
+    else if (moyenneSO2 >= 300 && moyenneSO2 <= 399)
+    {
+        atmoSO2 = 8;
+    }
+    else if (moyenneSO2 >= 400 && moyenneSO2 <= 499)
+    {
+        atmoSO2 = 9;
+    }
+    else
+    {
+        atmoSO2 = 10;
+    }
 
+    if (moyennePM10 >= 0 && moyennePM10 <= 6)
+    {
+        atmoPM10 = 1;
+    }
+    else if (moyennePM10 >= 7 && moyennePM10 <= 13)
+    {
+        atmoPM10 = 2;
+    }
+    else if (moyennePM10 >= 14 && moyennePM10 <= 20)
+    {
+        atmoPM10 = 3;
+    }
+    else if (moyennePM10 >= 21 && moyennePM10 <= 27)
+    {
+        atmoPM10 = 4;
+    }
+    else if (moyennePM10 >= 28 && moyennePM10 <= 34)
+    {
+        atmoPM10 = 5;
+    }
+    else if (moyennePM10 >= 35 && moyennePM10 <= 41)
+    {
+        atmoPM10 = 6;
+    }
+    else if (moyennePM10 >= 42 && moyennePM10 <= 49)
+    {
+        atmoPM10 = 7;
+    }
+    else if (moyennePM10 >= 50 && moyennePM10 <= 64)
+    {
+        atmoPM10 = 8;
+    }
+    else if (moyennePM10 >= 65 && moyennePM10 <= 79)
+    {
+        atmoPM10 = 9;
+    }
+    else
+    {
+        atmoPM10 = 10;
+    }
 
     atmoGlobal = max(max(atmoO3, atmoNO2), max(atmoSO2, atmoPM10));
 
