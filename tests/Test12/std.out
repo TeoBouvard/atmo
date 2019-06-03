@@ -9,22 +9,13 @@ Menu :
  5 : Quitter
 
 
-Latitude : Longitude : Rayon : Date de début au format YYYY-MM-DD : Date de fin au format YYYY-MM-DD : 
+
 Analyse en cours ... 
 
-[1m[37mCapteur(s) selectionné(s) : 
+[1m[37mNombre de capteurs défectueux : 1
 
-Sensor n°0 | Distance au centre : 0km
-
-Nombre de mesures sur cette période de temps : 4
-
-[1m[36mMoyenne 03 : 68 µg/m3 | Sous indice 03 : 3
-Moyenne NO2 : 99 µg/m3 | Sous indice NO2 : 4
-Moyenne SO2 : 119 µg/m3 | Sous indice SO2 : 3
-Moyenne PM10 : 17 µg/m3 | Sous indice PM10 : 3
-
-[1m[31mIndice ATMO : 4[0m
-
+Sensor n°0 | 4 mesures erronées [2017-01-01 -> 2017-01-01]
+[0m
 Analyse terminée.
 
 Menu :
@@ -33,5 +24,3 @@ Menu :
  3 : Connaître la qualité de l'air en un point donné
  4 : Identifier les capteurs défectueux
  5 : Quitter
-
-

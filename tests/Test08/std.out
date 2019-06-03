@@ -13,8 +13,15 @@ Choisir un polluant (O3 | NO2 | SO2 | PM10) : Date de début au format YYYY-MM-D
 Analyse en cours ... 
 
 [1m[37mNombre de capteurs comparés : 3
+Nombre de mesures sur cette période de temps : 1[0m
 
-Aucune mesure sur cet intervalle de temps[0m
+           |   0  |   1  |   2  |
+Sensor n°0 | [1m[32m100%[0m | [1m[31m  0%[0m | [1m[32m 75%[0m | 
+
+Sensor n°1 | [1m[31m  0%[0m | [1m[32m100%[0m | [1m[31m 24%[0m | 
+
+Sensor n°2 | [1m[32m 75%[0m | [1m[31m 24%[0m | [1m[32m100%[0m | 
+
 
 Analyse terminée.
 

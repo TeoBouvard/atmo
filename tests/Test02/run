@@ -1,1 +1,1 @@
-../../bin/atmo ../../tests/data_0sensor.csv
+../../bin/atmo ../../tests/Test02/data_1sensor_0m.csv

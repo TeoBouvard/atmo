@@ -1,0 +1,3 @@
+SensorID;Latitude;Longitude;Description;
+
+Timestamp;SensorID;AttributeID;Value;

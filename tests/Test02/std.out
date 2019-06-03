@@ -8,12 +8,11 @@ Menu :
  4 : Identifier les capteurs défectueux
  5 : Quitter
 
-Latitude :
-Longitude :
-Rayon :
-Date de début au format YYYY-MM-DD :
-Date de fin au format YYYY-MM-DD :
 
+Latitude : Longitude : Rayon : Date de début au format YYYY-MM-DD : Date de fin au format YYYY-MM-DD : 
+Analyse en cours ... 
+
+Analyse terminée.
 
 Menu :
  1 : Connaître la qualité de l’air sur une zone donnée
@@ -21,3 +20,5 @@ Menu :
  3 : Connaître la qualité de l'air en un point donné
  4 : Identifier les capteurs défectueux
  5 : Quitter
+
+
