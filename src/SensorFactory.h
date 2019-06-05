@@ -65,6 +65,9 @@ protected:
   //----------------------------------------------------- Attributs protégés
   map<int, Sensor> listeCapteurs;
   map<int, Sensor> capteursDefectueux;
+
+  int nbLignesInvalides;
+  int nbMesures;
 };
 
 //-------------------------------- Autres définitions dépendantes de <SensorFactory>

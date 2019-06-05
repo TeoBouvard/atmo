@@ -108,32 +108,39 @@ void SensorFactory::ParseSensor(string sensorLine)
 
 void SensorFactory::ParseMesure(string sensorLine)
 {
-  //parse date
-  string date_token = sensorLine.substr(0, sensorLine.find(DELIMITER));
-  sensorLine.erase(0, sensorLine.find(DELIMITER) + 1);
-  date_t date = make_date(date_token);
+  try {
+    //parse date
+    string date_token = sensorLine.substr(0, sensorLine.find(DELIMITER));
+    sensorLine.erase(0, sensorLine.find(DELIMITER) + 1);
+    date_t date = make_date(date_token);
 
-  //parse ID
-  string id_token = sensorLine.substr(0, sensorLine.find(DELIMITER));
-  sensorLine.erase(0, sensorLine.find(DELIMITER) + 1);
-  size_t last_index = id_token.find_first_of("0123456789");
-  int id = stoi(id_token.substr(last_index));
+    //parse ID
+    string id_token = sensorLine.substr(0, sensorLine.find(DELIMITER));
+    sensorLine.erase(0, sensorLine.find(DELIMITER) + 1);
+    size_t last_index = id_token.find_first_of("0123456789");
+    int id = stoi(id_token.substr(last_index));
 
-  //parse polluant
-  string polluant = sensorLine.substr(0, sensorLine.find(DELIMITER));
-  sensorLine.erase(0, sensorLine.find(DELIMITER) + 1);
+    //parse polluant
+    string polluant = sensorLine.substr(0, sensorLine.find(DELIMITER));
+    sensorLine.erase(0, sensorLine.find(DELIMITER) + 1);
 
-  //parse valeur
-  string valeur_token = sensorLine.substr(0, sensorLine.find(DELIMITER));
-  sensorLine.erase(0, sensorLine.find(DELIMITER) + 1);
-  double valeur = stod(valeur_token.c_str());
+    //parse valeur
+    string valeur_token = sensorLine.substr(0, sensorLine.find(DELIMITER));
+    sensorLine.erase(0, sensorLine.find(DELIMITER) + 1);
+    double valeur = stod(valeur_token.c_str());
 
-  //ajouter la mesure dans tous les cas pour cohérence calcul similarite
-  if (valeur == 0)
-  {
-    capteursDefectueux.find(id)->second.AjouterMesure(date, polluant, valeur);
+    //ajouter la mesure dans tous les cas pour cohérence calcul similarite
+    if (valeur == 0)
+    {
+      capteursDefectueux.find(id)->second.AjouterMesure(date, polluant, valeur);
+    }
+    listeCapteurs.find(id)->second.AjouterMesure(date, polluant, valeur);
   }
-  listeCapteurs.find(id)->second.AjouterMesure(date, polluant, valeur);
+  catch (const std::invalid_argument & e) {
+    //cout << e.what() << endl;
+    nbLignesInvalides++;
+    nbMesures--;
+  }
 }
 
 //------------------------------------------------- Surcharge d'opérateurs
@@ -143,6 +150,7 @@ void SensorFactory::ParseMesure(string sensorLine)
 SensorFactory::SensorFactory(ifstream &dataFile)
 {
   string dataLine;
+  nbLignesInvalides = 0;
 
   const string sensorHeader = "SensorID;Latitude;Longitude;Description;";
   const string mesureHeader = "Timestamp;SensorID;AttributeID;Value;";
@@ -180,7 +188,7 @@ SensorFactory::SensorFactory(ifstream &dataFile)
 
   //then read data_file until end of file
   cout << "Importation des mesures ... " << flush;
-  int nbMesures = 0;
+  nbMesures = 0;
   while (getline(dataFile, dataLine))
   {
     if (true) //regex_match(dataLine, mesureLine)) //<- MULTIPLIE PAR 10 LE TEMPS DE CHARGEMENT MAIS PLUS SAFE
@@ -195,6 +203,11 @@ SensorFactory::SensorFactory(ifstream &dataFile)
     }
   }
   cout << nbMesures << " mesures importées" << endl;
+
+  if(nbLignesInvalides > 0) 
+  {
+    cerr << endl << nbLignesInvalides << " lignes invalides !" << endl;
+  }
 
 #ifdef MAP
   cout << "Appel au constructeur de <SensorFactory>" << endl;
