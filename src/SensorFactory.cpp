@@ -140,6 +140,7 @@ void SensorFactory::ParseMesure(string sensorLine)
     //cout << e.what() << endl;
     nbLignesInvalides++;
     nbMesures--;
+    cout <<  "Ligne n° " << nbMesures + listeCapteurs.size() + 4 << " erronée" << endl;
   }
 }
 
@@ -187,22 +188,15 @@ SensorFactory::SensorFactory(ifstream &dataFile)
   }
 
   //then read data_file until end of file
-  cout << "Importation des mesures ... " << flush;
+  cout << "Importation des mesures ... " << endl;
   nbMesures = 0;
   while (getline(dataFile, dataLine))
   {
-    if (true) //regex_match(dataLine, mesureLine)) //<- MULTIPLIE PAR 10 LE TEMPS DE CHARGEMENT MAIS PLUS SAFE
-    {
-      ParseMesure(dataLine);
-      nbMesures++;
-    }
-    else
-    {
-      cerr << "Ligne de mesure erronnée, merci de vérifier l'intégrité du fichier" << endl;
-      cerr << dataLine << endl;
-    }
+    //regex_match(dataLine, mesureLine)) //<- MULTIPLIE PAR 10 LE TEMPS DE CHARGEMENT MAIS PLUS SAFE
+    ParseMesure(dataLine);
+    nbMesures++;
   }
-  cout << nbMesures << " mesures importées" << endl;
+  cout << endl << nbMesures << " mesures importées" << endl;
 
   if(nbLignesInvalides > 0) 
   {
