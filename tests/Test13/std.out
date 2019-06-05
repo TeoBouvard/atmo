@@ -1,0 +1,36 @@
+Importation des capteurs ... 1 capteurs importés
+Importation des mesures ... 8 mesures importées
+
+Menu :
+ 1 : Connaître la qualité de l’air sur une zone donnée
+ 2 : Identifier les zones ayant une qualité de l’air similaire
+ 3 : Connaître la qualité de l'air en un point donné
+ 4 : Identifier les capteurs défectueux
+ 5 : Quitter
+
+
+Latitude : Longitude : Rayon : Date de début au format YYYY-MM-DD : Date de fin au format YYYY-MM-DD : 
+Analyse en cours ... 
+
+[1m[37mCapteur(s) selectionné(s) : 
+
+Sensor n°0 | Distance au centre : 1568.52km
+
+Nombre de mesures sur cette période de temps : 8
+
+[1m[36mMoyenne 03 : 66 µg/m3 | Sous indice 03 : 3
+Moyenne NO2 : 50.5 µg/m3 | Sous indice NO2 : 2
+Moyenne SO2 : 40.5 µg/m3 | Sous indice SO2 : 2
+Moyenne PM10 : 41.5 µg/m3 | Sous indice PM10 : 6
+
+[1m[31mIndice ATMO : 6[0m
+
+Analyse terminée.
+
+Menu :
+ 1 : Connaître la qualité de l’air sur une zone donnée
+ 2 : Identifier les zones ayant une qualité de l’air similaire
+ 3 : Connaître la qualité de l'air en un point donné
+ 4 : Identifier les capteurs défectueux
+ 5 : Quitter
+
