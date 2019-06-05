@@ -177,6 +177,8 @@ void Menu::QualiteSimilaire(Controleur &controleur)
   cout << "Choisir un polluant (O3 | NO2 | SO2 | PM10) : ";
   inputPolluant(polluant);
   cout << "Date de début au format YYYY-MM-DD : ";
+  cin.clear();
+  cin.ignore(numeric_limits<streamsize>::max(), '\n');
   debut = inputDate();
   cout << "Date de fin au format YYYY-MM-DD : ";
   fin = inputDate(debut);
@@ -200,6 +202,8 @@ void Menu::QualiteEnUnPoint(Controleur &controleur)
   cout << "Longitude : ";
   inputDouble(longitude);
   cout << "Date de début au format YYYY-MM-DD : ";
+  cin.clear();
+  cin.ignore(numeric_limits<streamsize>::max(), '\n');
   debut = inputDate();
   cout << "Date de fin au format YYYY-MM-DD : ";
   fin = inputDate(debut);
