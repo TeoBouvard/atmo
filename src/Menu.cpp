@@ -86,12 +86,14 @@ void Menu::Run(Controleur &controleur)
 
 void Menu::inputDouble(double &value)
 {
-  while (!(cin >> value))
+  unsigned long uVal;
+  while (!(cin >> uVal))
   {
     cerr << "Saisie erronnée, merci de saisir un nombre entier ou décimal : ";
     cin.clear();
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
   }
+  value = (double)uVal;
 }
 
 void Menu::inputPolluant(string &polluant)
