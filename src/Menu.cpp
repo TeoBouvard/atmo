@@ -86,7 +86,7 @@ void Menu::Run(Controleur &controleur)
 
 void Menu::inputDouble(double &value)
 {
-  unsigned long uVal;
+  unsigned long uVal; //to get max value with -1 input
   while (!(cin >> uVal))
   {
     cerr << "Saisie erronnée, merci de saisir un nombre entier ou décimal : ";
