@@ -140,7 +140,8 @@ void SensorFactory::ParseMesure(string sensorLine)
     //cout << e.what() << endl;
     nbLignesInvalides++;
     nbMesures--;
-    cout <<  "Ligne n° " << nbMesures + listeCapteurs.size() + 4 << " erronée" << endl;
+    int lineNum = nbMesures + listeCapteurs.size() + 4;
+    affichLignesInvalides += "Ligne n° " + to_string(lineNum) + " erronée\n";
   }
 }
 
@@ -188,19 +189,20 @@ SensorFactory::SensorFactory(ifstream &dataFile)
   }
 
   //then read data_file until end of file
-  cout << "Importation des mesures ... " << endl;
+  cout << "Importation des mesures ... " << flush;
   nbMesures = 0;
+  affichLignesInvalides = "";
   while (getline(dataFile, dataLine))
   {
     //regex_match(dataLine, mesureLine)) //<- MULTIPLIE PAR 10 LE TEMPS DE CHARGEMENT MAIS PLUS SAFE
     ParseMesure(dataLine);
     nbMesures++;
   }
-  cout << endl << nbMesures << " mesures importées" << endl;
+  cout << nbMesures << " mesures importées" << endl;
 
   if(nbLignesInvalides > 0) 
   {
-    cerr << endl << nbLignesInvalides << " lignes invalides !" << endl;
+    cerr << endl << affichLignesInvalides << endl << nbLignesInvalides << " lignes invalides !" << endl;
   }
 
 #ifdef MAP

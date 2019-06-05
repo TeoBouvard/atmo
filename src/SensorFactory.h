@@ -68,6 +68,7 @@ protected:
 
   int nbLignesInvalides;
   int nbMesures;
+  string affichLignesInvalides;
 };
 
 //-------------------------------- Autres définitions dépendantes de <SensorFactory>

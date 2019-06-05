@@ -154,7 +154,7 @@ Result Analyse::computeSimiarity(SensorFactory &sensorFactory, string polluant)
                 }
             }
         }
-
+        nbMesures = listeCapteurs.size() * listeMesureA.size();
         for (Sensor const* s2 : listeCapteurs)
         {
             for (auto mesure : s2->GetListeMesure())
@@ -164,10 +164,6 @@ Result Analyse::computeSimiarity(SensorFactory &sensorFactory, string polluant)
                     if (mesure.GetPolluant() == polluant)
                     {
                         listeMesureB.push_back(mesure.GetValeur());
-                        if (s1->GetID() < s2->GetID())
-                        {
-                            nbMesures++;
-                        }
                     }
                 }
             }
@@ -181,7 +177,7 @@ Result Analyse::computeSimiarity(SensorFactory &sensorFactory, string polluant)
     }
 
     normalizeMatrix(similarityMatrix);
-    return Result(listeCapteurs, similarityMatrix, nbMesures / 2);
+    return Result(listeCapteurs, similarityMatrix, nbMesures);
 }
 
 Result Analyse::identifyBrokenSensors(SensorFactory &sensorFactory)
