@@ -13,7 +13,7 @@ Choisir un polluant (O3 | NO2 | SO2 | PM10) : Date de début au format YYYY-MM-D
 Analyse en cours ... 
 
 [1m[37mNombre de capteurs comparés : 3
-Nombre de mesures sur cette période de temps : 1[0m
+Nombre de mesures sur cette période de temps : 3[0m
 
            |   0  |   1  |   2  |
 Sensor n°0 | [1m[32m100%[0m | [1m[32m 99%[0m | [1m[31m  0%[0m | 
@@ -31,5 +31,4 @@ Menu :
  3 : Connaître la qualité de l'air en un point donné
  4 : Identifier les capteurs défectueux
  5 : Quitter
-
 
