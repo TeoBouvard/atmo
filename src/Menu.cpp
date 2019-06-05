@@ -111,7 +111,7 @@ void Menu::inputPolluant(string &polluant)
 
 date_t Menu::inputDate(string value, date_t borneInf)
 {
-  regex dateFormat("\\d\\d\\d\\d-(0[1-9]|1[012])-((0|1)[0-9]|2[0-3])");
+  regex dateFormat("\\d\\d\\d\\d-(0[1-9]|1[012])-((0|1|2)[0-9]|3[01])");
 
   while (!(cin >> value) || !regex_match(value, dateFormat) || SensorFactory::make_date(value + "T00:00:00.00") < borneInf)
   {
