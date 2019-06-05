@@ -29,22 +29,22 @@ static const char TIME_DELIM = ':';
 //----------------------------------------------------------------- PUBLIC
 //----------------------------------------------------- Méthodes publiques
 
-vector<Sensor> SensorFactory::GetSensors()
+vector<Sensor const*> SensorFactory::GetSensors()
 {
-  vector<Sensor> capteurs;
+  vector<Sensor const*> capteurs;
   for (map<int, Sensor>::iterator it = listeCapteurs.begin(); it != listeCapteurs.end(); ++it)
   {
-    capteurs.push_back(it->second);
+    capteurs.push_back(&(it->second));
   }
   return capteurs;
 }
 
-vector<Sensor> SensorFactory::GetBrokenSensors()
+vector<Sensor const*> SensorFactory::GetBrokenSensors()
 {
-  vector<Sensor> capteurs;
+  vector<Sensor const*> capteurs;
   for (map<int, Sensor>::iterator it = capteursDefectueux.begin(); it != capteursDefectueux.end(); ++it)
   {
-    capteurs.push_back(it->second);
+    capteurs.push_back(&(it->second));
   }
   return capteurs;
 }

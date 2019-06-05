@@ -35,16 +35,16 @@ using namespace std;
 Result Analyse::valeurIntervalle(SensorFactory &sensorFactory)
 {
     //récupérer les capteurs de la SensorFactory
-    vector<Sensor> listeCapteurs = sensorFactory.GetSensors();
-    vector<Sensor> capteursSurZone;
+    vector<Sensor const*> listeCapteurs = sensorFactory.GetSensors();
+    vector<Sensor const*> capteursSurZone;
     vector<double> distancesAuCentre;
 
     if (rayon > 0)
     {
         //identification des capteurs dans la zone
-        for (Sensor s : listeCapteurs)
+        for (Sensor const* s : listeCapteurs)
         {
-            double distanceCapteurCentre = Geo::CalculDistance(s.GetLatitude(), s.GetLongitude(), this->latitude, this->longitude);
+            double distanceCapteurCentre = Geo::CalculDistance(s->GetLatitude(), s->GetLongitude(), this->latitude, this->longitude);
             if (distanceCapteurCentre < rayon)
             {
                 capteursSurZone.push_back(s);
@@ -56,9 +56,9 @@ Result Analyse::valeurIntervalle(SensorFactory &sensorFactory)
     {
         //identification du capteur le plus proche
         double distanceMin = DBL_MAX;
-        for (Sensor s : listeCapteurs)
+        for (Sensor const* s : listeCapteurs)
         {
-            double distanceCapteurCentre = Geo::CalculDistance(s.GetLatitude(), s.GetLongitude(), this->latitude, this->longitude);
+            double distanceCapteurCentre = Geo::CalculDistance(s->GetLatitude(), s->GetLongitude(), this->latitude, this->longitude);
             if (distanceCapteurCentre < distanceMin)
             {
                 distanceMin = distanceCapteurCentre;
@@ -86,9 +86,9 @@ Result Analyse::valeurIntervalle(SensorFactory &sensorFactory)
         double totPM10 = 0;
         int nbPM10 = 0;
 
-        for (Sensor s : capteursSurZone)
+        for (Sensor const* s : capteursSurZone)
         {
-            for (auto mesure : s.GetListeMesure())
+            for (auto mesure : s->GetListeMesure())
             {
                 if (comparerDebut(mesure.GetDate()) && comparerFin(mesure.GetDate()))
                 {
@@ -137,14 +137,14 @@ Result Analyse::computeSimiarity(SensorFactory &sensorFactory, string polluant)
     vector<double> distances;
 
     //récupérer les capteurs de la SensorFactory
-    vector<Sensor> listeCapteurs = sensorFactory.GetSensors();
+    vector<Sensor const*> listeCapteurs = sensorFactory.GetSensors();
     vector<double> listeMesureA;
     vector<double> listeMesureB;
     int nbMesures = 0;
 
-    for (Sensor s1 : listeCapteurs)
+    for (Sensor const* s1 : listeCapteurs)
     {
-        for (auto mesure : s1.GetListeMesure())
+        for (auto mesure : s1->GetListeMesure())
         {
             if (comparerDebut(mesure.GetDate()) && comparerFin(mesure.GetDate()))
             {
@@ -155,16 +155,16 @@ Result Analyse::computeSimiarity(SensorFactory &sensorFactory, string polluant)
             }
         }
 
-        for (Sensor s2 : listeCapteurs)
+        for (Sensor const* s2 : listeCapteurs)
         {
-            for (auto mesure : s2.GetListeMesure())
+            for (auto mesure : s2->GetListeMesure())
             {
                 if (comparerDebut(mesure.GetDate()) && comparerFin(mesure.GetDate()))
                 {
                     if (mesure.GetPolluant() == polluant)
                     {
                         listeMesureB.push_back(mesure.GetValeur());
-                        if (s1.GetID() < s2.GetID())
+                        if (s1->GetID() < s2->GetID())
                         {
                             nbMesures++;
                         }
@@ -186,12 +186,12 @@ Result Analyse::computeSimiarity(SensorFactory &sensorFactory, string polluant)
 
 Result Analyse::identifyBrokenSensors(SensorFactory &sensorFactory)
 {
-    vector<Sensor> sensors = sensorFactory.GetBrokenSensors();
-    vector<Sensor> brokenSensors;
+    vector<Sensor const*> sensors = sensorFactory.GetBrokenSensors();
+    vector<Sensor const*> brokenSensors;
 
-    for (Sensor s : sensors)
+    for (Sensor const* s  : sensors)
     {
-        if (!s.GetListeMesure().empty())
+        if (!s->GetListeMesure().empty())
         {
             brokenSensors.push_back(s);
         }

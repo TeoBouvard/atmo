@@ -36,7 +36,7 @@ public:
     int GetID() const { return sensorID; }
     int GetLatitude() const { return latitude; }
     int GetLongitude() const { return longitude; }
-    vector<Mesure> &GetListeMesure() { return listeMesure; }
+    vector<Mesure> const& GetListeMesure() const { return listeMesure; }
     void AjouterMesure(date_t date, string polluant, double valeur);
 
     //------------------------------------------------- Surcharge d'opérateurs

@@ -37,9 +37,9 @@ public:
 
     //-------------------------------------------- Constructeurs - destructeur
 
-    Result(vector<Sensor> capteursSurZone, vector<double> moyennes, vector<int> indicesAtmo, int nbMesures, vector<double> distancesAuCentre);
-    Result(vector<Sensor> capteursSurZone, matrice_t similarityMatrix, int nbMesures);
-    Result(vector<Sensor> capteursSurZone);
+    Result(vector<Sensor const*> capteursSurZone, vector<double> moyennes, vector<int> indicesAtmo, int nbMesures, vector<double> distancesAuCentre);
+    Result(vector<Sensor const*> capteursSurZone, matrice_t similarityMatrix, int nbMesures);
+    Result(vector<Sensor const*> capteursSurZone);
     Result(){};
 
     //------------------------------------------------------------------ PRIVE
@@ -52,7 +52,7 @@ protected:
     matrice_t similarityMatrix;
     int nbMesures;
     vector<int> indices;
-    vector<Sensor> capteurs;
+    vector<Sensor const*> capteurs;
     vector<double> concentrationsMoyennes;
     vector<double> distancesAuCentre;
 };

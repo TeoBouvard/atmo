@@ -38,8 +38,8 @@ public:
   //format : 2017-01-01T00:01:20.6090(+)
   static date_t make_date(string str);
 
-  vector<Sensor> GetSensors();
-  vector<Sensor> GetBrokenSensors();
+  vector<Sensor const*> GetSensors();
+  vector<Sensor const*> GetBrokenSensors();
 
   //crée un capteur et l'ajoute à listeCapteurs
   void ParseSensor(string sensor_line);

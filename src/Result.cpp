@@ -65,7 +65,7 @@ ostream &operator<<(ostream &os, const Result &r)
                  << endl;
             for (int i = 0; i < r.capteurs.size(); i++)
             {
-                cout << "Sensor n°" << r.capteurs[i].GetID() << " | Distance au centre : " << r.distancesAuCentre[i] << "km" << endl;
+                cout << "Sensor n°" << r.capteurs[i]->GetID() << " | Distance au centre : " << r.distancesAuCentre[i] << "km" << endl;
             }
             cout << endl
                  << "Nombre de mesures sur cette période de temps : " << r.nbMesures << endl
@@ -105,15 +105,15 @@ ostream &operator<<(ostream &os, const Result &r)
                  << endl;
 
             cout << setw(12) << "|";
-            for (Sensor s : r.capteurs)
+            for (Sensor const* s : r.capteurs)
             {
-                cout << setw(4) << s.GetID() << setw(3) << "|";
+                cout << setw(4) << s->GetID() << setw(3) << "|";
             }
             cout << endl;
 
             for (int i = 0; i < r.similarityMatrix.size(); i++)
             {
-                cout << "Sensor n°" << r.capteurs[i].GetID() << " | ";
+                cout << "Sensor n°" << r.capteurs[i]->GetID() << " | ";
                 for (int j = 0; j < r.similarityMatrix[i].size(); j++)
                 {
                     int similarite = (int)r.similarityMatrix[i][j];
@@ -150,12 +150,12 @@ ostream &operator<<(ostream &os, const Result &r)
                  << BOLDWHITE << "Nombre de capteurs défectueux : " << r.capteurs.size() << endl
                  << endl;
 
-            for (Sensor s : r.capteurs)
+            for (Sensor const* s : r.capteurs)
             {
-                cout << "Sensor n°" << s.GetID() << " | " << s.GetListeMesure().size() << " mesures erronées"
+                cout << "Sensor n°" << s->GetID() << " | " << s->GetListeMesure().size() << " mesures erronées"
                      << " ["
-                     << s.GetListeMesure().front().GetDate() << " -> "
-                     << s.GetListeMesure().back().GetDate() << "]" << endl;
+                     << s->GetListeMesure().front().GetDate() << " -> "
+                     << s->GetListeMesure().back().GetDate() << "]" << endl;
             }
             cout << RESET;
         }
@@ -166,7 +166,7 @@ ostream &operator<<(ostream &os, const Result &r)
 
 //-------------------------------------------- Constructeurs - destructeur
 
-Result::Result(vector<Sensor> capteursSurZone, vector<double> moyennes, vector<int> indicesAtmo, int nbMesures, vector<double> distancesAuCentre)
+Result::Result(vector<Sensor const*> capteursSurZone, vector<double> moyennes, vector<int> indicesAtmo, int nbMesures, vector<double> distancesAuCentre)
 {
     this->type = "indices";
     this->capteurs = capteursSurZone;
@@ -179,7 +179,7 @@ Result::Result(vector<Sensor> capteursSurZone, vector<double> moyennes, vector<i
 #endif
 } //----- Fin de Result
 
-Result::Result(vector<Sensor> capteursSurZone, matrice_t similarityMatrix, int nbMesures)
+Result::Result(vector<Sensor const*> capteursSurZone, matrice_t similarityMatrix, int nbMesures)
 {
     this->type = "similarite";
     this->capteurs = capteursSurZone;
@@ -191,7 +191,7 @@ Result::Result(vector<Sensor> capteursSurZone, matrice_t similarityMatrix, int n
 #endif
 } //----- Fin de Result
 
-Result::Result(vector<Sensor> capteursSurZone)
+Result::Result(vector<Sensor const*> capteursSurZone)
 {
     this->type = "defectueux";
     this->capteurs = capteursSurZone;
