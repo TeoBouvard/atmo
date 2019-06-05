@@ -97,7 +97,6 @@ void Menu::inputDouble(double &value)
 void Menu::inputPolluant(string &polluant)
 {
   regex polluantFormat("^O3$|^NO2$|^SO2$|^PM10$");
-
   while (!(cin >> polluant) || !regex_match(polluant, polluantFormat))
   {
     if (!regex_match(polluant, polluantFormat))
@@ -109,13 +108,27 @@ void Menu::inputPolluant(string &polluant)
   }
 }
 
-date_t Menu::inputDate(string value, date_t borneInf)
+date_t Menu::inputDate(date_t borneInf)
 {
   regex dateFormat("\\d\\d\\d\\d-(0[1-9]|1[012])-((0|1|2)[0-9]|3[01])");
+  string value;
 
-  while (!(cin >> value) || !regex_match(value, dateFormat) || SensorFactory::make_date(value + "T00:00:00.00") < borneInf)
+  while (!regex_match(value, dateFormat) || SensorFactory::make_date(value + "T00:00:00.00") < borneInf)
   {
-    if (!regex_match(value, dateFormat))
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    getline(cin,value);
+
+    if(value == "")
+    {
+      if(borneInf.year == 0) {
+        return SensorFactory::make_date("0001-00-00T00:00:00.00");
+      }
+      else {
+        return SensorFactory::make_date("9999-00-00T00:00:00.00");
+      }
+    }
+    else if (!regex_match(value, dateFormat))
     {
       cerr << "Saisie erronnée, merci de saisir une date au format YYYY-MM-DD : ";
     }
@@ -123,9 +136,6 @@ date_t Menu::inputDate(string value, date_t borneInf)
     {
       cerr << "Sasir une date de fin postérieure à l'heure de début : ";
     }
-
-    cin.clear();
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
   }
 
   date_t date = SensorFactory::make_date(value + "T00:00:00.00");
@@ -135,8 +145,6 @@ date_t Menu::inputDate(string value, date_t borneInf)
 void Menu::QualiteDeLAir(Controleur &controleur)
 {
   double latitude, longitude, rayon;
-  string debut_str = "";
-  string fin_str = "";
   date_t debut, fin;
 
   cout << "Latitude : ";
@@ -146,9 +154,9 @@ void Menu::QualiteDeLAir(Controleur &controleur)
   cout << "Rayon : ";
   inputDouble(rayon);
   cout << "Date de début au format YYYY-MM-DD : ";
-  debut = inputDate(debut_str);
+  debut = inputDate();
   cout << "Date de fin au format YYYY-MM-DD : ";
-  fin = inputDate(fin_str, debut);
+  fin = inputDate(debut);
 
   cout << endl
        << "Analyse en cours ... " << endl;
@@ -161,17 +169,14 @@ void Menu::QualiteDeLAir(Controleur &controleur)
 
 void Menu::QualiteSimilaire(Controleur &controleur)
 {
-  string debut_str = "";
-  string fin_str = "";
-  string polluant = "";
   date_t debut, fin;
-
+  string polluant;
   cout << "Choisir un polluant (O3 | NO2 | SO2 | PM10) : ";
   inputPolluant(polluant);
   cout << "Date de début au format YYYY-MM-DD : ";
-  debut = inputDate(debut_str);
+  debut = inputDate();
   cout << "Date de fin au format YYYY-MM-DD : ";
-  fin = inputDate(fin_str, debut);
+  fin = inputDate(debut);
 
   cout << endl
        << "Analyse en cours ... " << endl;
@@ -185,8 +190,6 @@ void Menu::QualiteSimilaire(Controleur &controleur)
 void Menu::QualiteEnUnPoint(Controleur &controleur)
 {
   double latitude, longitude;
-  string debut_str = "";
-  string fin_str = "";
   date_t debut, fin;
 
   cout << "Latitude : ";
@@ -194,9 +197,9 @@ void Menu::QualiteEnUnPoint(Controleur &controleur)
   cout << "Longitude : ";
   inputDouble(longitude);
   cout << "Date de début au format YYYY-MM-DD : ";
-  debut = inputDate(debut_str);
+  debut = inputDate();
   cout << "Date de fin au format YYYY-MM-DD : ";
-  fin = inputDate(fin_str, debut);
+  fin = inputDate(debut);
 
   cout << endl
        << "Analyse en cours ... " << endl;

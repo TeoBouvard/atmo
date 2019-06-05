@@ -40,7 +40,7 @@ public:
 
     void inputDouble(double &value);
     void inputPolluant(string &polluant);
-    date_t inputDate(string value, date_t borneInf = SensorFactory::make_date("0000-00-00T00:00:00.00"));
+    date_t inputDate(date_t borneInf = SensorFactory::make_date("0000-00-00T00:00:00.00"));
 
     //------------------------------------------------- Surcharge d'opérateurs
 
