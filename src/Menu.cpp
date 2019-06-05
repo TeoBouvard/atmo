@@ -112,13 +112,9 @@ date_t Menu::inputDate(date_t borneInf)
 {
   regex dateFormat("\\d\\d\\d\\d-(0[1-9]|1[012])-((0|1|2)[0-9]|3[01])");
   string value;
-
+  getline(cin,value);
   while (!regex_match(value, dateFormat) || SensorFactory::make_date(value + "T00:00:00.00") < borneInf)
   {
-    cin.clear();
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    getline(cin,value);
-
     if(value == "")
     {
       if(borneInf.year == 0) {
@@ -131,11 +127,16 @@ date_t Menu::inputDate(date_t borneInf)
     else if (!regex_match(value, dateFormat))
     {
       cerr << "Saisie erronnée, merci de saisir une date au format YYYY-MM-DD : ";
+      cin.clear();
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
     else
     {
       cerr << "Sasir une date de fin postérieure à l'heure de début : ";
+      cin.clear();
+      cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
     }
+    getline(cin,value);
   }
 
   date_t date = SensorFactory::make_date(value + "T00:00:00.00");
@@ -154,6 +155,8 @@ void Menu::QualiteDeLAir(Controleur &controleur)
   cout << "Rayon : ";
   inputDouble(rayon);
   cout << "Date de début au format YYYY-MM-DD : ";
+  cin.clear();
+  cin.ignore(numeric_limits<streamsize>::max(), '\n');
   debut = inputDate();
   cout << "Date de fin au format YYYY-MM-DD : ";
   fin = inputDate(debut);
