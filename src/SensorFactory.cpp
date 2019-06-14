@@ -185,6 +185,7 @@ SensorFactory::SensorFactory(ifstream &dataFile)
     {
       cerr << "Ligne de capteur erronnée, merci de vérifier l'intégrité du fichier" << endl;
       cerr << dataLine << endl;
+      exit(FILE_ERROR);
     }
   }
 
@@ -194,7 +195,7 @@ SensorFactory::SensorFactory(ifstream &dataFile)
   affichLignesInvalides = "";
   while (getline(dataFile, dataLine))
   {
-    //regex_match(dataLine, mesureLine)) //<- MULTIPLIE PAR 10 LE TEMPS DE CHARGEMENT MAIS PLUS SAFE
+    //if (regex_match(dataLine, mesureLine)) //<- MULTIPLIE PAR 10 LE TEMPS DE CHARGEMENT MAIS PLUS SAFE
     ParseMesure(dataLine);
     nbMesures++;
   }
