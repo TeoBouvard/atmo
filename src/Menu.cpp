@@ -86,13 +86,14 @@ void Menu::Run(Controleur &controleur)
 
 void Menu::inputDouble(double &value)
 {
-  unsigned long uVal; //to get max value with -1 input
-  while (!(cin >> uVal))
+  
+  while (!(cin >> value))
   {
     cerr << "Saisie erronnée, merci de saisir un nombre entier ou décimal : ";
     cin.clear();
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
   }
+  unsigned long uVal = value; //to get max value with -1 input
   value = (double)uVal;
 }
 
