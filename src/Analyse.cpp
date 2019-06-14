@@ -123,7 +123,7 @@ Result Analyse::valeurIntervalle(SensorFactory &sensorFactory)
         double moyPM10 = (totPM10 / nbPM10);
 
         vector<double> moyennes = {moyO3, moyNO2, moySO2, moyPM10};
-        vector<int> indicesAtmo = CalculIndicesAtmo(moyennes);
+        vector<int> indicesAtmo = calculIndicesAtmo(moyennes);
 
         int nbMesures = nbNO2 + nbO3 + nbPM10 + nbPM10;
 
@@ -263,7 +263,7 @@ bool Analyse::comparerFin(date_t date)
     return true;
 }
 
-vector<int> Analyse::CalculIndicesAtmo(vector<double> moyennes)
+vector<int> Analyse::calculIndicesAtmo(vector<double> moyennes)
 {
     int moyenneO3 = (int)moyennes[0];
     int moyenneNO2 = (int)moyennes[1];

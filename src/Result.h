@@ -40,7 +40,6 @@ public:
     Result(vector<Sensor const*> capteursSurZone, vector<double> moyennes, vector<int> indicesAtmo, int nbMesures, vector<double> distancesAuCentre);
     Result(vector<Sensor const*> capteursSurZone, matrice_t similarityMatrix, int nbMesures);
     Result(vector<Sensor const*> capteursSurZone);
-    Result(){};
 
     //------------------------------------------------------------------ PRIVE
 

@@ -39,7 +39,7 @@ public:
     Result computeSimiarity(SensorFactory &sensorFactory, string polluant);
     Result identifyBrokenSensors(SensorFactory &sensorFactory);
 
-    vector<int> CalculIndicesAtmo(vector<double> moyennes);
+    vector<int> calculIndicesAtmo(vector<double> moyennes);
     bool comparerDebut(date_t date);
     bool comparerFin(date_t date);
     double distanceEuclidienne(vector<double> A, vector<double> B);
